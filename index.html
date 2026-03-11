@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>248 Arena — MA Journeyman Plumbing Exam</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚔️</text></svg>">
+</head>
+<body>
+
+<div class="landing-page">
+
+  <!-- Nav -->
+  <nav class="landing-nav">
+    <div class="landing-logo">
+      <svg class="logo-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="4" y="4" width="40" height="40" rx="8" stroke="#00d4ff" stroke-width="2.5" fill="none"/>
+        <path d="M16 14h4v8h8v-8h4v20h-4v-8h-8v8h-4V14z" fill="#00d4ff"/>
+        <path d="M14 38l20-24" stroke="#ff6b2b" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <div class="logo-text"><span>248</span> ARENA</div>
+    </div>
+    <div class="landing-nav-links">
+      <a href="codebook.html">Code Book</a>
+      <a href="sponsors.html">Sponsors</a>
+      <a href="#login" onclick="document.getElementById('loginCard').scrollIntoView({behavior:'smooth'});return false;">Enter</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L9 9H2l5.5 4.5L5 22l7-4.5L19 22l-2.5-8.5L22 9h-7L12 2z"/></svg>
+      Massachusetts Journeyman Plumbing Exam
+    </div>
+
+    <h1>248 ARENA</h1>
+    <p class="tagline">Enter the Arena. Master the Code. Pass the Exam.</p>
+    <p class="sub-tagline">Built specifically for the MA Journeyman Plumbing Exam — nothing else.</p>
+
+    <!-- Icon Row -->
+    <div class="hero-icons">
+      <div class="hero-icon" title="Wrench">
+        <svg viewBox="0 0 24 24" fill="#00d4ff"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg>
+      </div>
+      <div class="hero-icon" title="Pipe">
+        <svg viewBox="0 0 24 24" fill="#ff6b2b"><path d="M22 14h-1V7.5A3.5 3.5 0 0017.5 4H14V2h-4v2H6.5A3.5 3.5 0 003 7.5V14H2v4h4v4h12v-4h4v-4zM6.5 6H10v2h4V6h3.5c.83 0 1.5.67 1.5 1.5V14H5V7.5C5 6.67 5.67 6 6.5 6z"/></svg>
+      </div>
+      <div class="hero-icon" title="Flame">
+        <svg viewBox="0 0 24 24" fill="#ff2d55"><path d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z"/></svg>
+      </div>
+      <div class="hero-icon" title="Shield">
+        <svg viewBox="0 0 24 24" fill="#00ff88"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+      </div>
+      <div class="hero-icon" title="Water Drop">
+        <svg viewBox="0 0 24 24" fill="#00d4ff"><path d="M12 2c-5.33 4.55-8 8.48-8 11.8 0 4.98 3.8 8.2 8 8.2s8-3.22 8-8.2C20 10.48 17.33 6.55 12 2zm0 18c-3.35 0-6-2.57-6-6.2 0-2.34 1.95-5.44 6-9.14 4.05 3.7 6 6.79 6 9.14 0 3.63-2.65 6.2-6 6.2z"/></svg>
+      </div>
+    </div>
+
+    <!-- Login Card -->
+    <div class="login-card" id="loginCard">
+      <h2>⚔️ ENTER THE ARENA</h2>
+      
+      <div id="loginStep1">
+        <div class="form-group">
+          <label>Your Name (Arena Tag)</label>
+          <input type="text" class="form-input" id="loginName" placeholder="e.g. PipeKing_Mike" maxlength="20">
+        </div>
+        <div class="form-group">
+          <label>Phone Number (for login)</label>
+          <input type="tel" class="form-input" id="loginPhone" placeholder="(617) 555-0123">
+        </div>
+
+        <div class="form-group">
+          <label>Choose Your Avatar</label>
+          <div class="avatar-grid" id="avatarGrid">
+            <div class="avatar-option selected" data-avatar="🔧" onclick="selectAvatar(this)">🔧</div>
+            <div class="avatar-option" data-avatar="⚡" onclick="selectAvatar(this)">⚡</div>
+            <div class="avatar-option" data-avatar="🔥" onclick="selectAvatar(this)">🔥</div>
+            <div class="avatar-option" data-avatar="💧" onclick="selectAvatar(this)">💧</div>
+            <div class="avatar-option" data-avatar="🛡️" onclick="selectAvatar(this)">🛡️</div>
+            <div class="avatar-option" data-avatar="⚔️" onclick="selectAvatar(this)">⚔️</div>
+            <div class="avatar-option" data-avatar="🏆" onclick="selectAvatar(this)">🏆</div>
+            <div class="avatar-option" data-avatar="💀" onclick="selectAvatar(this)">💀</div>
+            <div class="avatar-option" data-avatar="🐉" onclick="selectAvatar(this)">🐉</div>
+            <div class="avatar-option" data-avatar="👑" onclick="selectAvatar(this)">👑</div>
+          </div>
+        </div>
+
+        <button class="btn-primary" onclick="enterArena()">ENTER THE ARENA →</button>
+        <button class="btn-secondary" onclick="quickPlay()">Quick Play (No Account)</button>
+      </div>
+
+      <div id="loginStep2" style="display:none;">
+        <div class="form-group">
+          <label>Enter Verification Code</label>
+          <input type="text" class="form-input" id="verifyCode" placeholder="6-digit code" maxlength="6">
+        </div>
+        <button class="btn-primary" onclick="verifyCode()">VERIFY →</button>
+        <button class="btn-secondary" onclick="document.getElementById('loginStep1').style.display='block';document.getElementById('loginStep2').style.display='none';">← Back</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="about-section">
+    <h3>BUILT BY PLUMBERS, FOR PLUMBERS</h3>
+    <p>Built by <strong>Johnson Bros. Plumbing</strong> — brothers who passed the exam and know what it takes. This app is built specifically for the <strong>Massachusetts Journeyman Plumbing Exam</strong>. Nothing else. No generic study guides, no filler content. Pure 248 CMR, the way the exam tests it.</p>
+  </section>
+
+  <!-- Features -->
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="fc-icon">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L9 9H2l5.5 4.5L5 22l7-4.5L19 22l-2.5-8.5L22 9h-7L12 2z"/></svg>
+      </div>
+      <h4>6 Game Modes</h4>
+      <p>Practice, Ranked, Exam Sim, Code Royale, Speed Run, and Imposter mode</p>
+    </div>
+    <div class="feature-card">
+      <div class="fc-icon">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+      </div>
+      <h4>248 CMR Code Book</h4>
+      <p>Searchable code reference with key sections, tables, and sizing charts</p>
+    </div>
+    <div class="feature-card">
+      <div class="fc-icon">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+      </div>
+      <h4>Compete & Climb</h4>
+      <p>Weekly leaderboards, XP levels, badges, and Battle Pass rewards</p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="landing-footer">
+    <p>© 2026 248 Arena · Built by Johnson Bros. Plumbing · Not affiliated with the Commonwealth of Massachusetts</p>
+  </footer>
+</div>
+
+<script>
+  let selectedAvatar = '🔧';
+
+  function selectAvatar(el) {
+    document.querySelectorAll('.avatar-option').forEach(a => a.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedAvatar = el.dataset.avatar;
+  }
+
+  function enterArena() {
+    const name = document.getElementById('loginName').value.trim();
+    const phone = document.getElementById('loginPhone').value.trim();
+    
+    if (!name) {
+      document.getElementById('loginName').style.borderColor = '#ff2d55';
+      document.getElementById('loginName').focus();
+      return;
+    }
+
+    // For now, skip SMS verification and go straight in
+    // In production, this would send an SMS code
+    const user = {
+      id: 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6),
+      phone: phone || 'none',
+      name: name,
+      avatar: selectedAvatar,
+      createdAt: Date.now(),
+      stats: {
+        totalAnswered: 0, totalCorrect: 0, streak: 0, bestStreak: 0,
+        xp: 0, level: 1, rank: 'Apprentice',
+        categoryStats: {}, battlePassLevel: 0, badges: [],
+        titles: ['Apprentice'], activeTitle: 'Apprentice',
+        dailyXP: 0, dailyDate: new Date().toDateString(),
+        weeklyChallenge: null, lootDrops: 0
+      }
+    };
+    localStorage.setItem('arena248_user', JSON.stringify(user));
+    document.cookie = 'arena248_session=' + user.id + ';path=/;max-age=' + (60*60*24*365);
+    window.location.href = 'app.html';
+  }
+
+  function quickPlay() {
+    const user = {
+      id: 'guest_' + Date.now(),
+      phone: 'guest',
+      name: 'Guest Fighter',
+      avatar: '⚔️',
+      createdAt: Date.now(),
+      stats: {
+        totalAnswered: 0, totalCorrect: 0, streak: 0, bestStreak: 0,
+        xp: 0, level: 1, rank: 'Apprentice',
+        categoryStats: {}, battlePassLevel: 0, badges: [],
+        titles: ['Apprentice'], activeTitle: 'Apprentice',
+        dailyXP: 0, dailyDate: new Date().toDateString(),
+        weeklyChallenge: null, lootDrops: 0
+      }
+    };
+    localStorage.setItem('arena248_user', JSON.stringify(user));
+    window.location.href = 'app.html';
+  }
+
+  function verifyCode() {
+    // Placeholder — would verify SMS code
+    window.location.href = 'app.html';
+  }
+
+  // Check if already logged in
+  const existing = localStorage.getItem('arena248_user');
+  if (existing) {
+    // Show a "Continue" option
+    try {
+      const u = JSON.parse(existing);
+      const card = document.getElementById('loginCard');
+      const cont = document.createElement('div');
+      cont.style.marginBottom = '16px';
+      cont.innerHTML = `
+        <div style="background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.3);border-radius:8px;padding:14px;margin-bottom:12px;text-align:center;">
+          <div style="font-size:1.5rem;margin-bottom:4px;">${u.avatar || '⚔️'}</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-weight:700;color:#fff;">Welcome back, ${u.name}!</div>
+          <div style="font-size:0.8rem;color:#9898b0;">Level ${u.stats.level} · ${u.stats.rank}</div>
+        </div>
+        <button class="btn-primary" onclick="window.location.href='app.html'">CONTINUE →</button>
+        <button class="btn-secondary" onclick="localStorage.removeItem('arena248_user');this.parentElement.remove();" style="margin-top:8px;">New Account</button>
+      `;
+      card.querySelector('h2').after(cont);
+      document.getElementById('loginStep1').style.display = 'none';
+    } catch(e) {}
+  }
+</script>
+
+</body>
+</html>

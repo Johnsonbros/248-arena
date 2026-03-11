@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>248 Arena — Play</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚔️</text></svg>">
+</head>
+<body>
+
+<div class="app-layout">
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-left">
+      <div class="header-logo"><span>248</span> ARENA</div>
+    </div>
+    <div class="header-user">
+      <div class="user-info">
+        <div class="user-name" id="userName">Fighter</div>
+        <div class="user-level" id="userLevel">Lv 1</div>
+        <div class="xp-bar"><div class="xp-fill" id="xpFill" style="width:0%"></div></div>
+      </div>
+      <div class="user-avatar" id="userAvatar">⚔️</div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="app-main">
+
+    <!-- Dashboard Screen -->
+    <div class="screen active" id="screen-dashboard">
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value" id="statAnswered">0</div>
+          <div class="stat-label">Answered</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="statAccuracy">0%</div>
+          <div class="stat-label">Accuracy</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="statStreak">0</div>
+          <div class="stat-label">Best Streak</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="statLevel">1</div>
+          <div class="stat-label">Level</div>
+        </div>
+      </div>
+
+      <!-- Game Modes -->
+      <div class="section-header">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4-3c-.83 0-1.5-.67-1.5-1.5S18.67 9 19.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+        CHOOSE YOUR BATTLE
+      </div>
+      <div class="game-modes-grid">
+        <div class="mode-card" data-mode="practice" onclick="App.startGame('practice')">
+          <div class="mode-icon">📚</div>
+          <div class="mode-name">Practice</div>
+          <div class="mode-desc">20 adaptive questions. No pressure, no timer. Learn at your pace.</div>
+        </div>
+        <div class="mode-card" data-mode="ranked" onclick="App.startGame('ranked')">
+          <div class="mode-icon">⚔️</div>
+          <div class="mode-name">Ranked</div>
+          <div class="mode-desc">25 questions. Points count. Climb the leaderboard.</div>
+        </div>
+        <div class="mode-card" data-mode="exam" onclick="App.startGame('exam')">
+          <div class="mode-icon">📝</div>
+          <div class="mode-name">Exam Sim</div>
+          <div class="mode-desc">100 questions in 2 hours. Just like the real exam.</div>
+        </div>
+        <div class="mode-card" data-mode="royale" onclick="App.startGame('royale')">
+          <div class="mode-icon">🏟️</div>
+          <div class="mode-name">Code Royale</div>
+          <div class="mode-desc">3 lives. Miss 3 and you're eliminated. Last one standing.</div>
+        </div>
+        <div class="mode-card" data-mode="speed" onclick="App.startGame('speed')">
+          <div class="mode-icon">⚡</div>
+          <div class="mode-name">Speed Run</div>
+          <div class="mode-desc">5 minutes on the clock. Answer as many as you can. 2x points.</div>
+        </div>
+        <div class="mode-card" data-mode="imposter" onclick="App.startGame('imposter')">
+          <div class="mode-icon">🕵️</div>
+          <div class="mode-name">Imposter</div>
+          <div class="mode-desc">Spot the fake answer among the real ones. Trust your training.</div>
+        </div>
+      </div>
+
+      <!-- Categories -->
+      <div class="section-header">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM7 10h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/></svg>
+        CATEGORY PERFORMANCE
+      </div>
+      <div class="category-list" id="categoryList"></div>
+
+      <!-- Battle Pass -->
+      <div class="section-header">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 6h-2.18c.11-.31.18-.65.18-1 0-1.66-1.34-3-3-3-1.05 0-1.96.54-2.5 1.35l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-5-2c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM9 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm11 15H4v-2h16v2zm0-5H4V8h5.08L7 10.83 8.62 12 11 8.76l1-1.36 1 1.36L15.38 12 17 10.83 14.92 8H20v6z"/></svg>
+        BATTLE PASS
+      </div>
+      <div class="battle-pass">
+        <div class="bp-track" id="battlePassTrack"></div>
+      </div>
+    </div>
+
+    <!-- Game Screen -->
+    <div class="screen" id="screen-game"></div>
+
+    <!-- Leaderboard Screen -->
+    <div class="screen" id="screen-leaderboard">
+      <div class="section-header">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7.5 21H2V9h5.5v12zm7.25-18h-5.5v18h5.5V3zM22 11h-5.5v10H22V11z"/></svg>
+        ARENA RANKINGS
+      </div>
+      <div id="leaderboardContent"></div>
+    </div>
+
+    <!-- Badges Screen -->
+    <div class="screen" id="screen-badges">
+      <div class="section-header">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+        BADGES & ACHIEVEMENTS
+      </div>
+      <div class="badges-grid" id="badgesContent"></div>
+    </div>
+
+    <!-- Chat Screen -->
+    <div class="screen" id="screen-chat">
+      <div class="section-header">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
+        THE EXAMINER — AI Study Chat
+      </div>
+      <div class="chat-container" id="chatContent">
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-input-row">
+          <input type="text" id="chatInput" placeholder="Ask about 248 CMR or type 'quiz me'..." onkeydown="App.chatKeydown(event)">
+          <button onclick="App.sendChat()">Send</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Bottom Nav -->
+  <nav class="bottom-nav">
+    <button class="nav-tab active" data-screen="dashboard">
+      <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" fill="currentColor"/></svg>
+      Arena
+    </button>
+    <button class="nav-tab" data-screen="leaderboard">
+      <svg viewBox="0 0 24 24"><path d="M7.5 21H2V9h5.5v12zm7.25-18h-5.5v18h5.5V3zM22 11h-5.5v10H22V11z" fill="currentColor"/></svg>
+      Ranks
+    </button>
+    <button class="nav-tab" data-screen="badges">
+      <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" fill="currentColor"/></svg>
+      Badges
+    </button>
+    <button class="nav-tab" data-screen="chat">
+      <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z" fill="currentColor"/></svg>
+      Chat
+    </button>
+    <button class="nav-tab" onclick="App.logout()">
+      <svg viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z" fill="currentColor"/></svg>
+      Exit
+    </button>
+  </nav>
+
+</div>
+
+<script src="js/questions.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/leaderboard.js"></script>
+<script src="js/game-modes.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>

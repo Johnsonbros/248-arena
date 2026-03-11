@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>248 Arena — Code Book</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📖</text></svg>">
+</head>
+<body>
+
+<div class="codebook-layout">
+
+  <!-- Nav -->
+  <nav class="page-nav">
+    <div class="nav-left">
+      <a href="index.html" class="nav-logo"><span>248</span> ARENA</a>
+    </div>
+    <div class="nav-links">
+      <a href="app.html">Play</a>
+      <a href="codebook.html" class="active">Code Book</a>
+      <a href="sponsors.html">Sponsors</a>
+    </div>
+  </nav>
+
+  <!-- Search -->
+  <div class="codebook-search">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="codebookSearch" placeholder="Search 248 CMR... (e.g. 'trap size', 'backflow', 'gas piping')">
+  </div>
+
+  <!-- Quick Nav -->
+  <div class="codebook-nav">
+    <a href="#cmr2" onclick="document.getElementById('cmr2').classList.add('expanded');document.getElementById('cmr2').scrollIntoView({behavior:'smooth'});return false;">2.00 Definitions</a>
+    <a href="#cmr3" onclick="document.getElementById('cmr3').classList.add('expanded');document.getElementById('cmr3').scrollIntoView({behavior:'smooth'});return false;">3.00 General</a>
+    <a href="#cmr4" onclick="document.getElementById('cmr4').classList.add('expanded');document.getElementById('cmr4').scrollIntoView({behavior:'smooth'});return false;">4.00 Fixtures</a>
+    <a href="#cmr5" onclick="document.getElementById('cmr5').classList.add('expanded');document.getElementById('cmr5').scrollIntoView({behavior:'smooth'});return false;">5.00 Water</a>
+    <a href="#cmr6" onclick="document.getElementById('cmr6').classList.add('expanded');document.getElementById('cmr6').scrollIntoView({behavior:'smooth'});return false;">6.00 DWV</a>
+    <a href="#cmr7" onclick="document.getElementById('cmr7').classList.add('expanded');document.getElementById('cmr7').scrollIntoView({behavior:'smooth'});return false;">7.00 Gas</a>
+    <a href="#cmr8" onclick="document.getElementById('cmr8').classList.add('expanded');document.getElementById('cmr8').scrollIntoView({behavior:'smooth'});return false;">8.00 Sewage</a>
+    <a href="#cmr10" onclick="document.getElementById('cmr10').classList.add('expanded');document.getElementById('cmr10').scrollIntoView({behavior:'smooth'});return false;">10.00 Licensing</a>
+  </div>
+
+  <!-- Content -->
+  <div class="codebook-content">
+
+    <!-- 248 CMR 2.00 -->
+    <div class="code-section" id="cmr2">
+      <div class="code-section-header">
+        <span class="code-section-title">248 CMR 2.00 — Definitions</span>
+        <span class="code-section-toggle">▼</span>
+      </div>
+      <div class="code-section-body">
+        <div class="code-text">
+          <h4>Key Definitions</h4>
+          <ul>
+            <li><strong>Air Gap:</strong> The unobstructed vertical distance through free atmosphere between the lowest opening from any pipe or faucet supplying water to a tank, fixture, or other device and the flood-level rim of the receptacle.</li>
+            <li><strong>Backflow:</strong> The flow of water or other liquids, mixtures, or substances into the distribution pipes of a potable supply of water from any source other than the intended source.</li>
+            <li><strong>Branch:</strong> Any part of the piping system other than a main, riser, or stack.</li>
+            <li><strong>Building Drain:</strong> The lowest piping that receives discharge from soil, waste, and other drainage pipes inside the building and conveys it to the building sewer.</li>
+            <li><strong>Building Sewer:</strong> The part of the horizontal piping of a drainage system extending from the building drain to its connection with the main sewer or other point of disposal.</li>
+            <li><strong>Cross-Connection:</strong> Any physical connection or arrangement between two otherwise separate piping systems, one of which contains potable water and the other water of unknown or questionable safety.</li>
+            <li><strong>Fixture Unit (DFU):</strong> A quantity in terms of which the load-producing effects on the plumbing system of different kinds of plumbing fixtures are expressed on some arbitrarily chosen scale.</li>
+            <li><strong>Flood-Level Rim:</strong> The edge of the receptacle from which water overflows.</li>
+            <li><strong>Potable Water:</strong> Water that is safe and satisfactory for drinking, cooking, and bathing — free from impurities in amounts sufficient to cause disease or harmful physiological effects.</li>
+            <li><strong>Rough-In:</strong> The installation of all parts of the plumbing system which can be completed prior to the installation of fixtures, including drainage, water supply, and vent piping.</li>
+            <li><strong>Trap:</strong> A fitting or device designed to provide a liquid seal to prevent the back passage of air (sewer gas) without materially affecting the flow of sewage through it.</li>
+            <li><strong>Vent System:</strong> A pipe or pipes installed to provide air circulation to or from a drainage system and to protect trap seals from siphonage and back pressure.</li>
+            <li><strong>Water Service Pipe:</strong> The pipe from the water main or other source of water supply to the building served.</li>
+            <li><strong>Wet Vent:</strong> A vent that also serves as a drain.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 248 CMR 3.00 -->
+    <div class="code-section" id="cmr3">
+      <div class="code-section-header">
+        <span class="code-section-title">248 CMR 3.00 — General Regulations</span>
+        <span class="code-section-toggle">▼</span>
+      </div>
+      <div class="code-section-body">
+        <div class="code-text">
+          <h4>Administration</h4>
+          <ul>
+            <li>The Board of State Examiners of Plumbers and Gas Fitters administers 248 CMR</li>
+            <li>Only a licensed <strong>Master Plumber</strong> can obtain a plumbing permit</li>
+            <li>A plumbing permit is valid for <strong>1 year</strong> from date of issuance</li>
+            <li>Rough-in plumbing must be inspected <strong>before concealment</strong> of piping</li>
+          </ul>
+          
+          <h4>Licensing Requirements</h4>
+          <ul>
+            <li><strong>Journeyman:</strong> Minimum 3 years practical experience under a licensed Master Plumber</li>
+            <li>A Journeyman must work under the <strong>general supervision of a Master Plumber</strong></li>
+            <li>An Apprentice must work under the <strong>direct supervision</strong> of a Journeyman or Master Plumber</li>
+          </ul>
+
+          <h4>Permits</h4>
+          <ul>
+            <li>A plumbing permit IS required for: installing new fixtures, water heaters, water piping, gas piping</li>
+            <li>A plumbing permit is NOT required for: replacing washers, flappers, clearing drain stoppages</li>
+            <li>All plumbing work must conform to 248 CMR and is subject to inspection</li>
+          </ul>
+
+          <h4>Water Service</h4>
+          <ul>
+            <li>Minimum water service pipe size: <strong>3/4 inch</strong></li>
+            <li>Minimum burial depth for water service in MA: <strong>48 inches (4 feet)</strong> to protect against freezing</li>
+            <li>A full-port shutoff valve (gate or ball valve) required at building entrance</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 248 CMR 4.00 -->
+    <div class="code-section" id="cmr4">
+      <div class="code-section-header">
+        <span class="code-section-title">248 CMR 4.00 — Fixtures</span>
+        <span class="code-section-toggle">▼</span>
+      </div>
+      <div class="code-section-body">
+        <div class="code-text">
+          <h4>Fixture Trap Sizes</h4>
+          <table>
+            <tr><th>Fixture</th><th>Min Trap Size</th><th>DFU Value</th></tr>
+            <tr><td>Lavatory</td><td>1-1/4"</td><td>1</td></tr>
+            <tr><td>Kitchen Sink</td><td>1-1/2"</td><td>2</td></tr>
+            <tr><td>Bathtub (with/without shower)</td><td>1-1/2"</td><td>2</td></tr>
+            <tr><td>Shower</td><td>2"</td><td>2</td></tr>
+            <tr><td>Water Closet (1.6 GPF or less)</td><td>3" (integral)</td><td>3</td></tr>
+            <tr><td>Laundry Tub</td><td>1-1/2"</td><td>2</td></tr>
+            <tr><td>Floor Drain</td><td>2"</td><td>2</td></tr>
+            <tr><td>Dishwasher</td><td>1-1/2"</td><td>2</td></tr>
+            <tr><td>Clothes Washer (domestic)</td><td>2"</td><td>3</td></tr>
+          </table>
+
+          <h4>Trap Arm Maximum Distances</h4>
+          <table>
+            <tr><th>Trap Size</th><th>Max Trap Arm Distance</th></tr>
+            <tr><td>1-1/4"</td><td>2 ft 6 in (30")</td></tr>
+            <tr><td>1-1/2"</td><td>5 ft (60")</td></tr>
+            <tr><td>2"</td><td>8 ft (96")</td></tr>
+            <tr><td>3"</td><td>12 ft (144")</td></tr>
+            <tr><td>4"</td><td>16 ft (192")</td></tr>
+          </table>
+
+          <h4>Trap Rules</h4>
+          <ul>
+            <li>Every fixture trap must have a water seal of <strong>not less than 2 inches</strong> and <strong>not more than 4 inches</strong></li>
+            <li>Double trapping is prohibited</li>
+            <li>S-traps are prohibited</li>
+            <li>Each fixture must be individually trapped (exceptions: battery of lavatories)</li>
+          </ul>
+
+          <h4>Minimum Fixtures Required (Restaurants)</h4>
+          <table>
+            <tr><th>Occupancy (seats)</th><th>Water Closets (per sex)</th></tr>
+            <tr><td>1-50</td><td>1</td></tr>
+            <tr><td>51-100</td><td>2</td></tr>
+            <tr><td>101-200</td><td>3</td></tr>
+            <tr><td>201-400</td><td>4</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 248 CMR 5.00 -->
+    <div class="code-section" id="cmr5">
+      <div class="code-section-header">
+        <span class="code-section-title">248 CMR 5.00 — Water Distribution</span>
+        <span class="code-section-toggle">▼</span>
+      </div>
+      <div class="code-section-body">
+        <div class="code-text">
+          <h4>Pressure Requirements</h4>
+          <ul>
+            <li>Maximum static water pressure at any fixture: <strong>80 psi</strong></li>
+            <li>A pressure reducing valve (PRV) is required when pressure exceeds 80 psi</li>
+            <li>Minimum hot water temperature at fixtures (residential): <strong>110°F</strong></li>
+            <li>Water hammer arrestors required when <strong>quick-closing valves</strong> are installed (dishwashers, washing machines)</li>
+          </ul>
+
+          <h4>Minimum Supply Pipe Sizes</h4>
+          <table>
+            <tr><th>Fixture</th><th>Min Cold Supply</th><th>Min Hot Supply</th></tr>
+            <tr><td>Lavatory</td><td>3/8"</td><td>3/8"</td></tr>
+            <tr><td>Kitchen Sink</td><td>1/2"</td><td>1/2"</td></tr>
+            <tr><td>Bathtub</td><td>1/2"</td><td>1/2"</td></tr>
+            <tr><td>Shower</td><td>1/2"</td><td>1/2"</td></tr>
+            <tr><td>Water Closet (tank)</td><td>3/8"</td><td>—</td></tr>
+            <tr><td>Water Closet (flush valve)</td><td>1"</td><td>—</td></tr>
+            <tr><td>Hose Bibb</td><td>1/2"</td><td>—</td></tr>
+            <tr><td>Water Heater</td><td>3/4"</td><td>3/4"</td></tr>
+          </table>
+
+          <h4>Thermal Expansion</h4>
+          <ul>
+            <li>A thermal expansion tank is required when a <strong>closed system</strong> exists (backflow preventer on water service)</li>
+            <li>The expansion tank absorbs pressure from heated water that cannot expand back into the main</li>
+          </ul>
+
+          <h4>Materials</h4>
+          <ul>
+            <li>Only <strong>lead-free solder</strong> (≤0.2% lead) on potable water systems</li>
+            <li>Copper tube types: <strong>K</strong> (green, heaviest — underground), <strong>L</strong> (blue — general), <strong>M</strong> (red — light duty), <strong>DWV</strong> (yellow)</li>
+            <li>Type K required for underground water service</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 248 CMR 6.00 -->
+    <div class="code-section" id="cmr6">
+      <div class="code-section-header">
+        <span class="code-section-title">248 CMR 6.00 — Drainage and Vent</span>
+        <span class="code-section-toggle">▼</span>
+      </div>
+      <div class="code-section-body">
+        <div class="code-text">
+          <h4>Horizontal Drain Slope</h4>
+          <table>
+            <tr><th>Pipe Size</th><th>Minimum Slope</th></tr>
+            <tr><td>3" or smaller</td><td>1/4" per foot</td></tr>
+            <tr><td>4" or larger</td><td>1/8" per foot</td></tr>
+          </table>
+
+          <h4>Building Drain / Sewer Sizing</h4>
+          <table>
+            <tr><th>Pipe Size</th><th>Max DFU (Horizontal Branch)</th><th>Max DFU (Building Drain)</th></tr>
+            <tr><td>1-1/2"</td><td>3</td><td>—</td></tr>
+            <tr><td>2"</td><td>6</td><td>21</td></tr>
+            <tr><td>3"</td><td>20</td><td>42 *</td></tr>
+            <tr><td>4"</td><td>160</td><td>216</td></tr>
+            <tr><td>6"</td><td>620</td><td>720</td></tr>
+          </table>
+          <p>* A 3" building drain receiving a water closet: max 42 DFU at 1/4" slope</p>
+
+          <h4>Minimum building drain size receiving a WC: <strong>3 inches</strong></h4>
+          <h4>Minimum building sewer size: <strong>4 inches</strong></h4>
+
+          <h4>Fitting Rules</h4>
+          <ul>
+            <li>A <strong>sanitary tee shall NOT be used</strong> to change direction horizontal to horizontal</li>
+            <li>A combination wye and 1/8 bend can replace a sanitary tee (horizontal to vertical)</li>
+            <li>Long-sweep 90° permitted for horizontal to horizontal changes</li>
+          </ul>
+
+          <h4>Cleanouts</h4>
+          <ul>
+            <li>Required at every change of direction greater than <strong>45 degrees</strong></li>
+            <li>Maximum spacing: <strong>75 feet</strong> on horizontal drains</li>
+            <li>Cleanout size: same as pipe (up to 4"), then 4" for larger pipes</li>
+            <li>Cleanouts must be accessible</li>
+          </ul>
+
+          <h4>Venting</h4>
+          <ul>
+            <li>Purpose: equalize pressure, prevent trap siphonage and back pressure</li>
+            <li>Minimum vent size for a water closet: <strong>2 inches</strong></li>
+            <li>Minimum vent stack size: <strong>2 inches</strong> (regardless of building drain size)</li>
+            <li>Vent through roof must extend minimum <strong>12 inches</strong> above roof surface</li>
+            <li><strong>Wet vent:</strong> serves as both a vent and drain for another fixture</li>
+            <li><strong>Island vent (loop vent):</strong> typically used for kitchen sinks where conventional venting is impractical</li>
+          </ul>
+
+          <h4>Vent Sizing</h4>
+          <table>
+            <tr><th>Fixture</th><th>Min Vent Size</th></tr>
+            <tr><td>Lavatory</td><td>1-1/4"</td></tr>
+            <tr><td>Kitchen Sink</td><td>1-1/2"</td></tr>
+            <tr><td>Bathtub/Shower</td><td>1-1/2"</td></tr>
+            <tr><td>Water Closet</td><td>2"</td></tr>
+            <tr><td>Floor Drain</td><td>1-1/2"</td></tr>
+          </table>
+
+          <h4>Materials (Drainage)</h4>
+          <ul>
+            <li><strong>Approved underground:</strong> Cast iron, PVC (Schedule 40), ABS</li>
+            <li><strong>NOT approved underground:</strong> Galvanized steel (corrosion)</li>
+            <li>PVC DWV must conform to <strong>ASTM D1785</strong> (Schedule 40) or ASTM D2665</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 248 CMR 7.00 -->
+    <div class="code-section" id="cmr7">
+      <div class="code-section-header">
+        <span class="code-section-title">248 CMR 7.00 — Gas Piping</span>
+        <span class="code-section-toggle">▼</span>
+      </div>
+      <div class="code-section-body">
+        <div class="code-text">
+          <h4>General Rules</h4>
+          <ul>
+            <li>Minimum gas pipe size from meter to appliance: <strong>1/2 inch</strong></li>
+            <li>Maximum pressure drop (low-pressure system, under 2 psi): <strong>0.5 inch water column</strong></li>
+            <li>A <strong>sediment trap (drip leg)</strong> is required at the inlet of every gas appliance</li>
+            <li>A <strong>shutoff valve</strong> is required at the meter and within 6 feet of each appliance</li>
+            <li>Only thread compounds <strong>approved for gas service</strong> shall be used</li>
+          </ul>
+
+          <h4>Testing</h4>
+          <ul>
+            <li>New gas piping test: <strong>3 psi gauge pressure for minimum 10 minutes</strong> with no perceptible drop</li>
+            <li>Test medium: air or inert gas (never test with fuel gas)</li>
+            <li>All connections capped during test</li>
+          </ul>
+
+          <h4>Materials & Joints</h4>
+          <ul>
+            <li><strong>Black iron (steel) pipe:</strong> Joined by threaded fittings or welding</li>
+            <li><strong>CSST (corrugated stainless steel tubing):</strong> Approved with proper bonding</li>
+            <li>Copper tubing allowed for gas in some jurisdictions with approved fittings</li>
+            <li>Galvanized pipe is NOT permitted for gas downstream of the meter</li>
+          </ul>
+
+          <h4>Gas Pipe Sizing (Common)</h4>
+          <table>
+            <tr><th>Pipe Size</th><th>Approx Max BTU (50 ft run, 0.5" WC drop)</th></tr>
+            <tr><td>1/2"</td><td>~90,000 BTU</td></tr>
+            <tr><td>3/4"</td><td>~175,000 BTU</td></tr>
+            <tr><td>1"</td><td>~350,000 BTU</td></tr>
+            <tr><td>1-1/4"</td><td>~700,000 BTU</td></tr>
+            <tr><td>1-1/2"</td><td>~1,100,000 BTU</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 248 CMR 8.00 -->
+    <div class="code-section" id="cmr8">
+      <div class="code-section-header">
+        <span class="code-section-title">248 CMR 8.00 — Private Sewage Disposal</span>
+        <span class="code-section-toggle">▼</span>
+      </div>
+      <div class="code-section-body">
+        <div class="code-text">
+          <h4>Septic Systems</h4>
+          <ul>
+            <li>Private sewage disposal required when public sewer is not available</li>
+            <li>Septic tank must be <strong>watertight</strong> and provide adequate settling/digestion</li>
+            <li>Minimum septic tank size for residential: typically <strong>1,000 gallons</strong> for up to 3 bedrooms</li>
+            <li>Leaching field design based on <strong>soil percolation test</strong> results</li>
+            <li>Minimum setbacks from wells, property lines, and water courses are required</li>
+          </ul>
+
+          <h4>Key Requirements</h4>
+          <ul>
+            <li>Septic systems require a <strong>Title 5</strong> (310 CMR 15.00) inspection for property transfer</li>
+            <li>Grease traps required for commercial food service before septic</li>
+            <li>No storm water shall be discharged to the septic system</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 248 CMR 10.00 -->
+    <div class="code-section" id="cmr10">
+      <div class="code-section-header">
+        <span class="code-section-title">248 CMR 10.00 — Plumber Licensing</span>
+        <span class="code-section-toggle">▼</span>
+      </div>
+      <div class="code-section-body">
+        <div class="code-text">
+          <h4>License Types</h4>
+          <ul>
+            <li><strong>Apprentice:</strong> Works under direct supervision of a Journeyman or Master. Must register with the Board.</li>
+            <li><strong>Journeyman:</strong> Minimum 3 years experience under a Master. Must pass written exam. Works under general supervision of a Master.</li>
+            <li><strong>Master:</strong> Minimum 1 year as Journeyman (or equivalent). Must pass Master exam. Can pull permits, run a plumbing business, supervise Journeymen and Apprentices.</li>
+          </ul>
+
+          <h4>Exam Information</h4>
+          <ul>
+            <li>The Journeyman exam tests knowledge of <strong>248 CMR</strong> — the Massachusetts State Plumbing Code</li>
+            <li>Exam is administered by the Board of State Examiners of Plumbers and Gas Fitters</li>
+            <li>Open-book format (248 CMR codebook allowed)</li>
+            <li>Passing score: <strong>70%</strong></li>
+            <li>Topics: DWV sizing, venting, water distribution, gas piping, backflow prevention, fixtures, materials, permits</li>
+          </ul>
+
+          <h4>Backflow Prevention (Critical Exam Topic)</h4>
+          <ul>
+            <li><strong>Air Gap:</strong> Simplest and most reliable — physical separation between outlet and flood-level rim</li>
+            <li>Minimum air gap: <strong>1 inch or 2x the outlet diameter</strong>, whichever is greater</li>
+            <li><strong>RPZ (Reduced Pressure Zone):</strong> Required for high-hazard cross-connections (boiler makeup, chemical feed)</li>
+            <li><strong>AVB (Atmospheric Vacuum Breaker):</strong> Must be installed <strong>6 inches minimum</strong> above highest downstream outlet</li>
+            <li>RPZ assemblies must be <strong>tested annually</strong> by a certified tester</li>
+            <li><strong>High hazard:</strong> Chemical feed systems, medical equipment, fire suppression with additives</li>
+          </ul>
+
+          <h4>Medical Gas (Exam Topic)</h4>
+          <ul>
+            <li>Installation by <strong>ASSE 6010 certified</strong> personnel only</li>
+            <li>Requires <strong>Type L copper (or K)</strong> cleaned and capped for oxygen service (ASTM B819)</li>
+            <li>Joints: <strong>brazed with BCuP alloy</strong> under continuous nitrogen purge</li>
+            <li>Soldering is NOT permitted on medical gas piping</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer class="landing-footer">
+    <p>248 Arena Code Book — Reference Only. Always consult the official 248 CMR for the authoritative text.<br>
+    © 2026 248 Arena · Built by Johnson Bros. Plumbing</p>
+  </footer>
+
+</div>
+
+<script src="js/codebook.js"></script>
+
+</body>
+</html>
