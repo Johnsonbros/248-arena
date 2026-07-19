@@ -88,6 +88,30 @@ Arena's database + subdomain + CI entry in the existing fleet." We go straight t
 
 ---
 
+## 1.6 Merge strategy — 248 Arena absorbs AiSync Tutor
+
+**Decision:** 248 Arena is the **successor** to the live **AiSync Tutor** (`aisync-tutor`,
+`pipe.aisyncservices.com`). We build on its existing backend + content rather than greenfield, and
+the Examiner routes AI through **`ai-router-controller:4000`** (LiteLLM) — exactly as the tutor
+already does. This likely also brings in **`aisync-plumbing-api`** (`aisync/plumbing-platform-api`)
+as the domain/content API.
+
+**The merge, in principle:**
+1. **Keep** whatever already works — content (questions / 248 CMR text), the plumbing-platform API,
+   the AI-gateway wiring, and any accounts/data.
+2. **Wrap** the three-pillar 248 Arena experience (Arena / Academy / Examiner) and the Knowledge
+   Spine (§3) on top of that backend.
+3. **Retire** duplicated pieces once the Arena covers them.
+
+**To plan it concretely we need to know what the existing services already provide** (discovery
+below — the answers turn this from principle into a real migration plan):
+- Stack + **where the source lives** (Gitea? GitHub? — decides whether I can read it directly).
+- The API surface of `aisync-plumbing-api` (endpoints, auth model).
+- What data already exists: question bank? 248 CMR text? users? subscriptions?
+- Which Postgres / vector store the tutor + plumbing-api use.
+
+---
+
 ## 2. Deployment architecture (reusing the AiSync fleet)
 
 Unraid runs Docker (use the **Docker Compose Manager** plugin). One Compose stack, one private
@@ -392,24 +416,22 @@ for marketing, we can pull Phase 4 forward — tell me and I'll reorder.)*
 
 ## 12. Decisions to confirm before Phase 0
 
-Resolved by the vision + the fleet inventory: shared spine ✓ · AI is voice **and** text ✓ ·
-Examiner does all roles ✓ · Networking = existing **Cloudflare Tunnel** ✓ · Reverse proxy =
-**Caddy** ✓ · Vector store = **Qdrant/pgvector** ✓ · STT = **whisper** ✓ · TTS = **kokoro** ✓ ·
-CI/CD = **Gitea + runners** ✓ · Monitoring/analytics = **Grafana/Uptime-Kuma/Umami** ✓.
+Resolved: shared spine ✓ · AI is voice **and** text ✓ · Examiner does all roles ✓ · Networking =
+existing **Cloudflare Tunnel** ✓ · Reverse proxy = **Caddy** ✓ · Vector store = **Qdrant/pgvector**
+✓ · STT = **whisper** ✓ · TTS = **kokoro** ✓ · CI/CD = **Gitea + runners** ✓ · Monitoring/analytics
+= **Grafana/Uptime-Kuma/Umami** ✓ · **Merge with AiSync Tutor** (successor) ✓ · **AI via
+`ai-router-controller`/LiteLLM gateway** ✓.
 
 Still open (the ones that actually need you):
-1. **Prior work?** Do `aisync-plumbing-api`, `aisync-tutor`, `tjb-game`, `skillforge`, or the
-   `llm-wiki` containers already implement parts of this? If so we build on them, not greenfield.
-   *(Biggest fork — determines whether Phase 1 is "extend" or "create".)*
-2. **AI entry point:** route the Examiner through the existing **LiteLLM gateway** (recommended —
-   model routing/fallback, one API) or hit **Ollama** directly?
-3. **Voice loop:** reuse **`aisync-realtime-voice-gateway`** for the Examiner's realtime audio, or
+1. **Where does the AiSync Tutor / plumbing-platform source live?** GitHub (I can `add_repo` and read
+   it) or Gitea (you share the key files)? *Biggest blocker to a concrete merge plan.*
+2. **Voice loop:** reuse **`aisync-realtime-voice-gateway`** for the Examiner's realtime audio, or
    build the Arena its own?
-4. **Auth:** reuse a central identity service (**`naos-auth`**/**`hermes-auth`**) for one login
+3. **Auth:** reuse a central identity service (**`naos-auth`**/**`hermes-auth`**) for one login
    across your products, or keep 248 Arena's auth self-contained (Auth.js)?
-5. **Frontend:** commit to the Next.js rewrite (recommended) or keep the vanilla UI + a backend API?
-6. **Roadmap order:** spine/payments first (sellable sooner) or pull the AI forward (bigger wow)?
-7. **Business bits:** Stripe Tax vs. merchant-of-record; email provider; exact price (§10).
+4. **Frontend:** commit to the Next.js rewrite (recommended) or keep the vanilla UI + a backend API?
+5. **Roadmap order:** spine/payments first (sellable sooner) or pull the AI forward (bigger wow)?
+6. **Business bits:** Stripe Tax vs. merchant-of-record; email provider; exact price (§10).
 
 Next concrete deliverable once these are set: a real Phase 0 — the `docker-compose.yml`, the
 Prisma schema for the spine, and a deployed shell on your Unraid box.
