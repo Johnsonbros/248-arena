@@ -46,7 +46,49 @@ The only thing we don't self-host is card processing — Stripe is required and 
 
 ---
 
-## 2. Deployment architecture (Unraid + Docker)
+## 1.5 Reuse map — what already exists on the AiSync fleet
+
+The `docker ps` inventory of the AiSync server shows a full production AI-services fleet. **Almost
+every infrastructure component this design calls for is already running.** We reuse, not rebuild —
+the only genuinely new external dependency is Stripe.
+
+| Design need | Reuse this existing container | Notes |
+|---|---|---|
+| Reverse proxy / TLS | **`caddy`** (caddy:2-alpine) | Already the front-door pattern; add an `arena.<domain>` route |
+| Public exposure, no open ports | **`cloudflared-tunnel`** | Route the app through the existing Cloudflare Tunnel — decision #3 is already made |
+| App database | a new DB/schema on an existing **`postgres`** (you run ~10: `tjb-db`, `naos-postgres`, `zeke-backend-db`…) or a dedicated `arena-db` | Give 248 Arena its own database for isolation |
+| Vector search / RAG | **`qdrant`** (+ `tjb-vectorstore`), or **`pgvector/pgvector:pg16`** (already used by `letta-postgres-mimir`) | 248 CMR + explanation embeddings — no new vector store needed |
+| Cache / queue / sessions | an existing **`redis:7-alpine`** (`tjb-redis`, `omi-redis`, …) or a dedicated one | Rate-limiting, sessions, AI concurrency queue |
+| LLM (Examiner's brain) | **`ollama`**, ideally fronted by **`ai-litellm-gateway`** (LiteLLM) | LiteLLM gives one API + model routing/fallback across local + hosted models |
+| STT (voice in) | **`whisper`** (fedirz/faster-whisper-server, CUDA) via **`whisper-proxy`** | Already GPU-accelerated on the 3090 |
+| TTS (voice out) | **`kokoro-tts`** (kokoro-fastapi) | Already running; high-quality voice — no need for Piper/XTTS unless you want a specific voice |
+| Real-time voice transport | **`aisync-realtime-voice-gateway`** / **`tjb-realtime-voice`** | You've already solved the hard part (realtime audio loop); the Examiner may plug into this |
+| Auth | existing **`naos-auth`** / **`hermes-auth`** pattern, or app-native Auth.js | Decide whether to reuse a central identity service or keep auth in-app (§12) |
+| Secrets | **`vaultwarden`** | Store Stripe keys, DB creds, etc. |
+| Git + CI/CD | **`gitea`** + **`gitea-runner-*`** + **`aisync-provisioner`** / **`siteloop-runner`** | Your existing build-and-ship pipeline — 248 Arena should follow the same path |
+| Monitoring | **`grafana`**, **`uptime-kuma`** | Add the Arena app as targets/monitors |
+| Analytics | **`umami`** | Privacy-friendly product analytics, already hosted |
+| Container mgmt | **`portainer`** | Already there for ops |
+
+**What's genuinely new (the actual work):**
+1. **The 248 Arena app** (the three pillars) — the one new service to build and deploy.
+2. **Its database schema** — the Knowledge Spine + content + progress (§3, §5).
+3. **248 CMR content** ingested into Qdrant/pgvector for RAG grounding.
+4. **Stripe** — the only new external dependency (payments/subscriptions).
+5. **Wiring**: point the app at LiteLLM/Ollama, whisper, kokoro, and the realtime-voice gateway.
+
+**Containers worth a closer look — possible prior work on this exact idea** (need your input, §12):
+`aisync-plumbing-api` (a plumbing platform API), `aisync-tutor` (a tutor service), `tjb-game`
+(a deployed game — the current 248 Arena?), `skillforge` / `tjb-skill-library`, and the
+`aisync-llm-wiki` / `tjb-llm-wiki` knowledge bases. If any of these already implement pieces of
+this platform, we **build on them** instead of greenfielding.
+
+**Net effect on the roadmap:** Phase 0 collapses from "stand up infrastructure" to "provision the
+Arena's database + subdomain + CI entry in the existing fleet." We go straight to building the app.
+
+---
+
+## 2. Deployment architecture (reusing the AiSync fleet)
 
 Unraid runs Docker (use the **Docker Compose Manager** plugin). One Compose stack, one private
 network; only the reverse proxy is exposed.
@@ -318,8 +360,10 @@ Near-zero fixed cost; the trade-off is operational responsibility (uptime, backu
 
 ## 11. Phased roadmap
 
-**Phase 0 — Foundations (infra).** Next.js app + Docker Compose stack on Unraid (Postgres,
-web, Caddy/Cloudflare); reachable at your domain over HTTPS. A deployed shell, no features.
+**Phase 0 — Foundations (mostly already done — see §1.5).** The infra fleet exists. This phase
+is now just: create the Arena's database on an existing Postgres, add an `arena.<domain>` route in
+`caddy` behind the existing `cloudflared-tunnel`, register the repo in `gitea`/CI, and deploy a
+Next.js "hello world" shell. Reachable over HTTPS in an afternoon, not a build-out.
 
 **Phase 1 — Spine + accounts + Arena.** Build the **Knowledge Spine** (topics, mastery), auth,
 profiles. Migrate questions + Code Book into Postgres. Ship the Arena server-backed (attempts,
@@ -348,17 +392,24 @@ for marketing, we can pull Phase 4 forward — tell me and I'll reorder.)*
 
 ## 12. Decisions to confirm before Phase 0
 
-Resolved: shared spine ✓ · AI is voice **and** text ✓ · Examiner does all roles ✓.
+Resolved by the vision + the fleet inventory: shared spine ✓ · AI is voice **and** text ✓ ·
+Examiner does all roles ✓ · Networking = existing **Cloudflare Tunnel** ✓ · Reverse proxy =
+**Caddy** ✓ · Vector store = **Qdrant/pgvector** ✓ · STT = **whisper** ✓ · TTS = **kokoro** ✓ ·
+CI/CD = **Gitea + runners** ✓ · Monitoring/analytics = **Grafana/Uptime-Kuma/Umami** ✓.
 
-Still open:
-1. **Frontend:** commit to the Next.js rewrite (recommended) or keep vanilla UI + a backend API?
-2. **Roadmap order:** spine/payments first (sellable sooner) or pull the AI forward (bigger wow)?
-3. **Networking:** Cloudflare Tunnel (no open ports — recommended) vs. classic port-forward?
-4. **Email:** external free tier (Resend/Postmark — easiest) vs. fully self-hosted SMTP?
-5. **Tax:** Stripe Tax (stay merchant) vs. Lemon Squeezy/Paddle (merchant of record)?
-6. **TTS voice + LLM model:** Piper (fast) vs. XTTS (nicer) for the tutor's voice; starting
-   Ollama model (I'll recommend specifics once we're at Phase 4).
-7. **Exact price** within the §10 ranges.
+Still open (the ones that actually need you):
+1. **Prior work?** Do `aisync-plumbing-api`, `aisync-tutor`, `tjb-game`, `skillforge`, or the
+   `llm-wiki` containers already implement parts of this? If so we build on them, not greenfield.
+   *(Biggest fork — determines whether Phase 1 is "extend" or "create".)*
+2. **AI entry point:** route the Examiner through the existing **LiteLLM gateway** (recommended —
+   model routing/fallback, one API) or hit **Ollama** directly?
+3. **Voice loop:** reuse **`aisync-realtime-voice-gateway`** for the Examiner's realtime audio, or
+   build the Arena its own?
+4. **Auth:** reuse a central identity service (**`naos-auth`**/**`hermes-auth`**) for one login
+   across your products, or keep 248 Arena's auth self-contained (Auth.js)?
+5. **Frontend:** commit to the Next.js rewrite (recommended) or keep the vanilla UI + a backend API?
+6. **Roadmap order:** spine/payments first (sellable sooner) or pull the AI forward (bigger wow)?
+7. **Business bits:** Stripe Tax vs. merchant-of-record; email provider; exact price (§10).
 
 Next concrete deliverable once these are set: a real Phase 0 — the `docker-compose.yml`, the
 Prisma schema for the spine, and a deployed shell on your Unraid box.
