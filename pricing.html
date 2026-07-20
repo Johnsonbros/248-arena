@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>248 Arena — Pricing & Free Trial</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚔️</text></svg>">
+  <style>
+    .pricing-wrap { max-width: 960px; margin: 0 auto; padding: 40px 20px 80px; }
+    .pricing-head { text-align: center; margin-bottom: 40px; }
+    .pricing-head h1 { font-family: 'Orbitron', sans-serif; font-size: clamp(2rem, 5vw, 3rem); color: #fff; letter-spacing: 2px; }
+    .pricing-head .tagline { color: #00d4ff; font-family: 'Rajdhani', sans-serif; font-size: 1.3rem; font-weight: 600; margin-top: 6px; }
+    .pricing-head .sub { color: #9898b0; margin-top: 10px; }
+    .plan-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin: 32px 0; }
+    .plan-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(0,212,255,0.25); border-radius: 16px; padding: 32px 28px; position: relative; }
+    .plan-card.featured { border-color: #00d4ff; box-shadow: 0 0 40px rgba(0,212,255,0.15); }
+    .plan-card .badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #ff6b2b; color: #0a0a0f; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 0.75rem; letter-spacing: 1px; padding: 4px 14px; border-radius: 20px; }
+    .plan-card h3 { font-family: 'Rajdhani', sans-serif; font-size: 1.4rem; color: #fff; text-transform: uppercase; letter-spacing: 1px; }
+    .plan-price { font-family: 'Orbitron', sans-serif; font-size: 2.6rem; color: #00d4ff; margin: 8px 0; }
+    .plan-price span { font-size: 1rem; color: #9898b0; font-family: 'Inter', sans-serif; }
+    .plan-note { color: #00ff88; font-weight: 600; font-size: 0.9rem; margin-bottom: 18px; }
+    .plan-features { list-style: none; padding: 0; margin: 18px 0 26px; text-align: left; }
+    .plan-features li { color: #c8c8d8; padding: 7px 0 7px 28px; position: relative; font-size: 0.95rem; }
+    .plan-features li::before { content: '✓'; position: absolute; left: 0; color: #00ff88; font-weight: 700; }
+    .trust-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 18px; margin: 28px 0; color: #9898b0; font-size: 0.85rem; }
+    .trust-row span { display: inline-flex; align-items: center; gap: 6px; }
+    .faq { margin-top: 48px; }
+    .faq h2 { font-family: 'Rajdhani', sans-serif; color: #fff; text-align: center; letter-spacing: 1px; margin-bottom: 20px; }
+    .faq-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 18px 22px; margin-bottom: 12px; }
+    .faq-item h4 { color: #00d4ff; font-family: 'Rajdhani', sans-serif; font-size: 1.1rem; margin-bottom: 6px; }
+    .faq-item p { color: #9898b0; font-size: 0.92rem; line-height: 1.5; }
+    .guarantee { text-align: center; color: #9898b0; font-size: 0.85rem; margin-top: 20px; }
+  </style>
+</head>
+<body>
+
+<div class="landing-page">
+  <nav class="landing-nav">
+    <div class="landing-logo">
+      <svg class="logo-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="4" y="4" width="40" height="40" rx="8" stroke="#00d4ff" stroke-width="2.5" fill="none"/>
+        <path d="M16 14h4v8h8v-8h4v20h-4v-8h-8v8h-4V14z" fill="#00d4ff"/>
+        <path d="M14 38l20-24" stroke="#ff6b2b" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <div class="logo-text"><span>248</span> ARENA</div>
+    </div>
+    <div class="landing-nav-links">
+      <a href="index.html">Home</a>
+      <a href="codebook.html">Code Book</a>
+      <a href="index.html#login">Sign In</a>
+    </div>
+  </nav>
+
+  <div class="pricing-wrap">
+    <div class="pricing-head">
+      <h1>PASS THE EXAM OR IT'S FREE TO TRY</h1>
+      <p class="tagline">Full access. 7 days free. Cancel anytime.</p>
+      <p class="sub">Built specifically for the Massachusetts Journeyman Plumbing Exam (248 CMR) — by plumbers who passed it.</p>
+    </div>
+
+    <div class="plan-grid">
+      <!-- Monthly -->
+      <div class="plan-card featured">
+        <div class="badge">MOST POPULAR</div>
+        <h3>Monthly</h3>
+        <div class="plan-price">$19.99<span>/mo</span></div>
+        <div class="plan-note">Start with 7 days free</div>
+        <ul class="plan-features">
+          <li>All 6 game modes (Practice, Ranked, Exam Sim, Speed Run & more)</li>
+          <li>Full 248 CMR question bank</li>
+          <li>Searchable Code Book with tables & sizing charts</li>
+          <li>XP, levels, badges & leaderboards</li>
+          <li>Progress tracking & exam-readiness</li>
+          <li>New questions added regularly</li>
+        </ul>
+        <!-- LAUNCH: replace href with your Stripe Payment Link (monthly, 7-day trial) -->
+        <a class="btn-primary" href="https://buy.stripe.com/REPLACE_WITH_YOUR_MONTHLY_PAYMENT_LINK" data-plan="monthly">START 7-DAY FREE TRIAL →</a>
+      </div>
+
+      <!-- Annual -->
+      <div class="plan-card">
+        <div class="badge" style="background:#00ff88;">BEST VALUE</div>
+        <h3>Annual</h3>
+        <div class="plan-price">$149<span>/yr</span></div>
+        <div class="plan-note">Save ~37% · 2+ months free</div>
+        <ul class="plan-features">
+          <li>Everything in Monthly</li>
+          <li>Two months free vs. paying monthly</li>
+          <li>Locked-in price for a full year</li>
+          <li>Perfect if your exam is months out</li>
+        </ul>
+        <!-- LAUNCH: replace href with your Stripe Payment Link (annual) -->
+        <a class="btn-secondary" href="https://buy.stripe.com/REPLACE_WITH_YOUR_ANNUAL_PAYMENT_LINK" data-plan="annual">GO ANNUAL →</a>
+      </div>
+    </div>
+
+    <div class="trust-row">
+      <span>🔒 Secure checkout by Stripe</span>
+      <span>🚫 Cancel anytime</span>
+      <span>💳 No charge for 7 days</span>
+      <span>📍 Massachusetts-specific</span>
+    </div>
+
+    <p class="guarantee">Already subscribed? <a href="index.html#login" style="color:#00d4ff;">Sign in to enter the Arena →</a></p>
+
+    <div class="faq">
+      <h2>QUESTIONS, ANSWERED</h2>
+      <div class="faq-item">
+        <h4>How does the free trial work?</h4>
+        <p>You get full access for 7 days. You won't be charged until the trial ends, and you can cancel any time before then at no cost.</p>
+      </div>
+      <div class="faq-item">
+        <h4>What exam is this for?</h4>
+        <p>The Massachusetts Journeyman Plumbing Exam, based on 248 CMR. Every question and code reference is built for that exam specifically — no generic filler.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Can I cancel?</h4>
+        <p>Yes, anytime, from your Stripe billing portal. If you cancel during the trial you're never charged. See our <a href="refund.html" style="color:#00d4ff;">refund policy</a>.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Will this guarantee I pass?</h4>
+        <p>No study tool can guarantee a passing score, and 248 Arena is an independent study aid — not affiliated with the Commonwealth of Massachusetts or any licensing board. It's built to give you the best possible preparation.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="landing-footer">
+    <p>© 2026 248 Arena · Built by Johnson Bros. Plumbing · Not affiliated with the Commonwealth of Massachusetts</p>
+    <p style="margin-top:6px;font-size:0.8rem;">
+      <a href="terms.html" style="color:#9898b0;">Terms</a> ·
+      <a href="privacy.html" style="color:#9898b0;">Privacy</a> ·
+      <a href="refund.html" style="color:#9898b0;">Refunds</a>
+    </p>
+  </footer>
+</div>
+
+</body>
+</html>
