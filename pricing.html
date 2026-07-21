@@ -32,6 +32,8 @@
     .faq-item p { color: #9898b0; font-size: 0.92rem; line-height: 1.5; }
     .guarantee { text-align: center; color: #9898b0; font-size: 0.85rem; margin-top: 20px; }
   </style>
+  <!-- Stripe Pricing Table (no-code subscriptions) -->
+  <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
 </head>
 <body>
 
@@ -59,41 +61,19 @@
       <p class="sub">Built specifically for the Massachusetts Journeyman Plumbing Exam (248 CMR) — by plumbers who passed it.</p>
     </div>
 
-    <div class="plan-grid">
-      <!-- Monthly -->
-      <div class="plan-card featured">
-        <div class="badge">MOST POPULAR</div>
-        <h3>Monthly</h3>
-        <div class="plan-price">$19.99<span>/mo</span></div>
-        <div class="plan-note">Start with 7 days free</div>
-        <ul class="plan-features">
-          <li>All 6 game modes (Practice, Ranked, Exam Sim, Speed Run & more)</li>
-          <li>Full 248 CMR question bank</li>
-          <li>Searchable Code Book with tables & sizing charts</li>
-          <li>XP, levels, badges & leaderboards</li>
-          <li>Progress tracking & exam-readiness</li>
-          <li>New questions added regularly</li>
-        </ul>
-        <!-- LAUNCH: replace href with your Stripe Payment Link (monthly, 7-day trial) -->
-        <a class="btn-primary" href="https://buy.stripe.com/REPLACE_WITH_YOUR_MONTHLY_PAYMENT_LINK" data-plan="monthly">START 7-DAY FREE TRIAL →</a>
-      </div>
-
-      <!-- Annual -->
-      <div class="plan-card">
-        <div class="badge" style="background:#00ff88;">BEST VALUE</div>
-        <h3>Annual</h3>
-        <div class="plan-price">$149<span>/yr</span></div>
-        <div class="plan-note">Save ~37% · 2+ months free</div>
-        <ul class="plan-features">
-          <li>Everything in Monthly</li>
-          <li>Two months free vs. paying monthly</li>
-          <li>Locked-in price for a full year</li>
-          <li>Perfect if your exam is months out</li>
-        </ul>
-        <!-- LAUNCH: replace href with your Stripe Payment Link (annual) -->
-        <a class="btn-secondary" href="https://buy.stripe.com/REPLACE_WITH_YOUR_ANNUAL_PAYMENT_LINK" data-plan="annual">GO ANNUAL →</a>
-      </div>
-    </div>
+    <!--
+      Stripe Pricing Table — no-code subscriptions. Stripe hosts checkout, the 7-day
+      trial, tax, and the customer portal. To finish:
+        1) Stripe Dashboard → Product catalog → Pricing tables → create a table with
+           your $19.99/mo (7-day trial) and $149/yr prices.
+        2) Copy its ID (prctbl_…) into pricing-table-id below.
+        3) For production, swap the pk_test_ key for your pk_live_ key.
+      Until a real pricing-table-id is set, this area renders nothing.
+    -->
+    <stripe-pricing-table
+      pricing-table-id="prctbl_REPLACE_WITH_YOUR_PRICING_TABLE_ID"
+      publishable-key="pk_test_51Tvlht1slA8umMrZWmFn7AMwJa5kyWfkEOSFNiujAxbCXPOmQDbByOYqViql1gcrrxZec8hkMwxYM7gXKz7zts5M00O2f4MdYT">
+    </stripe-pricing-table>
 
     <div class="trust-row">
       <span>🔒 Secure checkout by Stripe</span>
