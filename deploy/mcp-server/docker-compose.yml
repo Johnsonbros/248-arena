@@ -2,7 +2,7 @@
 #
 #   1) cp .env.example .env  &&  edit .env  (set a strong MCP_AUTH_TOKEN + GIT_TOKEN)
 #   2) docker compose up -d --build
-#   3) expose https://mcp-arena.<yourdomain> via cloudflared -> http://<host>:8765
+#   3) expose https://mcp-arena.thejohnsonbros.com via cloudflared -> http://<host>:8765
 #   4) add that URL (with the Bearer token) as a connector in Claude settings
 #
 # SECURITY: this container mounts the Docker socket = root-equivalent on the host.

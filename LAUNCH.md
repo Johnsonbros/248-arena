@@ -1,7 +1,7 @@
 # 248 Arena — Launch Checklist (Lean Paid Launch)
 
 **Goal:** go live selling access to the current 248 Arena app with a **7-day free trial → $19.99/mo**,
-using a **Stripe Payment Link** (no payment code to write) and an access gate. Target: live in a day.
+using a **Stripe Pricing Table** (no payment code to write) and an access gate. Target: live in a day.
 
 This is the "sell right away" path. Real self-serve accounts + server-side subscription checks come
 later (see `docs/PLATFORM_DESIGN.md`); this gets you a paying customer now.
@@ -24,18 +24,23 @@ Your job below is ~4 setup tasks. Nothing here requires more coding.
 1. Create/verify a **Stripe account** (business details, bank account for payouts).
 2. **Products → Add product:** "248 Arena — Monthly", price **$19.99 / month recurring**.
    - Under the price, set a **Free trial of 7 days**.
-3. (Optional) Add "248 Arena — Annual", **$149 / year recurring**.
-4. **Payment Links → New:** select the monthly price → create. Copy the link
-   (looks like `https://buy.stripe.com/xxxxxxxx`). Repeat for annual if used.
-   - In the Payment Link options, set **"After payment → redirect"** to the built-in
-     welcome page: `https://arena.<yourdomain>/welcome.html`. It greets the subscriber and
-     auto-unlocks access (the trial "just works" — no codes to hand out).
-5. **Customer portal:** Settings → Billing → Customer portal → activate, and copy the
-   portal login link (so subscribers can manage/cancel).
-6. Paste your links into the repo:
-   - `pricing.html` → replace `REPLACE_WITH_YOUR_MONTHLY_PAYMENT_LINK` and
-     `REPLACE_WITH_YOUR_ANNUAL_PAYMENT_LINK`.
-   - `js/subscription.js` → set `billingPortalUrl`.
+3. (Optional) Add "248 Arena — Annual", **$200 / year recurring**.
+4. **Pricing table** (already wired into `pricing.html`): Product catalog → Pricing tables →
+   build a table with the monthly + annual prices. The table's `prctbl_…` id and your
+   `pk_live_` key are already embedded in `pricing.html` — to change plans later, edit the
+   table in Stripe (no code change needed).
+5. **⚠️ REQUIRED — set the completion redirect.** In the Pricing Table settings, set the
+   **"Confirmation page → redirect customers to your website"** to
+   `https://arena.thejohnsonbros.com/welcome.html`.
+   - **Why this is not optional:** the access gate runs in `code` mode, and `welcome.html`
+     is the *only* page that grants access (`arena248_access`). If the table keeps Stripe's
+     default confirmation page, a customer can pay and then be **locked out of `app.html`**.
+     Set the redirect, or switch the gate to Cloudflare Access (§2 Option A).
+   - Caveat: `code`-mode access is stored per-device in the browser. A subscriber who pays on
+     their phone won't automatically be unlocked on their laptop. **Cloudflare Access** (§2)
+     is the cross-device, un-bypassable fix — strongly recommended before you scale.
+6. **Customer portal:** Settings → Billing → Customer portal → activate, and set
+   `billingPortalUrl` in `js/subscription.js` (so subscribers can manage/cancel).
 
 > Turn on **Stripe Tax** (Settings → Tax) so MA sales tax is handled automatically — SaaS is
 > taxable in Massachusetts. Alternatively use a merchant-of-record (Lemon Squeezy/Paddle) later.
@@ -49,7 +54,7 @@ Edit `ACCESS_CONFIG.mode` at the top of `js/subscription.js`.
 ### Option A — Cloudflare Access (recommended: real, un-bypassable lock)
 You already run `cloudflared-tunnel`. Put the app behind Cloudflare Access:
 1. Cloudflare Zero Trust → **Access → Applications → Add** a self-hosted app for
-   `arena.<yourdomain>` (or just the `/app.html` path).
+   `arena.thejohnsonbros.com` (or just the `/app.html` path).
 2. Policy: allow the **emails you've granted** (add each paying customer's email), or an
    email-OTP policy for a small cohort.
 3. Set `mode: 'cloudflare'` in `subscription.js` (the script then trusts the edge — no in-app block).
@@ -73,7 +78,7 @@ You already run `cloudflared-tunnel`. Put the app behind Cloudflare Access:
 The app is static files — serve them behind Caddy + the existing Cloudflare Tunnel.
 1. Add a container (or reuse an `nginx:alpine`, like your `tjb-game` pattern) serving this repo's
    files, or point Caddy at the files directly.
-2. Add a route in **Caddy** for `arena.<yourdomain>` → the static files.
+2. Add a route in **Caddy** for `arena.thejohnsonbros.com` → the static files.
 3. Add the hostname to `cloudflared-tunnel`'s config so it's reachable publicly over HTTPS.
 4. If using Cloudflare Access (Option A), attach the Access policy to that hostname.
 5. Wire it into your Gitea CI if you want auto-deploys on push.
@@ -100,5 +105,5 @@ You can sell the moment Steps 1–3 are done and the end-to-end test passes. Eve
 (real accounts, the Academy, the AI Examiner) is upside you layer on afterward without taking
 the store offline.
 
-**Price recap:** 7 days free → **$19.99/mo** or **$149/yr**. Change any time in Stripe; update the
+**Price recap:** 7 days free → **$19.99/mo** or **$200/yr**. Change any time in Stripe; update the
 numbers in `pricing.html` + `terms.html` to match.
