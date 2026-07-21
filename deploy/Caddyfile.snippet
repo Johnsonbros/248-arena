@@ -1,0 +1,13 @@
+# OPTIONAL — only if you'd rather route through your existing `caddy` container
+# instead of pointing the Cloudflare Tunnel straight at the app.
+#
+# Add this block to your Caddyfile. It reverse-proxies the app and auto-handles TLS.
+# Replace arena.YOURDOMAIN.com and the upstream address (container name or host:port).
+
+arena.YOURDOMAIN.com {
+    encode gzip
+    # If Caddy shares a docker network with the arena248 container, use its name:
+    reverse_proxy arena248:80
+    # Otherwise use the host port published by docker-compose:
+    # reverse_proxy 192.168.1.50:8248
+}

@@ -1,0 +1,20 @@
+# 248 Arena — static site deployment (Unraid / Docker)
+# Serves the repo's HTML/CSS/JS with nginx on host port 8248.
+# Expose it publicly via your existing Cloudflare Tunnel (see deploy/README.md).
+#
+#   cd /path/to/248-arena/deploy && docker compose up -d
+#
+services:
+  arena248:
+    image: nginx:alpine
+    container_name: arena248
+    restart: unless-stopped
+    ports:
+      - "8248:80"                       # host:container — change 8248 if taken
+    volumes:
+      - ../:/usr/share/nginx/html:ro    # serve the repo root (index.html, app.html, ...)
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost/index.html"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
