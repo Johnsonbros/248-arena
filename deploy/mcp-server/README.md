@@ -25,12 +25,12 @@ curl -s localhost:8765/healthz          # {"ok":true,...}
 ```
 
 ## Expose it (via your existing Cloudflare Tunnel)
-Add an ingress rule pointing `mcp-arena.<yourdomain>` at `http://<AiSync-LAN-IP>:8765`,
+Add an ingress rule pointing `mcp-arena.thejohnsonbros.com` at `http://<AiSync-LAN-IP>:8765`,
 add the DNS route, reload the tunnel. **Also put it behind Cloudflare Access** — see security.
 
 ## Connect it to Claude
 In Claude settings → Connectors, add a custom MCP connector:
-- **URL:** `https://mcp-arena.<yourdomain>/mcp`
+- **URL:** `https://mcp-arena.thejohnsonbros.com/mcp`
 - **Auth header:** `Authorization: Bearer <your MCP_AUTH_TOKEN>`
 
 Enable it for the chat. Its tools then appear in the session, and Claude can run

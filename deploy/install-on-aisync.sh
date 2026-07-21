@@ -22,7 +22,7 @@ REPO_SLUG="${REPO_SLUG:-Johnsonbros/248-arena}"
 BRANCH="${BRANCH:-claude/repo-overview-h1p7ls}"   # launch layer lives here until merged to main
 APP_DIR="${APP_DIR:-/mnt/user/appdata/248-arena}"
 PORT="${PORT:-8248}"
-DOMAIN="${DOMAIN:-arena.YOURDOMAIN.com}"
+DOMAIN="${DOMAIN:-arena.thejohnsonbros.com}"
 GITHUB_TOKEN="${GITHUB_TOKEN:-}"
 
 if [ -n "$GITHUB_TOKEN" ]; then

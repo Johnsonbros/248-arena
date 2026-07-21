@@ -1,21 +1,21 @@
 # Add this hostname to your existing Cloudflare Tunnel (the `cloudflared-tunnel` container).
-# It routes arena.<yourdomain> straight to the nginx container's host port (8248).
+# It routes arena.thejohnsonbros.com straight to the nginx container's host port (8248).
 # This is the simplest exposure — no Caddy change needed.
 #
 # Where: your cloudflared config.yml (the tunnel's ingress list). Put this ABOVE the
 # final catch-all `- service: http_status:404` rule.
 #
 # Replace:
-#   - arena.YOURDOMAIN.com   -> the subdomain you want
+#   - arena.thejohnsonbros.com   -> the subdomain you want
 #   - 192.168.1.50           -> the AiSync server's LAN IP (as seen from the cloudflared container)
 
 ingress:
-  - hostname: arena.YOURDOMAIN.com
+  - hostname: arena.thejohnsonbros.com
     service: http://192.168.1.50:8248
   # ... your other existing hostnames stay here ...
   - service: http_status:404
 
 # After editing, also add the DNS route (once) so Cloudflare points the name at the tunnel:
-#   cloudflared tunnel route dns <your-tunnel-name> arena.YOURDOMAIN.com
+#   cloudflared tunnel route dns <your-tunnel-name> arena.thejohnsonbros.com
 #
 # Then restart/reload the tunnel so it picks up the new ingress rule.
