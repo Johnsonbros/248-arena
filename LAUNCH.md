@@ -27,8 +27,9 @@ Your job below is ~4 setup tasks. Nothing here requires more coding.
 3. (Optional) Add "248 Arena — Annual", **$149 / year recurring**.
 4. **Payment Links → New:** select the monthly price → create. Copy the link
    (looks like `https://buy.stripe.com/xxxxxxxx`). Repeat for annual if used.
-   - In the Payment Link options, set **"After payment → redirect"** to your success page,
-     e.g. `https://arena.<yourdomain>/index.html#login` (or a dedicated welcome page).
+   - In the Payment Link options, set **"After payment → redirect"** to the built-in
+     welcome page: `https://arena.<yourdomain>/welcome.html`. It greets the subscriber and
+     auto-unlocks access (the trial "just works" — no codes to hand out).
 5. **Customer portal:** Settings → Billing → Customer portal → activate, and copy the
    portal login link (so subscribers can manage/cancel).
 6. Paste your links into the repo:

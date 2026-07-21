@@ -64,13 +64,11 @@
       <h2>⚔️ ENTER THE ARENA</h2>
       
       <div id="loginStep1">
+        <p style="color:#9898b0;font-size:0.92rem;margin-bottom:16px;">New here? Start your <strong style="color:#00ff88;">7-day free trial</strong> — no charge for a week. Already a member? Pick your tag and jump in.</p>
+
         <div class="form-group">
           <label>Your Name (Arena Tag)</label>
           <input type="text" class="form-input" id="loginName" placeholder="e.g. PipeKing_Mike" maxlength="20">
-        </div>
-        <div class="form-group">
-          <label>Phone Number (for login)</label>
-          <input type="tel" class="form-input" id="loginPhone" placeholder="(617) 555-0123">
         </div>
 
         <div class="form-group">
@@ -89,18 +87,8 @@
           </div>
         </div>
 
-        <button class="btn-primary" onclick="enterArena()">ENTER THE ARENA →</button>
-        <a class="btn-secondary" href="pricing.html" style="display:block;text-align:center;text-decoration:none;">Start 7-Day Free Trial</a>
-        <button class="btn-secondary" onclick="quickPlay()">Quick Play (No Account)</button>
-      </div>
-
-      <div id="loginStep2" style="display:none;">
-        <div class="form-group">
-          <label>Enter Verification Code</label>
-          <input type="text" class="form-input" id="verifyCode" placeholder="6-digit code" maxlength="6">
-        </div>
-        <button class="btn-primary" onclick="verifyCode()">VERIFY →</button>
-        <button class="btn-secondary" onclick="document.getElementById('loginStep1').style.display='block';document.getElementById('loginStep2').style.display='none';">← Back</button>
+        <a class="btn-primary" href="pricing.html" style="display:block;text-align:center;text-decoration:none;">START 7-DAY FREE TRIAL →</a>
+        <button class="btn-secondary" onclick="enterArena()">I'm a member — Enter the Arena</button>
       </div>
     </div>
   </section>
@@ -159,19 +147,16 @@
 
   function enterArena() {
     const name = document.getElementById('loginName').value.trim();
-    const phone = document.getElementById('loginPhone').value.trim();
-    
+
     if (!name) {
       document.getElementById('loginName').style.borderColor = '#ff2d55';
       document.getElementById('loginName').focus();
       return;
     }
 
-    // For now, skip SMS verification and go straight in
-    // In production, this would send an SMS code
     const user = {
       id: 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6),
-      phone: phone || 'none',
+      phone: 'none',
       name: name,
       avatar: selectedAvatar,
       createdAt: Date.now(),
@@ -186,31 +171,6 @@
     };
     localStorage.setItem('arena248_user', JSON.stringify(user));
     document.cookie = 'arena248_session=' + user.id + ';path=/;max-age=' + (60*60*24*365);
-    window.location.href = 'app.html';
-  }
-
-  function quickPlay() {
-    const user = {
-      id: 'guest_' + Date.now(),
-      phone: 'guest',
-      name: 'Guest Fighter',
-      avatar: '⚔️',
-      createdAt: Date.now(),
-      stats: {
-        totalAnswered: 0, totalCorrect: 0, streak: 0, bestStreak: 0,
-        xp: 0, level: 1, rank: 'Apprentice',
-        categoryStats: {}, battlePassLevel: 0, badges: [],
-        titles: ['Apprentice'], activeTitle: 'Apprentice',
-        dailyXP: 0, dailyDate: new Date().toDateString(),
-        weeklyChallenge: null, lootDrops: 0
-      }
-    };
-    localStorage.setItem('arena248_user', JSON.stringify(user));
-    window.location.href = 'app.html';
-  }
-
-  function verifyCode() {
-    // Placeholder — would verify SMS code
     window.location.href = 'app.html';
   }
 
