@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>248 Arena — Request a Student Sponsorship</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+  <style>
+    .req-wrap { max-width: 560px; margin: 0 auto; padding: 40px 22px 80px; }
+    .req-head { text-align: center; margin-bottom: 26px; }
+    .req-head h1 { font-family: 'Orbitron', sans-serif; color: #fff; letter-spacing: 2px; font-size: 1.7rem; }
+    .req-head p { color: #9898b0; margin-top: 10px; line-height: 1.55; }
+    .req-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(0,212,255,0.25); border-radius: 16px; padding: 30px 26px; }
+    .req-card .form-group { margin-bottom: 16px; }
+    .req-card label { display: block; font-family: 'Rajdhani', sans-serif; font-weight: 600; color: #c8c8d8; letter-spacing: 0.5px; margin-bottom: 6px; font-size: 0.95rem; }
+    .req-card input, .req-card select, .req-card textarea {
+      width: 100%; padding: 11px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.05); color: #fff; font-family: 'Inter', sans-serif; font-size: 0.95rem;
+    }
+    .req-card textarea { min-height: 84px; resize: vertical; }
+    .req-note { color: #6c6c80; font-size: 0.8rem; text-align: center; margin-top: 16px; }
+    .req-ok { display: none; background: rgba(0,255,136,0.08); border: 1px solid rgba(0,255,136,0.3); border-radius: 12px; padding: 20px; text-align: center; color: #c8c8d8; margin-top: 16px; }
+  </style>
+</head>
+<body>
+<div class="sponsors-layout">
+  <nav class="page-nav">
+    <div class="nav-left">
+      <a href="index.html" class="nav-logo"><span>248</span> ARENA</a>
+    </div>
+    <div class="nav-links">
+      <a href="pricing.html">Pricing</a>
+      <a href="sponsors.html">Sponsors</a>
+    </div>
+  </nav>
+
+  <div class="req-wrap">
+    <div class="req-head">
+      <h1>🎓 REQUEST A SPONSORSHIP</h1>
+      <p>Enrolled in a plumbing program or apprenticeship in Massachusetts? Tell us a bit about you and we'll match you with a sponsor's gift to cover your 248 Arena access while you're in school.</p>
+    </div>
+
+    <div class="req-card">
+      <form id="sponsorForm">
+        <div class="form-group">
+          <label for="name">Full name *</label>
+          <input type="text" id="name" required placeholder="Your name">
+        </div>
+        <div class="form-group">
+          <label for="email">Email *</label>
+          <input type="email" id="email" required placeholder="you@example.com">
+        </div>
+        <div class="form-group">
+          <label for="school">School / program / apprenticeship *</label>
+          <input type="text" id="school" required placeholder="e.g. Peterson School, Local 12 apprenticeship">
+        </div>
+        <div class="form-group">
+          <label for="city">City / town</label>
+          <input type="text" id="city" placeholder="e.g. Quincy, MA">
+        </div>
+        <div class="form-group">
+          <label for="exam">When do you plan to take the exam?</label>
+          <select id="exam">
+            <option value="">Select…</option>
+            <option>Within 3 months</option>
+            <option>3–6 months</option>
+            <option>6–12 months</option>
+            <option>Just started training</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="note">Anything else? (optional)</label>
+          <textarea id="note" placeholder="Tell us about where you are in your training."></textarea>
+        </div>
+        <button type="submit" class="btn-primary" style="width:100%;">SEND MY REQUEST →</button>
+      </form>
+
+      <div class="req-ok" id="reqOk">
+        ✅ Your email app should have opened with your request ready to send. If it didn't, email us
+        directly at <a href="mailto:krazedrecords@gmail.com" style="color:#00d4ff;">krazedrecords@gmail.com</a>.
+      </div>
+
+      <p class="req-note">We review requests personally and set you up with access if you qualify. Sponsorships are limited by how many sponsors have given — thank you for your patience.</p>
+    </div>
+  </div>
+
+  <footer class="landing-footer">
+    <p>© 2026 248 Arena · Built by Johnson Bros. Plumbing &amp; Drain Cleaning</p>
+    <p style="margin-top:6px;font-size:0.8rem;">
+      <a href="sponsors.html" style="color:#9898b0;">Sponsors</a> ·
+      <a href="pricing.html" style="color:#9898b0;">Pricing</a> ·
+      <a href="terms.html" style="color:#9898b0;">Terms</a> ·
+      <a href="privacy.html" style="color:#9898b0;">Privacy</a>
+    </p>
+  </footer>
+</div>
+
+<script>
+  document.getElementById('sponsorForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const v = id => (document.getElementById(id).value || '').trim();
+    const name = v('name'), email = v('email'), school = v('school');
+    if (!name || !email || !school) return;
+    const body =
+      `Plumbing student sponsorship request%0D%0A%0D%0A` +
+      `Name: ${encodeURIComponent(name)}%0D%0A` +
+      `Email: ${encodeURIComponent(email)}%0D%0A` +
+      `School/Program: ${encodeURIComponent(school)}%0D%0A` +
+      `City: ${encodeURIComponent(v('city'))}%0D%0A` +
+      `Exam timeframe: ${encodeURIComponent(v('exam'))}%0D%0A` +
+      `Notes: ${encodeURIComponent(v('note'))}%0D%0A`;
+    window.location.href =
+      `mailto:krazedrecords@gmail.com?subject=${encodeURIComponent('248 Arena — Student Sponsorship Request: ' + name)}&body=${body}`;
+    document.getElementById('reqOk').style.display = 'block';
+  });
+</script>
+</body>
+</html>

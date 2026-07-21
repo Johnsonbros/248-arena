@@ -22,13 +22,36 @@ const ACCESS_CONFIG = {
   mode: 'code',                       // 'cloudflare' | 'code' | 'off'
   accessCode: 'SET_YOUR_CODE_HERE',   // used only in 'code' mode
   pricingUrl: 'pricing.html',
-  billingPortalUrl: 'https://billing.stripe.com/p/login/14A00cbKX2s430HbVO0sU00'
+  billingPortalUrl: 'https://billing.stripe.com/p/login/14A00cbKX2s430HbVO0sU00',
+  // Admin phones get full access to everything, bypassing the paywall. Unlock by
+  // entering the number in the paywall's code field, or visiting ?admin=<number> once.
+  // NOTE: this is a client-side key (visible in the JS) — convenient, not high-security.
+  // Move admin auth server-side when you add real accounts.
+  adminPhones: ['6176868763']
 };
 
 const Subscription = {
   KEY: 'arena248_access',
+  ADMIN_KEY: 'arena248_admin',
+
+  _digits(s) { return (s || '').replace(/\D/g, ''); },
+
+  isAdminValue(input) {
+    const d = this._digits(input);
+    return d.length >= 10 && (ACCESS_CONFIG.adminPhones || []).some(p => this._digits(p) === d);
+  },
+
+  isAdmin() { return this.isAdminValue(localStorage.getItem(this.ADMIN_KEY)); },
+
+  grantAdmin(input) {
+    if (!this.isAdminValue(input)) return false;
+    localStorage.setItem(this.ADMIN_KEY, this._digits(input));
+    localStorage.setItem(this.KEY, 'granted');
+    return true;
+  },
 
   hasAccess() {
+    if (this.isAdmin()) return true;                     // admin always in
     if (ACCESS_CONFIG.mode === 'off' || ACCESS_CONFIG.mode === 'cloudflare') return true;
     if (ACCESS_CONFIG.mode === 'code') {
       return localStorage.getItem(this.KEY) === 'granted';
@@ -37,16 +60,27 @@ const Subscription = {
   },
 
   grantByCode(input) {
+    // An admin phone entered in the code field unlocks admin mode.
+    if (this.grantAdmin(input)) return true;
     const ok = (input || '').trim() === ACCESS_CONFIG.accessCode &&
                ACCESS_CONFIG.accessCode !== 'SET_YOUR_CODE_HERE';
     if (ok) localStorage.setItem(this.KEY, 'granted');
     return ok;
   },
 
-  revoke() { localStorage.removeItem(this.KEY); },
+  // Honor ?admin=<number> in the URL to unlock admin on this device once.
+  _checkUrlAdmin() {
+    try {
+      const p = new URLSearchParams(window.location.search).get('admin');
+      if (p) this.grantAdmin(p);
+    } catch (e) {}
+  },
+
+  revoke() { localStorage.removeItem(this.KEY); localStorage.removeItem(this.ADMIN_KEY); },
 
   // Blocks the page with a paywall overlay if the visitor has no access.
   enforce() {
+    this._checkUrlAdmin();
     if (this.hasAccess()) return;
     this._renderPaywall();
   },

@@ -3,9 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>248 Arena — Sponsors</title>
+  <title>248 Arena — Sponsor a Plumbing Student</title>
   <link rel="stylesheet" href="css/styles.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏆</text></svg>">
+  <style>
+    .sponsor-a-student { background: rgba(0,255,136,0.05); border: 1px solid rgba(0,255,136,0.3); border-radius: 16px; padding: 36px 28px; text-align: center; margin: 28px 0; }
+    .sponsor-a-student h2 { font-family: 'Rajdhani', sans-serif; color: #00ff88; letter-spacing: 1px; }
+    .sponsor-a-student .amount { font-family: 'Orbitron', sans-serif; font-size: 2.6rem; color: #fff; margin: 6px 0; }
+    .sponsor-a-student .amount span { font-size: 1rem; color: #9898b0; font-family: 'Inter', sans-serif; }
+    .sponsor-a-student p { color: #c8c8d8; max-width: 460px; margin: 10px auto 20px; line-height: 1.55; }
+    .student-cta { background: rgba(0,212,255,0.05); border: 1px dashed rgba(0,212,255,0.4); border-radius: 16px; padding: 30px 26px; text-align: center; margin: 28px 0; }
+    .student-cta h2 { font-family: 'Rajdhani', sans-serif; color: #00d4ff; letter-spacing: 1px; }
+    .student-cta p { color: #9898b0; max-width: 460px; margin: 10px auto 18px; }
+  </style>
 </head>
 <body>
 
@@ -17,16 +27,17 @@
       <a href="index.html" class="nav-logo"><span>248</span> ARENA</a>
     </div>
     <div class="nav-links">
-      <a href="app.html">Play</a>
+      <a href="pricing.html">Pricing</a>
       <a href="codebook.html">Code Book</a>
       <a href="sponsors.html" class="active">Sponsors</a>
+      <a href="sponsorship.html">Students</a>
     </div>
   </nav>
 
   <!-- Hero -->
   <div class="sponsors-hero">
-    <h1>⚔️ ARENA SPONSORS</h1>
-    <p>248 Arena is free for every apprentice and journeyman candidate in Massachusetts. Our sponsors make that possible.</p>
+    <h1>⚔️ BACK A FUTURE PLUMBER</h1>
+    <p>248 Arena is $19.99/mo — but no plumbing student should miss out over twenty bucks. Sponsors fund free access for students still in school. <strong>A $20 gift covers one student's prep.</strong></p>
   </div>
 
   <div class="sponsors-content">
@@ -35,57 +46,53 @@
     <div class="sponsor-tier">
       <h2>🏆 FOUNDING SPONSOR</h2>
       <div class="sponsor-card founding">
-        <div class="sponsor-logo">🏗️</div>
-        <h3>Harold Brothers Plumbing School</h3>
-        <p>Training the next generation of Massachusetts plumbers since day one. Harold Brothers believes in giving apprentices every advantage — including free access to 248 Arena for all enrolled students.</p>
-        <p style="color:var(--text-muted);font-size:0.8rem;margin-top:12px;">[Placeholder — logo coming soon]</p>
+        <div class="sponsor-logo">🔧</div>
+        <h3>Johnson Bros. Plumbing &amp; Drain Cleaning</h3>
+        <p>Founded and built by working plumbers who passed the exam themselves. Johnson Bros. Plumbing &amp; Drain Cleaning is proud to be the founding sponsor of 248 Arena — putting the tools they wish they'd had into the hands of the next generation of Massachusetts plumbers.</p>
       </div>
     </div>
 
-    <!-- Partner Sponsors -->
+    <!-- Sponsor a Student ($20) -->
+    <div class="sponsor-a-student">
+      <h2>💚 SPONSOR A STUDENT</h2>
+      <div class="amount">$20<span> · one student</span></div>
+      <p>Your $20 gift gives one plumbing student in school full access to 248 Arena while they train for the exam. Sponsoring more? Bump the quantity at checkout — $20 each.</p>
+      <!-- LAUNCH: replace href with your Stripe $20 "Sponsor a Student" Payment Link
+           (one-time, allow customers to adjust quantity). -->
+      <a class="btn-primary" href="https://buy.stripe.com/REPLACE_WITH_YOUR_20_SPONSOR_LINK"
+         style="display:inline-block;text-decoration:none;max-width:340px;">SPONSOR A STUDENT — $20 →</a>
+      <p style="font-size:0.75rem;color:#6c6c80;margin-top:14px;margin-bottom:0;">One-time gift. Not tax-deductible. 248 Arena is a project of Johnson Bros. Plumbing.</p>
+    </div>
+
+    <!-- Are you a student? -->
+    <div class="student-cta">
+      <h2>🎓 ARE YOU A PLUMBING STUDENT?</h2>
+      <p>Enrolled in a plumbing program or apprenticeship and can't swing the subscription? Request a sponsorship — a sponsor's $20 gift can cover your access while you're in school.</p>
+      <a class="btn-primary" href="sponsorship.html" style="display:inline-block;text-decoration:none;max-width:340px;">REQUEST A SPONSORSHIP →</a>
+    </div>
+
+    <!-- Become a Sponsor -->
     <div class="sponsor-tier">
-      <h2>⚔️ PARTNER SPONSORS</h2>
+      <h2>⚔️ BECOME A SPONSOR</h2>
       <div class="sponsor-card">
-        <div class="sponsor-logo" style="border-color:rgba(0,212,255,0.3);">🔧</div>
+        <div class="sponsor-logo" style="border-color:rgba(0,212,255,0.3);">🏗️</div>
         <h3>Your School or Company Here</h3>
-        <p>We're looking for plumbing schools, supply houses, and trade organizations that want to support the next generation. Sponsors get their logo on every page and direct access to the Class Mode feature.</p>
-        <a href="mailto:info@johnsonbrosplumbing.com" class="btn-secondary" style="max-width:300px;margin:16px auto 0;display:block;">Become a Sponsor →</a>
+        <p>Plumbing schools, supply houses, unions, and contractors: sponsor a cohort of students and get your name on the Arena. Great for programs that want every apprentice exam-ready.</p>
+        <a href="mailto:krazedrecords@gmail.com?subject=248%20Arena%20Sponsorship" class="btn-secondary" style="max-width:300px;margin:16px auto 0;display:block;">Become a Sponsor →</a>
       </div>
-    </div>
-
-    <!-- Donation Section -->
-    <div class="donate-section">
-      <h2>💚 KEEP IT FREE</h2>
-      <p>248 Arena is free for every apprentice in Massachusetts. Help us keep it that way. Server costs, question development, and new features all cost money. Every dollar goes directly to keeping this tool available.</p>
-      <div class="donate-buttons">
-        <button class="donate-btn" onclick="alert('Donation system coming soon! Email info@johnsonbrosplumbing.com')">$5</button>
-        <button class="donate-btn" onclick="alert('Donation system coming soon! Email info@johnsonbrosplumbing.com')">$10</button>
-        <button class="donate-btn featured" onclick="alert('Donation system coming soon! Email info@johnsonbrosplumbing.com')">$25</button>
-        <button class="donate-btn" onclick="alert('Donation system coming soon! Email info@johnsonbrosplumbing.com')">$50</button>
-        <button class="donate-btn" onclick="alert('Donation system coming soon! Email info@johnsonbrosplumbing.com')">Custom</button>
-      </div>
-      <p style="font-size:0.75rem;color:var(--text-muted);margin-top:12px;">Donations are not tax-deductible. 248 Arena is a project of Johnson Bros. Plumbing.</p>
-    </div>
-
-    <!-- Class Mode Teaser -->
-    <div class="class-mode-teaser">
-      <h2>🎓 CLASS MODE — COMING SOON</h2>
-      <p>Teachers and schools will be able to create classes, assign quizzes, track student progress, and run competitive tournaments. Perfect for trade school programs and apprenticeship classes.</p>
-      <ul style="text-align:left;color:var(--text-secondary);font-size:0.9rem;max-width:400px;margin:16px auto;">
-        <li>Create class rosters</li>
-        <li>Assign specific categories or question sets</li>
-        <li>View individual student performance</li>
-        <li>Run timed class competitions</li>
-        <li>Export progress reports</li>
-      </ul>
-      <div class="coming-soon-badge">COMING Q3 2026</div>
     </div>
 
   </div>
 
   <!-- Footer -->
   <footer class="landing-footer">
-    <p>© 2026 248 Arena · Built by Johnson Bros. Plumbing · <a href="mailto:info@johnsonbrosplumbing.com">Contact Us</a></p>
+    <p>© 2026 248 Arena · Built by Johnson Bros. Plumbing &amp; Drain Cleaning · <a href="mailto:krazedrecords@gmail.com">Contact Us</a></p>
+    <p style="margin-top:6px;font-size:0.8rem;">
+      <a href="pricing.html" style="color:#9898b0;">Pricing</a> ·
+      <a href="terms.html" style="color:#9898b0;">Terms</a> ·
+      <a href="privacy.html" style="color:#9898b0;">Privacy</a> ·
+      <a href="refund.html" style="color:#9898b0;">Refunds</a>
+    </p>
   </footer>
 
 </div>
