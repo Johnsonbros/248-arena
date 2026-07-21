@@ -1,0 +1,25 @@
+# arena-deploy-mcp — run on the AiSync (Unraid) host.
+#
+#   1) cp .env.example .env  &&  edit .env  (set a strong MCP_AUTH_TOKEN + GIT_TOKEN)
+#   2) docker compose up -d --build
+#   3) expose https://mcp-arena.<yourdomain> via cloudflared -> http://<host>:8765
+#   4) add that URL (with the Bearer token) as a connector in Claude settings
+#
+# SECURITY: this container mounts the Docker socket = root-equivalent on the host.
+# Keep it behind Cloudflare Access AND the bearer token. Never expose it unauthenticated.
+services:
+  arena-deploy-mcp:
+    build: .
+    container_name: arena-deploy-mcp
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "8765:8765"                       # host:container — front with cloudflared, don't port-forward raw
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock          # control Docker on the host
+      - /mnt/user/appdata:/mnt/user/appdata                # so APP_DIR paths match host paths
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8765/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
