@@ -19,7 +19,7 @@
 // -----------------------------------------------------------------------------
 
 const ACCESS_CONFIG = {
-  mode: 'cloudflare',                 // 'cloudflare' | 'code' | 'off'
+  mode: 'code',                       // 'cloudflare' | 'code' | 'off'
   accessCode: 'SET_YOUR_CODE_HERE',   // used only in 'code' mode
   pricingUrl: 'pricing.html',
   billingPortalUrl: 'https://billing.stripe.com/p/login/REPLACE_WITH_YOUR_PORTAL_LINK'

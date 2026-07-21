@@ -24,7 +24,7 @@ Your job below is ~4 setup tasks. Nothing here requires more coding.
 1. Create/verify a **Stripe account** (business details, bank account for payouts).
 2. **Products → Add product:** "248 Arena — Monthly", price **$19.99 / month recurring**.
    - Under the price, set a **Free trial of 7 days**.
-3. (Optional) Add "248 Arena — Annual", **$149 / year recurring**.
+3. (Optional) Add "248 Arena — Annual", **$200 / year recurring**.
 4. **Payment Links → New:** select the monthly price → create. Copy the link
    (looks like `https://buy.stripe.com/xxxxxxxx`). Repeat for annual if used.
    - In the Payment Link options, set **"After payment → redirect"** to the built-in
@@ -100,5 +100,5 @@ You can sell the moment Steps 1–3 are done and the end-to-end test passes. Eve
 (real accounts, the Academy, the AI Examiner) is upside you layer on afterward without taking
 the store offline.
 
-**Price recap:** 7 days free → **$19.99/mo** or **$149/yr**. Change any time in Stripe; update the
+**Price recap:** 7 days free → **$19.99/mo** or **$200/yr**. Change any time in Stripe; update the
 numbers in `pricing.html` + `terms.html` to match.
