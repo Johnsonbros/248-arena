@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>248 Arena — Donation Receipt</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧾</text></svg>">
+  <style>
+    .rc-page { max-width: 640px; margin: 0 auto; padding: 40px 20px 70px; }
+    .rc-actions { display: flex; gap: 10px; justify-content: center; margin-bottom: 22px; flex-wrap: wrap; }
+    /* The receipt itself is a light "paper" document so it reads as an invoice and prints clean. */
+    .receipt { background: #ffffff; color: #1a1a20; border-radius: 12px; padding: 34px 32px; font-family: 'Inter', Arial, sans-serif; box-shadow: 0 10px 40px rgba(0,0,0,0.4); }
+    .rc-head { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #eee; padding-bottom: 16px; margin-bottom: 20px; gap: 16px; }
+    .rc-brand .logo { font-family: 'Orbitron', Arial, sans-serif; font-weight: 800; font-size: 1.4rem; letter-spacing: 1px; color: #0a0a0f; }
+    .rc-brand .logo span { color: #0088cc; }
+    .rc-brand .org { color: #555; font-size: 0.85rem; margin-top: 4px; }
+    .rc-title { text-align: right; }
+    .rc-title h1 { font-size: 1.3rem; letter-spacing: 1px; color: #0a0a0f; margin: 0; }
+    .rc-title .sub { color: #777; font-size: 0.8rem; }
+    .rc-meta { display: flex; flex-wrap: wrap; gap: 6px 30px; color: #444; font-size: 0.9rem; margin-bottom: 20px; }
+    .rc-meta div span { color: #888; display: block; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    table.rc-items { width: 100%; border-collapse: collapse; margin: 8px 0 4px; font-size: 0.92rem; }
+    table.rc-items th { text-align: left; color: #888; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #eee; padding: 8px 0; }
+    table.rc-items td { padding: 12px 0; border-bottom: 1px solid #f2f2f2; vertical-align: top; }
+    table.rc-items th.num, table.rc-items td.num { text-align: right; white-space: nowrap; padding-left: 22px; }
+    .rc-total { display: flex; justify-content: flex-end; gap: 24px; font-weight: 700; font-size: 1.05rem; padding: 14px 0 4px; }
+    .rc-notice { background: #fff6ed; border: 1px solid #ffd9b0; color: #8a4b00; border-radius: 8px; padding: 12px 14px; font-size: 0.82rem; line-height: 1.5; margin-top: 18px; }
+    .rc-foot { color: #888; font-size: 0.78rem; margin-top: 18px; border-top: 1px solid #eee; padding-top: 14px; }
+    @media print {
+      body { background: #fff; }
+      .rc-actions, .rc-page > .rc-back, .landing-footer { display: none !important; }
+      .rc-page { padding: 0; max-width: 100%; }
+      .receipt { box-shadow: none; border-radius: 0; padding: 0; }
+    }
+  </style>
+</head>
+<body>
+<div class="landing-page">
+  <div class="rc-page">
+    <div class="rc-actions">
+      <button class="btn-primary" style="max-width:260px;" onclick="window.print()">⬇ Download / Print Receipt</button>
+    </div>
+
+    <div class="receipt" id="receipt">
+      <div class="rc-head">
+        <div class="rc-brand">
+          <div class="logo"><span>248</span> ARENA</div>
+          <div class="org">Johnson Bros. Plumbing &amp; Drain Cleaning</div>
+        </div>
+        <div class="rc-title">
+          <h1>DONATION RECEIPT</h1>
+          <div class="sub">Sponsor a Student</div>
+        </div>
+      </div>
+
+      <div class="rc-meta">
+        <div><span>Receipt #</span><b id="rcNumber">—</b></div>
+        <div><span>Date</span><b id="rcDate">—</b></div>
+        <div><span>Donor</span><b id="rcDonor">Sponsor</b></div>
+      </div>
+
+      <table class="rc-items">
+        <thead>
+          <tr><th>Description</th><th class="num">Qty</th><th class="num">Each</th><th class="num">Amount</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Sponsor a Student — gift of full 248 Arena access for a Massachusetts plumbing student</td>
+            <td class="num" id="rcQty">1</td>
+            <td class="num">$20.00</td>
+            <td class="num" id="rcLine">$20.00</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="rc-total"><span>Total paid</span><span id="rcTotal">$20.00</span></div>
+
+      <div class="rc-notice">
+        <strong>Not tax-deductible.</strong> Johnson Bros. Plumbing &amp; Drain Cleaning is a for-profit
+        business, not a registered 501(c)(3) or tax-exempt charitable organization. This gift is a
+        voluntary donation and is <strong>not deductible as a charitable contribution</strong> for
+        federal or state income-tax purposes. This document is a receipt for your records only.
+      </div>
+
+      <div class="rc-foot">
+        Official payment record is the emailed receipt from Stripe. Questions? Email
+        krazedrecords@gmail.com. Thank you for backing a future plumber. 💚
+      </div>
+    </div>
+
+    <p class="rc-back" style="text-align:center;margin-top:20px;">
+      <a href="sponsors.html" style="color:#00d4ff;">← Back to Sponsors</a>
+    </p>
+  </div>
+</div>
+
+<script>
+  // Fill from URL params when present; otherwise sensible defaults ($20 x 1).
+  (function () {
+    const q = new URLSearchParams(location.search);
+    const qty = Math.max(1, parseInt(q.get('qty') || '1', 10) || 1);
+    const each = 20;
+    const total = q.get('amount') ? Number(q.get('amount')) : qty * each;
+    const name = (q.get('name') || '').trim();
+    const ref = (q.get('ref') || q.get('session_id') || '').trim();
+
+    const fmt = n => '$' + Number(n).toFixed(2);
+    const now = new Date();
+    const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+
+    set('rcQty', qty);
+    set('rcLine', fmt(qty * each));
+    set('rcTotal', fmt(total));
+    set('rcDate', now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }));
+    if (name) set('rcDonor', name);
+    // Receipt number: use the Stripe ref if we got one, else a date-based number.
+    const num = ref
+      ? ref.slice(-10).toUpperCase()
+      : 'SAS-' + now.getFullYear() + String(now.getMonth() + 1).padStart(2, '0') +
+        String(now.getDate()).padStart(2, '0') + '-' + String(now.getTime()).slice(-4);
+    set('rcNumber', num);
+  })();
+</script>
+</body>
+</html>
