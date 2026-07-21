@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>248 Arena — You're In!</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚔️</text></svg>">
+  <style>
+    .welcome-wrap { max-width: 520px; margin: 0 auto; padding: 80px 22px; text-align: center; }
+    .welcome-wrap .big { font-size: 3.5rem; margin-bottom: 8px; }
+    .welcome-wrap h1 { font-family: 'Orbitron', sans-serif; color: #fff; letter-spacing: 2px; font-size: 1.9rem; }
+    .welcome-wrap .tagline { color: #00ff88; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.2rem; margin: 10px 0; }
+    .welcome-wrap p { color: #9898b0; line-height: 1.6; margin: 14px 0 26px; }
+    .welcome-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(0,255,136,0.3); border-radius: 16px; padding: 40px 30px; }
+    .steps { text-align: left; color: #c8c8d8; font-size: 0.92rem; margin: 0 auto 26px; max-width: 360px; }
+    .steps li { margin: 8px 0; }
+  </style>
+</head>
+<body>
+<div class="landing-page">
+  <div class="welcome-wrap">
+    <div class="welcome-card">
+      <div class="big">⚔️</div>
+      <h1>YOU'RE IN THE ARENA</h1>
+      <p class="tagline">Your 7-day free trial has started.</p>
+      <p>Welcome to 248 Arena. You've got full access to every game mode, the 248 CMR
+      question bank, and the Code Book. You won't be charged until your trial ends —
+      cancel anytime from your billing portal.</p>
+      <a class="btn-primary" href="app.html" style="display:block;text-decoration:none;text-align:center;">ENTER THE ARENA →</a>
+      <p style="font-size:0.8rem;margin-top:18px;margin-bottom:0;">
+        Trouble getting in? Email
+        <a href="mailto:krazedrecords@gmail.com" style="color:#00d4ff;">krazedrecords@gmail.com</a>.
+      </p>
+    </div>
+  </div>
+  <footer class="landing-footer">
+    <p>© 2026 248 Arena · Built by Johnson Bros. Plumbing · Not affiliated with the Commonwealth of Massachusetts</p>
+    <p style="margin-top:6px;font-size:0.8rem;">
+      <a href="terms.html" style="color:#9898b0;">Terms</a> ·
+      <a href="privacy.html" style="color:#9898b0;">Privacy</a> ·
+      <a href="refund.html" style="color:#9898b0;">Refunds</a>
+    </p>
+  </footer>
+</div>
+
+<script>
+  // Stripe redirects here after a successful checkout. Grant local access so the
+  // gate (js/subscription.js in 'code' mode) lets them straight into the app.
+  //
+  // NOTE: this is convenience-grade — visiting this page grants the local flag, so
+  // it is bypassable. Cloudflare Access remains the real, un-bypassable lock (see
+  // LAUNCH.md). For lean launch this is the intended "trial auto-unlocks" behavior.
+  try {
+    localStorage.setItem('arena248_access', 'granted');
+    if (!localStorage.getItem('arena248_user')) {
+      localStorage.setItem('arena248_user', JSON.stringify({
+        id: 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6),
+        phone: 'none', name: 'Fighter', avatar: '⚔️', createdAt: Date.now(),
+        stats: { totalAnswered: 0, totalCorrect: 0, streak: 0, bestStreak: 0, xp: 0, level: 1,
+          rank: 'Apprentice', categoryStats: {}, battlePassLevel: 0, badges: [],
+          titles: ['Apprentice'], activeTitle: 'Apprentice', dailyXP: 0,
+          dailyDate: new Date().toDateString(), weeklyChallenge: null, lootDrops: 0 }
+      }));
+    }
+  } catch (e) {}
+</script>
+</body>
+</html>
