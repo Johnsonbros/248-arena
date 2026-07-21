@@ -26,9 +26,10 @@
       <p>Your gift covers full 248 Arena access for a Massachusetts plumbing student while they train for the Journeyman exam — every game mode, the full 248 CMR question bank, and the Code Book. That's a real leg up on exam day, and it's on you.</p>
       <p style="color:#9898b0;font-size:0.9rem;">A receipt is on its way to your email from Stripe. On behalf of the students and Johnson Bros. Plumbing &amp; Drain Cleaning — thank you.</p>
       <div class="ty-actions">
-        <a class="btn-primary" href="sponsors.html" style="text-decoration:none;">Back to Sponsors</a>
-        <a class="btn-secondary" href="index.html" style="text-decoration:none;">Return Home</a>
+        <a class="btn-primary" id="rcLink" href="sponsor-receipt.html" style="text-decoration:none;">⬇ Download your receipt</a>
+        <a class="btn-secondary" href="sponsors.html" style="text-decoration:none;">Back to Sponsors</a>
       </div>
+      <p style="color:#6c6c80;font-size:0.78rem;margin-top:12px;margin-bottom:0;">Your donation is not tax-deductible — we're a for-profit business, not a charity.</p>
     </div>
     <p style="color:#6c6c80;font-size:0.8rem;margin-top:16px;">
       Questions about your gift? Email
@@ -46,5 +47,10 @@
     </p>
   </footer>
 </div>
+<script>
+  // Carry any Stripe redirect params (qty/session_id/amount) into the receipt.
+  var l = document.getElementById('rcLink');
+  if (l) l.href = 'sponsor-receipt.html' + (location.search || '');
+</script>
 </body>
 </html>
