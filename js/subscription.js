@@ -158,6 +158,9 @@ window.Subscription = Subscription;
 // Unlock admin from ?admin=<number> immediately (this script is in <head>, so it runs
 // before app.js reads the session — prevents the redirect-to-landing bounce).
 Subscription._checkUrlAdmin();
+// Re-establish the profile for any persisted admin session (e.g. after Exit cleared only
+// the profile but left the admin key), so app.js doesn't redirect a returning admin.
+if (Subscription.isAdmin()) Subscription._ensureUser();
 
 // Auto-enforce as soon as the page is ready.
 if (document.readyState === 'loading') {
