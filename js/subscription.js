@@ -47,7 +47,24 @@ const Subscription = {
     if (!this.isAdminValue(input)) return false;
     localStorage.setItem(this.ADMIN_KEY, this._digits(input));
     localStorage.setItem(this.KEY, 'granted');
+    this._ensureUser();          // so app.html doesn't bounce to the landing page
     return true;
+  },
+
+  // Make sure a profile exists so the app loads (app.js redirects out when there's none).
+  _ensureUser() {
+    try {
+      if (localStorage.getItem('arena248_user')) return;
+      const now = Date.now();
+      localStorage.setItem('arena248_user', JSON.stringify({
+        id: 'admin_' + now, phone: localStorage.getItem(this.ADMIN_KEY) || 'admin',
+        name: 'Admin', avatar: '👑', createdAt: now,
+        stats: { totalAnswered: 0, totalCorrect: 0, streak: 0, bestStreak: 0, xp: 0, level: 1,
+          rank: 'Apprentice', categoryStats: {}, battlePassLevel: 0, badges: [],
+          titles: ['Apprentice'], activeTitle: 'Apprentice', dailyXP: 0,
+          dailyDate: new Date().toDateString(), weeklyChallenge: null, lootDrops: 0 }
+      }));
+    } catch (e) {}
   },
 
   hasAccess() {
@@ -137,6 +154,10 @@ const Subscription = {
 };
 
 window.Subscription = Subscription;
+
+// Unlock admin from ?admin=<number> immediately (this script is in <head>, so it runs
+// before app.js reads the session — prevents the redirect-to-landing bounce).
+Subscription._checkUrlAdmin();
 
 // Auto-enforce as soon as the page is ready.
 if (document.readyState === 'loading') {
