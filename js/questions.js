@@ -569,8 +569,8 @@ const QUESTIONS = [
     question: 'What is the DFU value of a residential kitchen sink?',
     options: ['1 DFU', '2 DFU', '3 DFU', '4 DFU'],
     correct: 1,
-    explanation: 'Per 248 CMR 10.10 Table 1, a residential kitchen sink has a drainage fixture unit value of 2.',
-    codeRef: '248 CMR 10.10 Table 1'
+    explanation: 'Per 248 CMR 10.15, a residential kitchen sink has a drainage fixture unit value of 2.',
+    codeRef: '248 CMR 10.15'
   },
   {
     id: 67, category: 'DWV', difficulty: 1,
@@ -578,7 +578,7 @@ const QUESTIONS = [
     options: ['2 inch', '3 inch', '4 inch', '6 inch'],
     correct: 1,
     explanation: 'A stack receiving discharge from a water closet must be at least 3 inches — the same minimum as any drain serving a water closet.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.15'
   },
   {
     id: 68, category: 'DWV', difficulty: 2,
@@ -586,7 +586,7 @@ const QUESTIONS = [
     options: ['Horizontal to horizontal', 'Vertical to horizontal', 'Horizontal to vertical', 'None of these'],
     correct: 2,
     explanation: 'A sanitary tee may be used to change direction from horizontal to vertical. It is prohibited for horizontal-to-horizontal and vertical-to-horizontal changes.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.15'
   },
   {
     id: 69, category: 'DWV', difficulty: 2,
@@ -594,7 +594,7 @@ const QUESTIONS = [
     options: ['Directly, with a trap', 'Indirectly, through an air gap or air break', 'Through a garbage grinder', 'Directly to the building sewer'],
     correct: 1,
     explanation: 'Commercial food-handling fixtures must discharge indirectly — through an air gap or air break to a properly trapped receptor — to protect food and equipment from sewage backup.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.12'
   },
   {
     id: 70, category: 'DWV', difficulty: 2,
@@ -602,7 +602,7 @@ const QUESTIONS = [
     options: ['The top of the stack', 'The base of the stack', 'Every branch interval', 'Only at the roof'],
     correct: 1,
     explanation: 'A cleanout is required at or near the base of each drainage stack to allow rodding of the horizontal drain.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.08'
   },
   {
     id: 71, category: 'DWV', difficulty: 2,
@@ -610,7 +610,7 @@ const QUESTIONS = [
     options: ['A deeper trap seal', 'A trap seal primer or equivalent means', 'A backwater valve', 'A cleanout'],
     correct: 1,
     explanation: 'Traps subject to loss of seal by evaporation must be protected — typically with a trap seal primer valve that periodically replenishes the water seal.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.08'
   },
   {
     id: 72, category: 'DWV', difficulty: 2,
@@ -618,7 +618,7 @@ const QUESTIONS = [
     options: ['A union only', 'A check valve and a full-open shutoff valve', 'A trap', 'A vacuum breaker'],
     correct: 1,
     explanation: 'Sewage ejector discharge piping requires a check valve to prevent backflow into the basin and an accessible full-open valve for service.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.15'
   },
   {
     id: 73, category: 'DWV', difficulty: 3,
@@ -626,15 +626,15 @@ const QUESTIONS = [
     options: ['Through the grease interceptor', 'Directly to the drainage system, bypassing the grease interceptor', 'To a septic tank only', 'Through a sand interceptor'],
     correct: 1,
     explanation: 'Food waste grinders shall NOT discharge through a grease interceptor — ground solids would quickly clog it. They connect separately to the drainage system.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.09'
   },
   {
     id: 74, category: 'DWV', difficulty: 3,
-    question: 'A fixture drain connecting to a horizontal branch must enter:',
-    options: ['Below the centerline of the branch', 'Above the centerline of the branch', 'At any angle', 'Only at 90 degrees'],
+    question: 'Which fitting is appropriate for joining a fixture drain to a horizontal branch (horizontal-to-horizontal)?',
+    options: ['Sanitary tee', 'Wye or combination wye and 1/8 bend', 'Double sanitary tee', 'Vent tee'],
     correct: 1,
-    explanation: 'Horizontal branch connections should be made above the centerline (in the upper half) of the receiving pipe so waste flows in without backflow into the fixture drain.',
-    codeRef: '248 CMR 10.10'
+    explanation: 'Horizontal-to-horizontal drainage connections require long-pattern, flow-directing fittings such as a wye or a combination wye and 1/8 bend. Sanitary tees are prohibited in that orientation.',
+    codeRef: '248 CMR 10.15'
   },
 
   // === VENTING ===
@@ -644,7 +644,7 @@ const QUESTIONS = [
     options: ['1 foot above the window', '2 feet above the window', '4 feet above the window', 'At roof level'],
     correct: 1,
     explanation: 'A vent terminal within 10 feet horizontally of any door, window, or air intake must extend at least 2 feet above the top of that opening to keep sewer gas out of the building.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.16'
   },
   {
     id: 76, category: 'VENTING', difficulty: 2,
@@ -652,7 +652,7 @@ const QUESTIONS = [
     options: ['1-1/2 inches', '2 inches', '3 inches', '4 inches'],
     correct: 2,
     explanation: 'In cold climates like Massachusetts, roof vent terminals must be at least 3 inches in diameter; any size increase must be made at least 1 foot below the roof.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.16'
   },
   {
     id: 77, category: 'VENTING', difficulty: 1,
@@ -660,7 +660,7 @@ const QUESTIONS = [
     options: ['Wet vent', 'Common vent', 'Circuit vent', 'Relief vent'],
     correct: 1,
     explanation: 'A common vent serves two fixtures that connect at the same level — for example, back-to-back lavatories venting through one pipe.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.16'
   },
   {
     id: 78, category: 'VENTING', difficulty: 3,
@@ -668,7 +668,7 @@ const QUESTIONS = [
     options: ['5', '10', '15', '20'],
     correct: 1,
     explanation: 'Stacks of more than 10 branch intervals require a relief vent at each tenth interval, installed from the top down, to relieve pressure fluctuations.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.16'
   },
   {
     id: 79, category: 'VENTING', difficulty: 2,
@@ -676,7 +676,7 @@ const QUESTIONS = [
     options: ['Horizontally from the side', 'From the bottom', 'Vertically from above the drain centerline', 'At any orientation'],
     correct: 2,
     explanation: 'Dry vents must rise vertically from above the centerline of the horizontal drain so they cannot be blocked by waste flow.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.16'
   },
   {
     id: 80, category: 'VENTING', difficulty: 1,
@@ -684,7 +684,7 @@ const QUESTIONS = [
     options: ['It holds water for a seal', 'It drains back to the drainage pipe by gravity', 'It slopes toward the roof', 'Grade does not matter for vents'],
     correct: 1,
     explanation: 'Vent piping must be installed without sags and graded to drain condensation back to the drainage system by gravity.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.16'
   },
   {
     id: 81, category: 'VENTING', difficulty: 3,
@@ -692,7 +692,7 @@ const QUESTIONS = [
     options: ['2', '4', '8', '12'],
     correct: 2,
     explanation: 'A circuit vent may serve up to 8 fixtures connected in battery on a horizontal branch, with the vent connecting between the two most upstream fixtures.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.16'
   },
 
   // === WATER DISTRIBUTION ===
@@ -702,7 +702,7 @@ const QUESTIONS = [
     options: ['2 feet', '5 feet', '10 feet', '25 feet'],
     correct: 2,
     explanation: 'Water service and building sewer generally require 10 feet of horizontal separation, unless the water service is installed on a shelf above the sewer as permitted.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.14'
   },
   {
     id: 83, category: 'WATER', difficulty: 1,
@@ -710,7 +710,7 @@ const QUESTIONS = [
     options: ['Drain pipe slope', 'Water distribution pipe sizing', 'Vent stack height', 'Trap seal depth'],
     correct: 1,
     explanation: 'WSFU values assign a demand load to each fixture; the total is used with sizing tables to size the water service and distribution piping.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.14'
   },
   {
     id: 84, category: 'WATER', difficulty: 1,
@@ -718,7 +718,7 @@ const QUESTIONS = [
     options: ['Only at the meter', 'At or near the inlet to each water heater', 'Only for gas water heaters', 'Nowhere — valves are optional'],
     correct: 1,
     explanation: 'An accessible full-open shutoff valve is required on the cold water supply at or near each water heater so it can be serviced without shutting down the building.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.14'
   },
   {
     id: 85, category: 'WATER', difficulty: 2,
@@ -726,7 +726,7 @@ const QUESTIONS = [
     options: ['Be reduced to 1/2 inch', 'Terminate with a threaded end', 'Be full size and terminate without threads near the floor', 'Connect directly to the drain'],
     correct: 2,
     explanation: 'The T&P discharge must be full size of the valve outlet, run to a safe point of discharge near the floor, and must not be threaded, capped, or directly connected to the drainage system.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.14'
   },
   {
     id: 86, category: 'WATER', difficulty: 2,
@@ -734,7 +734,7 @@ const QUESTIONS = [
     options: ['120°F / 80 psi', '180°F / 100 psi', '210°F / 150 psi', '250°F / 200 psi'],
     correct: 2,
     explanation: 'Standard T&P relief valves open at 210°F or 150 psi, whichever occurs first, to protect the tank from explosion.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.14'
   },
   {
     id: 87, category: 'WATER', difficulty: 2,
@@ -750,7 +750,7 @@ const QUESTIONS = [
     options: ['A check valve', 'A vacuum breaker', 'An RPZ assembly', 'Nothing is required'],
     correct: 1,
     explanation: 'Hose connections require an approved vacuum breaker (integral or attached) because a submerged hose is a direct cross-connection.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.14'
   },
 
   // === FIXTURES ===
@@ -760,7 +760,7 @@ const QUESTIONS = [
     options: ['P-trap', 'Deep seal P-trap', 'S-trap', 'Integral water closet trap'],
     correct: 2,
     explanation: 'S-traps are prohibited because they are prone to self-siphoning, which destroys the trap seal.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.08'
   },
   {
     id: 90, category: 'FIXTURES', difficulty: 2,
@@ -791,8 +791,8 @@ const QUESTIONS = [
     question: 'What is the DFU value of a drinking fountain?',
     options: ['1/2 DFU', '1 DFU', '2 DFU', '3 DFU'],
     correct: 0,
-    explanation: 'Per 248 CMR 10.10 Table 1, a drinking fountain has a drainage fixture unit value of 1/2 — the lowest of any common fixture.',
-    codeRef: '248 CMR 10.10 Table 1'
+    explanation: 'Per 248 CMR 10.15, a drinking fountain has a drainage fixture unit value of 1/2 — the lowest of any common fixture.',
+    codeRef: '248 CMR 10.15'
   },
   {
     id: 94, category: 'FIXTURES', difficulty: 2,
@@ -800,7 +800,7 @@ const QUESTIONS = [
     options: ['No special provision', 'An access panel or utility space for inspection', 'Soldered joints instead', 'A cleanout at the fixture'],
     correct: 1,
     explanation: 'Slip joints in concealed locations must be accessible — an access panel or utility space is required so the connections can be inspected and repaired.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.07'
   },
 
   // === SIZING ===
@@ -810,7 +810,7 @@ const QUESTIONS = [
     options: ['1 inch', '1-1/4 inches', '1-1/2 inches', '2 inches'],
     correct: 1,
     explanation: 'Vents must be at least half the diameter of the drain they serve and in no case smaller than 1-1/4 inches.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.16'
   },
   {
     id: 96, category: 'SIZING', difficulty: 2,
@@ -818,7 +818,7 @@ const QUESTIONS = [
     options: ['2 feet 6 inches', '3 feet 6 inches', '5 feet', '6 feet'],
     correct: 1,
     explanation: 'Per the trap-to-vent distance table, a 1-1/4 inch trap arm may not exceed 3 feet 6 inches in developed length.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.16'
   },
   {
     id: 97, category: 'SIZING', difficulty: 3,
@@ -826,7 +826,7 @@ const QUESTIONS = [
     options: ['6 feet', '8 feet', '10 feet', '12 feet'],
     correct: 3,
     explanation: 'Per the trap-to-vent distance table, a 3-inch trap arm may extend up to 12 feet — following the progression 1-1/2" = 5 ft, 2" = 8 ft, 3" = 12 ft.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.16'
   },
   {
     id: 98, category: 'SIZING', difficulty: 1,
@@ -834,7 +834,7 @@ const QUESTIONS = [
     options: ['Number of stories', 'Total DFU load and pipe slope', 'Number of vents', 'Water pressure'],
     correct: 1,
     explanation: 'Building drains are sized from the total drainage fixture unit load and the slope of the pipe, using the sizing tables.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.15'
   },
   {
     id: 99, category: 'SIZING', difficulty: 3,
@@ -842,7 +842,7 @@ const QUESTIONS = [
     options: ['1', '2', '3', '4'],
     correct: 1,
     explanation: 'A 3-inch horizontal branch is limited to 2 water closets; more than that requires a 4-inch branch.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.15'
   },
   {
     id: 100, category: 'SIZING', difficulty: 3,
@@ -850,7 +850,7 @@ const QUESTIONS = [
     options: ['Insulated', 'Increased one pipe size for its entire length', 'Replaced with a wet vent', 'Fitted with a cleanout'],
     correct: 1,
     explanation: 'Vents whose developed length exceeds 40 feet must be increased one nominal size for their entire developed length.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.16'
   },
 
   // === GAS PIPING ===
@@ -910,7 +910,7 @@ const QUESTIONS = [
     options: ['Removable for winter', 'Permanently attached (non-removable) once installed', 'Tested annually', 'Installed indoors only'],
     correct: 1,
     explanation: 'Hose connection vacuum breakers are designed to become non-removable once installed (breakaway set screw) so the protection cannot be defeated.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.14'
   },
   {
     id: 108, category: 'BACKFLOW', difficulty: 2,
@@ -918,7 +918,7 @@ const QUESTIONS = [
     options: ['High-hazard cross-connections', 'Low-hazard (pollutant) cross-connections only', 'Thermal expansion', 'Water hammer'],
     correct: 1,
     explanation: 'A DCVA is approved only for low-hazard (pollutant) connections. High-hazard (contaminant) connections require an RPZ or air gap.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.14'
   },
   {
     id: 109, category: 'BACKFLOW', difficulty: 2,
@@ -926,7 +926,7 @@ const QUESTIONS = [
     options: ['No protection', 'An approved backflow preventer (e.g., pressure vacuum breaker)', 'A check valve only', 'A water meter'],
     correct: 1,
     explanation: 'Irrigation systems are cross-connections and require an approved backflow assembly — commonly a pressure vacuum breaker, or an RPZ where chemicals are injected.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.14'
   },
 
   // === MATERIALS ===
@@ -936,7 +936,7 @@ const QUESTIONS = [
     options: ['Nothing — cement only', 'An approved primer', 'Pipe dope', 'Flux'],
     correct: 1,
     explanation: 'PVC joints require an approved primer before solvent cement to soften the surfaces for proper fusion. (ABS, by contrast, is cemented without primer.)',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.07'
   },
   {
     id: 111, category: 'MATERIALS', difficulty: 1,
@@ -944,7 +944,7 @@ const QUESTIONS = [
     options: ['A standard coupling', 'A dielectric union or dielectric fitting', 'A soldered joint', 'A compression fitting'],
     correct: 1,
     explanation: 'Dissimilar metals like copper and galvanized steel must be joined with a dielectric fitting to prevent galvanic corrosion.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.07'
   },
   {
     id: 112, category: 'MATERIALS', difficulty: 1,
@@ -952,7 +952,7 @@ const QUESTIONS = [
     options: ['Lead and oakum', 'Shielded (no-hub) couplings', 'Solvent cement', 'Threaded fittings'],
     correct: 1,
     explanation: 'No-hub cast iron is joined with shielded couplings — a neoprene sleeve with a stainless steel shield and clamps. Lead and oakum is used on hub-and-spigot pipe.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.07'
   },
 
   // === GENERAL ===
@@ -970,7 +970,7 @@ const QUESTIONS = [
     options: ['Freely, with no restrictions', 'Only if approved and in good, sanitary working condition', 'Never under any circumstance', 'Only in the same building'],
     correct: 1,
     explanation: 'Reused materials and fixtures must be approved and restored to good, sanitary working condition before reinstallation.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.05'
   },
 
   // === PERMITS & INSPECTIONS ===
@@ -991,7 +991,7 @@ const QUESTIONS = [
     options: ['They are the same thing', 'An air gap terminates above the flood rim; an air break terminates below the rim but above the trap seal', 'An air break is only for water supply', 'An air gap is only for gas piping'],
     correct: 1,
     explanation: 'An air gap ends above the receptor flood level rim (full physical separation). An air break ends below the rim but above the trap weir — protecting against backflow but not rim flooding.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.12'
   },
   {
     id: 117, category: 'DWV', difficulty: 2,
@@ -999,7 +999,7 @@ const QUESTIONS = [
     options: ['Every building connects to a public sewer', 'Fixtures are located below the elevation of the next upstream manhole cover', 'The building has a basement', 'A sump pump is installed'],
     correct: 1,
     explanation: 'Fixtures with flood rims below the next upstream manhole cover elevation must be protected by a backwater valve, since the public sewer can back up into them.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.15'
   },
   {
     id: 118, category: 'DWV', difficulty: 1,
@@ -1015,7 +1015,7 @@ const QUESTIONS = [
     options: ['22.5 degrees', '45 degrees', '60 degrees', '90 degrees'],
     correct: 1,
     explanation: 'Piping at 45 degrees or less from vertical is treated as vertical; beyond 45 degrees it is treated as horizontal and must be sized and sloped accordingly.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.15'
   },
   {
     id: 120, category: 'DWV', difficulty: 1,
@@ -1023,7 +1023,7 @@ const QUESTIONS = [
     options: ['Residential kitchen sinks', 'Commercial kitchen fixtures that discharge grease-laden waste', 'All floor drains', 'Laundry fixtures'],
     correct: 1,
     explanation: 'Commercial kitchen fixtures (pot sinks, pre-rinse sinks, etc.) that discharge grease-laden waste must drain through a properly sized grease interceptor.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.09'
   },
   {
     id: 121, category: 'DWV', difficulty: 2,
@@ -1031,7 +1031,7 @@ const QUESTIONS = [
     options: ['Discharged to the sanitary system directly', 'Piped in an approved corrosion-resistant system and neutralized before discharge', 'Poured into a floor drain', 'Stored on site permanently'],
     correct: 1,
     explanation: 'Chemical/laboratory waste requires approved acid-resistant piping and treatment (dilution/neutralization) before it may enter the sanitary drainage system.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.13'
   },
   {
     id: 122, category: 'DWV', difficulty: 2,
@@ -1039,7 +1039,7 @@ const QUESTIONS = [
     options: ['1 DFU', '3 DFU', '6 DFU', '12 DFU'],
     correct: 1,
     explanation: 'A 1-1/2 inch branch is limited to 3 drainage fixture units.',
-    codeRef: '248 CMR 10.10 Table 1'
+    codeRef: '248 CMR 10.15'
   },
 
   // === WATER DISTRIBUTION ===
@@ -1049,7 +1049,7 @@ const QUESTIONS = [
     options: ['4 feet', '6 feet', '10 feet', '12 feet'],
     correct: 1,
     explanation: 'Horizontal copper tube in smaller sizes is supported at maximum 6-foot intervals to prevent sagging.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.11'
   },
   {
     id: 124, category: 'WATER', difficulty: 1,
@@ -1065,7 +1065,7 @@ const QUESTIONS = [
     options: ['A second T&P valve', 'A vacuum relief valve', 'A pressure reducing valve', 'A backwater valve'],
     correct: 1,
     explanation: 'Bottom-fed water heaters require a vacuum relief valve so a supply-side siphon cannot drain the tank and burn out the heater (or collapse the tank).',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.14'
   },
   {
     id: 126, category: 'WATER', difficulty: 2,
@@ -1073,7 +1073,7 @@ const QUESTIONS = [
     options: ['85°F', '110°F', '120°F', '140°F'],
     correct: 1,
     explanation: 'Public handwashing facilities are limited to tempered water at a maximum of 110°F, typically through a limiting device or mixing valve.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.14'
   },
   {
     id: 127, category: 'WATER', difficulty: 1,
@@ -1081,7 +1081,7 @@ const QUESTIONS = [
     options: ['Only on hot water lines', 'At each fixture supply', 'Only at the water heater', 'Only outside the building'],
     correct: 1,
     explanation: 'Each fixture supply requires an accessible stop valve so the fixture can be serviced without shutting off water to other fixtures.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.14'
   },
   {
     id: 128, category: 'WATER', difficulty: 2,
@@ -1089,7 +1089,7 @@ const QUESTIONS = [
     options: ['Type K copper only', 'Insulated or otherwise protected on the heated side of the insulation', 'Wrapped in tape', 'Made of PEX only'],
     correct: 1,
     explanation: 'Water piping in exterior walls must be placed on the heated side of the wall insulation or otherwise protected against freezing.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.14'
   },
 
   // === VENTING ===
@@ -1099,7 +1099,7 @@ const QUESTIONS = [
     options: ['Any vertical vent', 'The extension of a soil or waste stack above the highest horizontal drain connection', 'A vent that serves two stacks', 'The vent for a sump pit'],
     correct: 1,
     explanation: 'The stack vent is the dry extension of a soil/waste stack above the highest horizontal branch connected to that stack.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.16'
   },
   {
     id: 130, category: 'VENTING', difficulty: 3,
@@ -1107,7 +1107,7 @@ const QUESTIONS = [
     options: ['One pipe diameter', 'Two pipe diameters', 'Four pipe diameters', 'Six pipe diameters'],
     correct: 1,
     explanation: 'The vent may not connect within two pipe diameters of the trap weir — a crown vent clogs with waste and fails.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.16'
   },
   {
     id: 131, category: 'VENTING', difficulty: 2,
@@ -1115,7 +1115,7 @@ const QUESTIONS = [
     options: ['Permitted anywhere a vent is required', 'Generally prohibited except where specifically approved by the Board', 'Required on island sinks', 'Only allowed outdoors'],
     correct: 1,
     explanation: 'Massachusetts generally does not permit AAVs in place of conventional venting except with specific Board approval — a notable difference from the IPC.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.16'
   },
   {
     id: 132, category: 'VENTING', difficulty: 3,
@@ -1123,7 +1123,7 @@ const QUESTIONS = [
     options: ['Exactly one story high', 'At least 8 feet, within which horizontal branches connect', 'Between two cleanouts', 'Between the base and the roof'],
     correct: 1,
     explanation: 'A branch interval is a stack section at least 8 feet high within which the horizontal branches of one story connect — used for relief-vent and sizing rules.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.16'
   },
   {
     id: 133, category: 'VENTING', difficulty: 2,
@@ -1131,7 +1131,7 @@ const QUESTIONS = [
     options: ['The largest single vent only', 'The total fixture units served by all connected vents', 'Always 4 inches', 'The number of stories'],
     correct: 1,
     explanation: 'A combined vent header must be sized for the total drainage fixture unit load of all the vents it serves.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.16'
   },
 
   // === SIZING ===
@@ -1141,7 +1141,7 @@ const QUESTIONS = [
     options: ['4 DFU', '6 DFU', '8 DFU', '10 DFU'],
     correct: 1,
     explanation: 'A bathroom group with a 1.6 gpf water closet is assigned 6 DFU when sized as a group.',
-    codeRef: '248 CMR 10.10 Table 1'
+    codeRef: '248 CMR 10.15'
   },
   {
     id: 135, category: 'SIZING', difficulty: 2,
@@ -1149,7 +1149,7 @@ const QUESTIONS = [
     options: ['DFU load', 'Roof area and local rainfall rate', 'Number of downspouts', 'Building height'],
     correct: 1,
     explanation: 'Storm drains are sized from the horizontal projected roof area and the design rainfall rate — never with DFU values, which are for sanitary loads.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.17'
   },
   {
     id: 136, category: 'SIZING', difficulty: 3,
@@ -1157,7 +1157,7 @@ const QUESTIONS = [
     options: ['2 or more branch intervals', '5 or more branch intervals', '10 or more branch intervals', 'Any height'],
     correct: 1,
     explanation: 'Drainage stacks of 5 or more branch intervals require a parallel vent stack to relieve pressure at the base.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.16'
   },
   {
     id: 137, category: 'SIZING', difficulty: 1,
@@ -1165,7 +1165,7 @@ const QUESTIONS = [
     options: ['1-1/4 inch', '1-1/2 inch', '2 inch', 'Any size'],
     correct: 1,
     explanation: 'The fixture drain may never be smaller than the trap it serves — a 1-1/2 inch trap requires at least a 1-1/2 inch drain.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.15'
   },
   {
     id: 138, category: 'SIZING', difficulty: 2,
@@ -1173,7 +1173,7 @@ const QUESTIONS = [
     options: ['1/16 inch per foot', '1/8 inch per foot', '1/4 inch per foot', '1/2 inch per foot'],
     correct: 1,
     explanation: 'Building sewers 4 inches and larger require a minimum slope of 1/8 inch per foot, matching the rule for building drains of that size.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.15'
   },
 
   // === FIXTURES ===
@@ -1191,7 +1191,7 @@ const QUESTIONS = [
     options: ['A high loop only', 'A listed air gap fitting mounted above the sink flood rim', 'Direct connection to the disposal', 'No special protection'],
     correct: 1,
     explanation: 'Massachusetts requires a listed air gap fitting (mounted at the sink deck, above the flood rim) on dishwasher drains — a high loop alone is not acceptable.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.12'
   },
   {
     id: 141, category: 'FIXTURES', difficulty: 1,
@@ -1207,7 +1207,7 @@ const QUESTIONS = [
     options: ['1 DFU', '2 DFU', '3 DFU', '4 DFU'],
     correct: 1,
     explanation: 'A laundry tray is assigned 2 drainage fixture units.',
-    codeRef: '248 CMR 10.10 Table 1'
+    codeRef: '248 CMR 10.15'
   },
   {
     id: 143, category: 'FIXTURES', difficulty: 2,
@@ -1223,7 +1223,7 @@ const QUESTIONS = [
     options: ['Never — one trap per fixture, no exceptions', 'Specifically permitted, such as a two- or three-compartment sink within allowed spacing', 'The fixtures are on different floors', 'A larger trap is used'],
     correct: 1,
     explanation: 'One trap per fixture is the rule, with narrow exceptions — e.g., a multi-compartment sink may share one trap when the compartments are adjacent and within the allowed distance.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.08'
   },
 
   // === GAS PIPING ===
@@ -1283,7 +1283,7 @@ const QUESTIONS = [
     options: ['Heat and cold', 'Backpressure and backsiphonage', 'Corrosion and scale', 'High and low DFU'],
     correct: 1,
     explanation: 'Backflow occurs by backpressure (downstream pressure exceeds supply) or backsiphonage (negative supply pressure siphons contaminants in).',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.14'
   },
   {
     id: 152, category: 'BACKFLOW', difficulty: 2,
@@ -1291,7 +1291,7 @@ const QUESTIONS = [
     options: ['6 inches', '12 inches', '24 inches', '48 inches'],
     correct: 1,
     explanation: 'RPZ assemblies need at least 12 inches of clearance below the relief port so discharge is visible and the assembly is serviceable — and they may never be installed in a pit.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.14'
   },
   {
     id: 153, category: 'BACKFLOW', difficulty: 1,
@@ -1299,7 +1299,7 @@ const QUESTIONS = [
     options: ['Faucet handle to the drain', 'Supply outlet (spout) to the flood level rim', 'Trap to the floor', 'Spout to the bottom of the basin'],
     correct: 1,
     explanation: 'The air gap is the vertical distance between the supply outlet and the flood level rim of the fixture or receptor.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.14'
   },
 
   // === MATERIALS ===
@@ -1309,7 +1309,7 @@ const QUESTIONS = [
     options: ['Prohibited everywhere', 'The thinnest-wall standard type, generally limited to above-ground use inside buildings', 'Required underground', 'Only for gas'],
     correct: 1,
     explanation: 'Type M (red) has the thinnest wall of the standard types and is generally restricted to above-ground water distribution inside buildings.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.06'
   },
   {
     id: 155, category: 'MATERIALS', difficulty: 2,
@@ -1317,7 +1317,7 @@ const QUESTIONS = [
     options: ['Connect directly to the tank', 'Be kept at least 18 inches away, using metallic piping for the first connection', 'Be Type A only', 'Be sleeved in copper'],
     correct: 1,
     explanation: 'PEX may not connect directly to a water heater — the first 18 inches from the heater must be metallic piping per manufacturer listing.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.06'
   },
   {
     id: 156, category: 'MATERIALS', difficulty: 3,
@@ -1325,7 +1325,7 @@ const QUESTIONS = [
     options: ['Downstream, with the flow', 'Upstream, against the flow', 'Either direction', 'Sideways at branches'],
     correct: 1,
     explanation: 'Hubs are laid facing upstream so the spigot ends point downstream with the flow, keeping the smooth interior path in the direction of drainage.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.07'
   },
   {
     id: 157, category: 'MATERIALS', difficulty: 1,
@@ -1333,7 +1333,7 @@ const QUESTIONS = [
     options: ['Straight machine threads', 'NPT tapered pipe threads with approved sealant', 'Metric threads', 'Any thread with enough tape'],
     correct: 1,
     explanation: 'Pipe joints use tapered NPT threads made up with an approved thread sealant appropriate for the service.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.07'
   },
 
   // === GENERAL ===
@@ -1377,7 +1377,7 @@ const QUESTIONS = [
     options: ['Blue', 'Green', 'Yellow', 'Black'],
     correct: 1,
     explanation: 'Oxygen is identified by green in the U.S. medical gas color code (white is used internationally).',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.18'
   },
   {
     id: 163, category: 'MEDICAL', difficulty: 3,
@@ -1385,7 +1385,7 @@ const QUESTIONS = [
     options: ['The installing plumber', 'An independent ASSE 6030-certified verifier', 'The building owner', 'The gas supplier'],
     correct: 1,
     explanation: 'Medical gas systems require verification (cross-connection, purity, and outlet testing) by an independent ASSE 6030 verifier before use.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.18'
   },
 
   // === PERMITS & INSPECTIONS ===
@@ -1403,7 +1403,7 @@ const QUESTIONS = [
     options: ['A smoke test only', 'A water test with a minimum 10-foot head of water', 'Filling only the traps', 'No test is required'],
     correct: 1,
     explanation: 'The DWV rough-in is typically tested by filling the system with water to a minimum 10-foot head (or an approved equivalent air test) and holding without loss.',
-    codeRef: '248 CMR 10.10'
+    codeRef: '248 CMR 10.04'
   }
 ];
 
