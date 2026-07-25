@@ -1,9 +1,9 @@
 {
-  "name": "arena-deploy-mcp",
-  "version": "0.1.0",
+  "name": "arena-ops-mcp",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
-  "description": "Narrow, token-gated MCP server to deploy and manage the 248 Arena container on Unraid.",
+  "description": "Token-gated MCP server: deploy/verify/inspect 248 Arena on Unraid, plus read-only Stripe checks.",
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",

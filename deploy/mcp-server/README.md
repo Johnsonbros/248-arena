@@ -1,19 +1,29 @@
-# arena-deploy-mcp
+# arena-ops-mcp
 
-A **narrow, token-gated MCP server** that lets an authorized Claude session deploy and
-manage the 248 Arena container on your Unraid box **over HTTPS** — no SSH, no Tailscale.
-This is the one channel that works from a sandboxed Claude session, because MCP rides the
-same HTTPS path the session is already allowed to use.
+A **token-gated MCP server** that gives an authorized Claude session a builder's cockpit
+for 248 Arena on your Unraid box **over HTTPS** — no SSH, no Tailscale. MCP rides the same
+HTTPS path a sandboxed Claude session is already allowed to use, so this is the one channel
+that works from anywhere.
 
-## What it exposes (that's all)
+## What it exposes
 | Tool | Does | Read-only |
 |---|---|---|
 | `arena_status` | container up? healthy? serving HTTP 200? | ✅ |
 | `arena_deploy` | clone/pull a branch + (re)start the nginx container | ❌ |
 | `arena_restart` | restart the container | ❌ |
 | `arena_logs` | tail the container logs | ✅ |
+| `arena_git_info` | which commit/branch is actually live on the server | ✅ |
+| `arena_fetch_page` | fetch a live page: status, title, text excerpt (post-deploy verification) | ✅ |
+| `arena_check_links` | crawl a page's internal links for 404s (post-deploy QA) | ✅ |
+| `fleet_containers` | read-only `docker ps`, optionally filtered | ✅ |
+| `stripe_payment_links` | verify what a buy.stripe.com link actually charges (amount, one-time vs recurring) | ✅ |
+| `stripe_prices` | list active prices + products | ✅ |
+| `stripe_revenue_summary` | active/trialing subscription counts + recent charge totals | ✅ |
 
-No arbitrary shell — every action is a fixed command with validated arguments.
+The only mutating tools are deploy/restart. No arbitrary shell — every action is a fixed
+command with validated arguments. Stripe tools are **GET-only by construction** and only
+activate when `STRIPE_KEY` is set — use a **restricted read-only key**, never your full
+secret key.
 
 ## Run it on AiSync
 ```bash
@@ -43,7 +53,9 @@ the endpoint like a root shell:
 - Put the hostname behind **Cloudflare Access** (a second, independent auth layer) so a
   leaked token alone isn't enough.
 - Never port-forward `8765` raw to the internet — only reach it through the tunnel.
-- Scope is intentionally tiny (4 tools) to limit blast radius. Don't widen it casually.
+- Scope is deliberately bounded (2 mutating tools, the rest read-only). Don't widen it casually.
+- `STRIPE_KEY` must be a **restricted** key (read-only grants) so even a full compromise of
+  this box can't move money.
 
 ## Local build check (optional)
 ```bash
