@@ -1,0 +1,20 @@
+{
+  "name": "arena-access",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Stripe webhook + access-check service for 248 Arena: verifies payment, grants cross-device access, revokes on cancel.",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "stripe": "^17.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.10.0",
+    "typescript": "^5.7.2"
+  }
+}

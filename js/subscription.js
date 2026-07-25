@@ -1,38 +1,38 @@
-// 248 Arena — Access Gate (lean launch)
+// 248 Arena — Access Gate
 // -----------------------------------------------------------------------------
-// Controls who gets into the paid app. Designed for a "free for a week, then pay"
-// launch using a Stripe Payment Link, with two enforcement options:
+// Controls who gets into the paid app. Modes:
 //
-//   mode: 'cloudflare'  (RECOMMENDED, real lock)
-//       Put the app subdomain/path behind Cloudflare Access. The edge blocks
-//       anyone you haven't granted, so this script is a no-op pass-through.
-//       Nothing here is bypassable because the app never loads for non-members.
+//   mode: 'server'      (RECOMMENDED once the arena-access service is deployed)
+//       Access is verified against the arena-access API (deploy/access-service),
+//       which is kept current by Stripe webhooks. Cross-device: subscribers
+//       unlock with the email they paid with; welcome.html verifies the real
+//       Stripe Checkout Session. Grants re-verify in the background every 24h,
+//       so canceled subscriptions lose access within a day.
 //
-//   mode: 'code'        (simplest, no Cloudflare — note: client-side, bypassable)
-//       After someone subscribes, you give them an access code. They enter it
-//       once and it's stored on their device. Good enough for a small first
-//       cohort; upgrade to real accounts later. Set ACCESS_CONFIG.accessCode.
+//   mode: 'code'        (lean fallback — client-side, per-device, bypassable)
+//       A shared access code unlocks the device. welcome.html grants on visit.
 //
-//   mode: 'off'         Everyone in (use only for local development).
+//   mode: 'cloudflare'  Pass-through; Cloudflare Access does the blocking at the edge.
+//   mode: 'off'         Everyone in (local development only).
 //
-// See LAUNCH.md for the full go-live checklist.
-// -----------------------------------------------------------------------------
+// Admin: phones in adminPhones get full access everywhere (?admin=<number> once,
+// or type the number into the paywall field). Client-side convenience, not
+// high-security — move admin auth server-side when real accounts land.
 
 const ACCESS_CONFIG = {
-  mode: 'code',                       // 'cloudflare' | 'code' | 'off'
+  mode: 'code',                       // switch to 'server' after deploying deploy/access-service
+  apiBase: 'https://arena-api.thejohnsonbros.com',   // arena-access service URL (server mode)
   accessCode: 'SET_YOUR_CODE_HERE',   // used only in 'code' mode
   pricingUrl: 'pricing.html',
   billingPortalUrl: 'https://billing.stripe.com/p/login/14A00cbKX2s430HbVO0sU00',
-  // Admin phones get full access to everything, bypassing the paywall. Unlock by
-  // entering the number in the paywall's code field, or visiting ?admin=<number> once.
-  // NOTE: this is a client-side key (visible in the JS) — convenient, not high-security.
-  // Move admin auth server-side when you add real accounts.
   adminPhones: ['6176868763']
 };
 
 const Subscription = {
-  KEY: 'arena248_access',
+  KEY: 'arena248_access',        // code-mode device grant
+  GRANT_KEY: 'arena248_grant',   // server-mode grant: { email, active, checkedAt }
   ADMIN_KEY: 'arena248_admin',
+  RECHECK_MS: 24 * 60 * 60 * 1000,
 
   _digits(s) { return (s || '').replace(/\D/g, ''); },
 
@@ -47,18 +47,18 @@ const Subscription = {
     if (!this.isAdminValue(input)) return false;
     localStorage.setItem(this.ADMIN_KEY, this._digits(input));
     localStorage.setItem(this.KEY, 'granted');
-    this._ensureUser();          // so app.html doesn't bounce to the landing page
+    this._ensureUser();
     return true;
   },
 
   // Make sure a profile exists so the app loads (app.js redirects out when there's none).
-  _ensureUser() {
+  _ensureUser(name, avatar) {
     try {
       if (localStorage.getItem('arena248_user')) return;
       const now = Date.now();
       localStorage.setItem('arena248_user', JSON.stringify({
-        id: 'admin_' + now, phone: localStorage.getItem(this.ADMIN_KEY) || 'admin',
-        name: 'Admin', avatar: '👑', createdAt: now,
+        id: 'user_' + now, phone: 'none',
+        name: name || 'Fighter', avatar: avatar || '⚔️', createdAt: now,
         stats: { totalAnswered: 0, totalCorrect: 0, streak: 0, bestStreak: 0, xp: 0, level: 1,
           rank: 'Apprentice', categoryStats: {}, battlePassLevel: 0, badges: [],
           titles: ['Apprentice'], activeTitle: 'Apprentice', dailyXP: 0,
@@ -67,25 +67,77 @@ const Subscription = {
     } catch (e) {}
   },
 
+  _getGrant() {
+    try { return JSON.parse(localStorage.getItem(this.GRANT_KEY)); } catch (e) { return null; }
+  },
+
+  _setGrant(email, active) {
+    localStorage.setItem(this.GRANT_KEY, JSON.stringify({ email, active, checkedAt: Date.now() }));
+  },
+
   hasAccess() {
-    if (this.isAdmin()) return true;                     // admin always in
+    if (this.isAdmin()) return true;
     if (ACCESS_CONFIG.mode === 'off' || ACCESS_CONFIG.mode === 'cloudflare') return true;
     if (ACCESS_CONFIG.mode === 'code') {
       return localStorage.getItem(this.KEY) === 'granted';
     }
+    if (ACCESS_CONFIG.mode === 'server') {
+      const g = this._getGrant();
+      if (!g || !g.active) return false;
+      // Allow immediately; silently re-verify when the grant is stale.
+      if (Date.now() - (g.checkedAt || 0) > this.RECHECK_MS) this._refreshGrant(g.email);
+      return true;
+    }
     return false;
   },
 
-  grantByCode(input) {
-    // An admin phone entered in the code field unlocks admin mode.
+  // --- server mode -----------------------------------------------------------
+  async grantByEmail(email) {
+    const e = (email || '').trim().toLowerCase();
+    if (!e.includes('@')) return false;
+    try {
+      const res = await fetch(`${ACCESS_CONFIG.apiBase}/api/access?email=${encodeURIComponent(e)}`);
+      const body = await res.json();
+      if (body && body.active) { this._setGrant(e, true); this._ensureUser(); return true; }
+    } catch (err) {}
+    return false;
+  },
+
+  // welcome.html calls this with Stripe's {CHECKOUT_SESSION_ID} — verifies the
+  // real session with Stripe before granting anything.
+  async grantBySession(sessionId) {
+    try {
+      const res = await fetch(`${ACCESS_CONFIG.apiBase}/api/checkout-session?id=${encodeURIComponent(sessionId)}`);
+      const body = await res.json();
+      if (body && body.active && body.email) { this._setGrant(body.email, true); this._ensureUser(); return true; }
+    } catch (err) {}
+    return false;
+  },
+
+  async _refreshGrant(email) {
+    try {
+      const res = await fetch(`${ACCESS_CONFIG.apiBase}/api/access?email=${encodeURIComponent(email)}`);
+      const body = await res.json();
+      if (body && body.active) { this._setGrant(email, true); return; }
+      // Revoked (canceled subscription): drop the grant and re-gate.
+      localStorage.removeItem(this.GRANT_KEY);
+      if (!this.isAdmin()) location.reload();
+    } catch (err) { /* offline — keep existing grant until next check */ }
+  },
+
+  // --- unlock from the paywall input (admin phone, access code, or email) ----
+  async grantByInput(input) {
     if (this.grantAdmin(input)) return true;
-    const ok = (input || '').trim() === ACCESS_CONFIG.accessCode &&
-               ACCESS_CONFIG.accessCode !== 'SET_YOUR_CODE_HERE';
+    const v = (input || '').trim();
+    if (ACCESS_CONFIG.mode === 'server' && v.includes('@')) return this.grantByEmail(v);
+    const ok = v === ACCESS_CONFIG.accessCode && ACCESS_CONFIG.accessCode !== 'SET_YOUR_CODE_HERE';
     if (ok) localStorage.setItem(this.KEY, 'granted');
     return ok;
   },
 
-  // Honor ?admin=<number> in the URL to unlock admin on this device once.
+  // Back-compat alias (older pages call grantByCode).
+  grantByCode(input) { return this.grantByInput(input); },
+
   _checkUrlAdmin() {
     try {
       const p = new URLSearchParams(window.location.search).get('admin');
@@ -93,9 +145,12 @@ const Subscription = {
     } catch (e) {}
   },
 
-  revoke() { localStorage.removeItem(this.KEY); localStorage.removeItem(this.ADMIN_KEY); },
+  revoke() {
+    localStorage.removeItem(this.KEY);
+    localStorage.removeItem(this.GRANT_KEY);
+    localStorage.removeItem(this.ADMIN_KEY);
+  },
 
-  // Blocks the page with a paywall overlay if the visitor has no access.
   enforce() {
     this._checkUrlAdmin();
     if (this.hasAccess()) return;
@@ -103,6 +158,7 @@ const Subscription = {
   },
 
   _renderPaywall() {
+    const serverMode = ACCESS_CONFIG.mode === 'server';
     const overlay = document.createElement('div');
     overlay.id = 'arena-paywall';
     overlay.style.cssText =
@@ -122,16 +178,20 @@ const Subscription = {
           font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:1px;text-decoration:none;
           padding:14px;border-radius:10px;margin-bottom:14px;">START FREE TRIAL →</a>
         <div style="border-top:1px solid rgba(255,255,255,0.08);margin:18px 0;padding-top:18px;">
-          <p style="color:#9898b0;font-size:0.85rem;margin-bottom:10px;">Already subscribed? Enter your access code:</p>
-          <input id="arena-access-code" type="text" placeholder="Access code"
+          <p style="color:#9898b0;font-size:0.85rem;margin-bottom:10px;">${serverMode
+            ? 'Already subscribed? Enter the email you subscribed with:'
+            : 'Already subscribed? Enter your access code:'}</p>
+          <input id="arena-access-code" type="${serverMode ? 'email' : 'text'}"
+            placeholder="${serverMode ? 'you@example.com' : 'Access code'}"
             style="width:100%;padding:11px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);
             background:rgba(255,255,255,0.05);color:#fff;text-align:center;margin-bottom:10px;">
           <button id="arena-access-btn"
             style="width:100%;padding:11px;border-radius:8px;border:1px solid rgba(0,212,255,0.4);
             background:transparent;color:#00d4ff;font-family:'Rajdhani',sans-serif;font-weight:700;
             letter-spacing:1px;cursor:pointer;">UNLOCK</button>
-          <p id="arena-access-err" style="color:#ff2d55;font-size:0.8rem;margin-top:8px;display:none;">
-            That code isn't valid. Check your welcome email.</p>
+          <p id="arena-access-err" style="color:#ff2d55;font-size:0.8rem;margin-top:8px;display:none;">${serverMode
+            ? "We couldn't find an active subscription for that email. Use the email from your Stripe receipt, or start a free trial above."
+            : "That code isn't valid. Check your welcome email."}</p>
         </div>
       </div>`;
     document.body.appendChild(overlay);
@@ -140,10 +200,14 @@ const Subscription = {
     const btn = overlay.querySelector('#arena-access-btn');
     const input = overlay.querySelector('#arena-access-code');
     const err = overlay.querySelector('#arena-access-err');
-    const tryUnlock = () => {
-      if (this.grantByCode(input.value)) {
+    const tryUnlock = async () => {
+      btn.textContent = 'CHECKING…';
+      const ok = await this.grantByInput(input.value);
+      btn.textContent = 'UNLOCK';
+      if (ok) {
         overlay.remove();
         document.body.style.overflow = '';
+        if (!document.getElementById('userName') || location.pathname.endsWith('app.html')) location.reload();
       } else {
         err.style.display = 'block';
       }
@@ -155,16 +219,18 @@ const Subscription = {
 
 window.Subscription = Subscription;
 
-// Unlock admin from ?admin=<number> immediately (this script is in <head>, so it runs
-// before app.js reads the session — prevents the redirect-to-landing bounce).
+// Unlock admin from ?admin=<number> immediately (runs from <head>, before app.js).
 Subscription._checkUrlAdmin();
-// Re-establish the profile for any persisted admin session (e.g. after Exit cleared only
-// the profile but left the admin key), so app.js doesn't redirect a returning admin.
+// Re-establish the profile for any persisted admin session (e.g. after Exit).
 if (Subscription.isAdmin()) Subscription._ensureUser();
 
-// Auto-enforce as soon as the page is ready.
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => Subscription.enforce());
-} else {
-  Subscription.enforce();
+// Auto-enforce only on the gated app page — other pages (welcome, pricing) load
+// this script for its helpers without being paywalled themselves.
+const ARENA_SHOULD_ENFORCE = /app\.html$/.test(location.pathname) || window.ARENA_ENFORCE === true;
+if (ARENA_SHOULD_ENFORCE) {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => Subscription.enforce());
+  } else {
+    Subscription.enforce();
+  }
 }
