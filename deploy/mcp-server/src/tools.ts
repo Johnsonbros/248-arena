@@ -266,17 +266,21 @@ export function registerAll(server: McpServer): void {
       const out: any[] = [];
       for (const l of links) {
         const items = await stripeGet(`/v1/payment_links/${l.id}/line_items`);
-        const lines = (items.data ?? []).map((it: any) => ({
-          description: it.description,
-          quantity: it.quantity,
-          amount: usd(it.price?.unit_amount),
-          currency: it.price?.currency,
-          billing: it.price?.recurring ? `recurring/${it.price.recurring.interval}` : "one-time",
-        }));
+        const lines = (items.data ?? []).map((it: any) => {
+          const qty = it.quantity ?? 1;
+          return {
+            description: it.description,
+            quantity: qty,
+            unitAmount: usd(it.price?.unit_amount),
+            lineTotal: usd((it.price?.unit_amount ?? 0) * qty),
+            currency: it.price?.currency,
+            billing: it.price?.recurring ? `recurring/${it.price.recurring.interval}` : "one-time",
+          };
+        });
         out.push({ url: l.url, id: l.id, active: l.active, lines });
       }
       const text = out.length
-        ? out.map((l) => `${l.url}\n` + l.lines.map((li: any) => `  ${li.amount} ${li.billing}  (${li.description ?? "item"})`).join("\n")).join("\n\n")
+        ? out.map((l) => `${l.url}\n` + l.lines.map((li: any) => `  ${li.quantity} × ${li.unitAmount} = ${li.lineTotal} ${li.billing}  (${li.description ?? "item"})`).join("\n")).join("\n\n")
         : "No matching active payment links.";
       return { content: [{ type: "text", text }], structuredContent: { links: out } };
     }
@@ -321,13 +325,16 @@ export function registerAll(server: McpServer): void {
       const trialing = await stripeGet("/v1/subscriptions?status=trialing&limit=100");
       const charges = await stripeGet("/v1/charges?limit=20");
       const succeeded = (charges.data ?? []).filter((c: any) => c.status === "succeeded");
-      const recentTotal = succeeded.reduce((s: number, c: any) => s + (c.amount ?? 0), 0);
+      // Net of refunds: a charge's amount_refunded reflects partial/full refunds.
+      const recentNet = succeeded.reduce((s: number, c: any) => s + (c.amount ?? 0) - (c.amount_refunded ?? 0), 0);
+      const refunded = succeeded.reduce((s: number, c: any) => s + (c.amount_refunded ?? 0), 0);
       const structured = {
         activeSubscriptions: (subs.data ?? []).length,
         activeHasMore: !!subs.has_more,
         trialingSubscriptions: (trialing.data ?? []).length,
         recentSucceededCharges: succeeded.length,
-        recentChargesTotal: usd(recentTotal),
+        recentNetTotal: usd(recentNet),
+        recentRefundedTotal: usd(refunded),
       };
       return {
         content: [{
@@ -335,7 +342,8 @@ export function registerAll(server: McpServer): void {
           text:
             `Active subscriptions: ${structured.activeSubscriptions}${structured.activeHasMore ? "+" : ""}\n` +
             `Trialing: ${structured.trialingSubscriptions}\n` +
-            `Last ${succeeded.length} succeeded charges total: ${structured.recentChargesTotal}`,
+            `Last ${succeeded.length} succeeded charges, net of refunds: ${structured.recentNetTotal}` +
+            (refunded > 0 ? ` (refunded: ${structured.recentRefundedTotal})` : ""),
         }],
         structuredContent: structured,
       };

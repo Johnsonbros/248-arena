@@ -1,0 +1,24 @@
+# arena-access — run on the AiSync (Unraid) host.
+#
+#   1) cp .env.example .env   && edit .env (Stripe restricted key + webhook secret)
+#   2) docker compose up -d --build
+#   3) expose https://arena-api.thejohnsonbros.com via cloudflared -> http://<host>:8766
+#   4) add the webhook endpoint in Stripe (see README)
+#
+# Unlike the ops MCP, this container needs NO docker socket — it only talks to
+# Stripe and its own data file. Safe to expose publicly (webhook must be).
+services:
+  arena-access:
+    build: .
+    container_name: arena-access
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "8766:8766"
+    volumes:
+      - ./data:/data          # access.json lives here — include in backups
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8766/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 3

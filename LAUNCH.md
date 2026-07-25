@@ -51,7 +51,13 @@ Your job below is ~4 setup tasks. Nothing here requires more coding.
 
 Edit `ACCESS_CONFIG.mode` at the top of `js/subscription.js`.
 
-### Option A — Cloudflare Access (recommended: real, un-bypassable lock)
+### Option S — arena-access service (recommended once deployed: verified, cross-device)
+Deploy `deploy/access-service` (see its README): Stripe webhooks grant/revoke access,
+`welcome.html` verifies the real checkout session, and subscribers unlock any device with
+the email they paid with. Set `mode: 'server'` in `js/subscription.js`. This supersedes
+the code-mode caveats below.
+
+### Option A — Cloudflare Access (edge lock, manual per-email)
 You already run `cloudflared-tunnel`. Put the app behind Cloudflare Access:
 1. Cloudflare Zero Trust → **Access → Applications → Add** a self-hosted app for
    `arena.thejohnsonbros.com` (or just the `/app.html` path).

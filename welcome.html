@@ -6,6 +6,8 @@
   <title>248 Arena — You're In!</title>
   <link rel="stylesheet" href="css/styles.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚔️</text></svg>">
+  <!-- Gate helpers (not enforced on this page): used to verify the Stripe session in server mode -->
+  <script src="js/subscription.js"></script>
   <style>
     .welcome-wrap { max-width: 520px; margin: 0 auto; padding: 80px 22px; text-align: center; }
     .welcome-wrap .big { font-size: 3.5rem; margin-bottom: 8px; }
@@ -48,13 +50,16 @@
 </div>
 
 <script>
-  // Stripe redirects here after a successful checkout. Grant local access so the
-  // gate (js/subscription.js in 'code' mode) lets them straight into the app.
+  // Stripe redirects here after a successful checkout.
   //
-  // NOTE: this is convenience-grade — visiting this page grants the local flag, so
-  // it is bypassable. Cloudflare Access remains the real, un-bypassable lock (see
-  // LAUNCH.md). For lean launch this is the intended "trial auto-unlocks" behavior.
+  // server mode: exchange the real {CHECKOUT_SESSION_ID} for a verified grant via
+  // the arena-access service — merely visiting this page grants nothing.
+  // code mode (lean fallback): grant the local device flag as before.
   try {
+    if (window.Subscription && ACCESS_CONFIG.mode === 'server') {
+      const sid = new URLSearchParams(location.search).get('session_id');
+      if (sid) Subscription.grantBySession(sid);
+    }
     localStorage.setItem('arena248_access', 'granted');
     if (!localStorage.getItem('arena248_user')) {
       localStorage.setItem('arena248_user', JSON.stringify({
