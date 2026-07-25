@@ -64,6 +64,13 @@ const App = {
     document.getElementById('statAccuracy').textContent = accuracy + '%';
     document.getElementById('statStreak').textContent = s.bestStreak;
     document.getElementById('statLevel').textContent = s.level;
+    if (window.SRS) {
+      const srs = SRS.stats();
+      const dueEl = document.getElementById('statDue');
+      const masteredEl = document.getElementById('statMastered');
+      if (dueEl) dueEl.textContent = srs.due;
+      if (masteredEl) masteredEl.textContent = srs.mastered;
+    }
     this.renderCategories();
     this.renderBattlePass();
   },

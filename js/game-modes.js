@@ -15,20 +15,31 @@ const GameModes = {
   },
 
   getAdaptiveQuestions(count, user) {
-    const questions = [...QUESTIONS];
+    const selected = [];
+
+    // 1) Spaced repetition first: up to half the session is due reviews —
+    //    questions previously missed or scheduled to resurface today.
+    if (window.SRS) {
+      const dueIds = new Set(SRS.dueIds());
+      const dueQs = this.shuffle(QUESTIONS.filter(q => dueIds.has(q.id)));
+      selected.push(...dueQs.slice(0, Math.floor(count / 2)));
+    }
+
+    // 2) Fill the rest weighted by weak categories, favoring unseen questions.
+    const chosen = new Set(selected.map(q => q.id));
     const stats = user?.stats?.categoryStats || {};
-    const weighted = questions.map(q => {
+    const weighted = QUESTIONS.filter(q => !chosen.has(q.id)).map(q => {
       const catStat = stats[q.category];
       let weight = 1;
       if (catStat) {
         const accuracy = catStat.correct / (catStat.total || 1);
         weight = accuracy < 0.5 ? 3 : accuracy < 0.7 ? 2 : 1;
       } else { weight = 2; }
+      if (window.SRS && !SRS.seen(q.id)) weight += 1;   // bias toward new material
       return { q, weight };
     });
-    const selected = [];
     const pool = [...weighted];
-    while (selected.length < Math.min(count, pool.length) && pool.length > 0) {
+    while (selected.length < Math.min(count, QUESTIONS.length) && pool.length > 0) {
       const totalWeight = pool.reduce((s, w) => s + w.weight, 0);
       let r = Math.random() * totalWeight;
       for (let i = 0; i < pool.length; i++) {
@@ -69,6 +80,8 @@ const GameModes = {
   answer(choiceIndex, user) {
     const q = this.currentQuestions[this.currentIndex];
     const isCorrect = choiceIndex === q.correct;
+    // Feed the spaced-repetition scheduler on every answer, in every mode.
+    if (window.SRS && !q.isImposter) SRS.record(q.id, isCorrect);
     const isLoot = Math.random() < 0.1;
     let pointsEarned = 0;
     if (isCorrect) {
