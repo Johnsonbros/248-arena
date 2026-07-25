@@ -54,6 +54,17 @@ Stripe substitutes the real session id at redirect time.
 `apiBase` matches your hostname), deploy the site. Done: paying customers get verified,
 cross-device access; canceled ones lose it automatically.
 
+## Hardening built in
+- **Pre-existing subscribers backfill automatically:** on a store miss, `/api/access` does a
+  throttled live Stripe lookup (≤1 per email per 10 min), so flipping to server mode never
+  locks out people who paid before the webhook existed.
+- **Saved welcome URLs can't re-grant:** `/api/checkout-session` checks the subscription's
+  *current* status with Stripe, not the historical session state.
+- **Email changes can't orphan access:** lifecycle events match records by
+  customer/subscription id and migrate the email key, retiring the old one.
+- **Revocations can't be silently lost:** transient Stripe failures during webhook handling
+  return non-2xx, so Stripe retries the event.
+
 ## Honest limitations (v1)
 - **Email = key.** Anyone who knows an active subscriber's email can unlock. That's a big
   step up from a shared code, but the next hardening is a magic-link email check.
