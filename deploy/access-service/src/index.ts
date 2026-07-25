@@ -147,35 +147,70 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 app.get("/healthz", (_req, res) => res.json({ ok: true, service: "arena-access", records: store.count() }));
 
-// Throttle live-Stripe backfill lookups so the public endpoint can't be used to
-// hammer the Stripe API: at most one live lookup per email per 10 minutes.
+// Throttling for live-Stripe backfill lookups. Two layers, because the endpoint
+// is public and unauthenticated:
+//   1) per-email TTL cache — bounded (expired entries pruned, hard size cap with
+//      oldest-first eviction) so varied inputs can't grow memory forever;
+//   2) a GLOBAL sliding-window cap on live lookups, so varying the email can't
+//      be used to hammer the Stripe API at all.
 const missCache = new Map<string, number>();
 const MISS_TTL_MS = 10 * 60 * 1000;
+const MISS_CACHE_MAX = 5000;
+const globalLookups: number[] = [];
+const GLOBAL_WINDOW_MS = 10 * 60 * 1000;
+const GLOBAL_MAX_LOOKUPS = 30;
+
+function allowLiveLookup(key: string): boolean {
+  const now = Date.now();
+  // per-email TTL
+  const last = missCache.get(key);
+  if (last && now - last < MISS_TTL_MS) return false;
+  // prune + bound the cache
+  if (missCache.size >= MISS_CACHE_MAX) {
+    for (const [k, t] of missCache) if (now - t >= MISS_TTL_MS) missCache.delete(k);
+    while (missCache.size >= MISS_CACHE_MAX) {
+      const oldest = missCache.keys().next().value as string | undefined;
+      if (oldest === undefined) break;
+      missCache.delete(oldest);
+    }
+  }
+  // global sliding window
+  while (globalLookups.length && now - globalLookups[0] > GLOBAL_WINDOW_MS) globalLookups.shift();
+  if (globalLookups.length >= GLOBAL_MAX_LOOKUPS) return false;
+  missCache.set(key, now);
+  globalLookups.push(now);
+  return true;
+}
 
 /**
  * Live Stripe lookup for subscribers who paid before this service existed
  * (empty-store backfill). Finds the customer by email and checks their real
  * subscription status; stores the result on a hit.
+ *
+ * Stripe's customers.list email filter is case-sensitive, so we search with the
+ * caller's original casing first, then the normalized form — while the local
+ * store key stays normalized.
  */
-async function backfillFromStripe(email: string): Promise<boolean> {
-  const last = missCache.get(email);
-  if (last && Date.now() - last < MISS_TTL_MS) return false;
-  missCache.set(email, Date.now());
+async function backfillFromStripe(rawEmail: string, storeKey: string): Promise<boolean> {
+  if (!allowLiveLookup(storeKey)) return false;
   try {
-    const customers = await stripe.customers.list({ email, limit: 3 });
-    for (const c of customers.data) {
-      const subs = await stripe.subscriptions.list({ customer: c.id, status: "all", limit: 10 });
-      for (const sub of subs.data) {
-        const status = mapStatus(sub.status);
-        if (ACTIVE.includes(status)) {
-          await store.set(email, {
-            status,
-            customerId: c.id,
-            subscriptionId: sub.id,
-            updatedAt: new Date().toISOString(),
-          });
-          console.log(`grant (backfill): ${email}`);
-          return true;
+    const candidates = rawEmail === storeKey ? [rawEmail] : [rawEmail, storeKey];
+    for (const candidate of candidates) {
+      const customers = await stripe.customers.list({ email: candidate, limit: 3 });
+      for (const c of customers.data) {
+        const subs = await stripe.subscriptions.list({ customer: c.id, status: "all", limit: 10 });
+        for (const sub of subs.data) {
+          const status = mapStatus(sub.status);
+          if (ACTIVE.includes(status)) {
+            await store.set(storeKey, {
+              status,
+              customerId: c.id,
+              subscriptionId: sub.id,
+              updatedAt: new Date().toISOString(),
+            });
+            console.log(`grant (backfill): ${storeKey}`);
+            return true;
+          }
         }
       }
     }
@@ -188,7 +223,8 @@ async function backfillFromStripe(email: string): Promise<boolean> {
 // Boolean-only by design: knowing an email is active is required for unlock,
 // but nothing else about the subscriber is exposed.
 app.get("/api/access", async (req: Request, res: Response) => {
-  const email = String(req.query.email ?? "").trim().toLowerCase();
+  const rawEmail = String(req.query.email ?? "").trim();
+  const email = rawEmail.toLowerCase();
   if (!email || !email.includes("@") || email.length > 200) {
     return res.status(400).json({ active: false, error: "Provide ?email=" });
   }
@@ -196,7 +232,7 @@ app.get("/api/access", async (req: Request, res: Response) => {
   if (rec && ACTIVE.includes(rec.status)) return res.json({ active: true });
   // Store miss (or revoked): throttled live check — backfills pre-service
   // subscribers and re-activates legitimate resubscribes.
-  const active = await backfillFromStripe(email);
+  const active = await backfillFromStripe(rawEmail, email);
   res.json({ active });
 });
 
@@ -210,23 +246,33 @@ app.get("/api/checkout-session", async (req: Request, res: Response) => {
   }
   try {
     const s = await stripe.checkout.sessions.retrieve(id, { expand: ["subscription"] });
-    const email = s.customer_details?.email ?? null;
-    if (email && s.status === "complete" && s.mode === "subscription") {
+    const historicalEmail = s.customer_details?.email ?? null;
+    if (historicalEmail && s.status === "complete" && s.mode === "subscription") {
       const sub = s.subscription as Stripe.Subscription | null;
       const status = sub ? mapStatus(sub.status) : "revoked";
       if (ACTIVE.includes(status)) {
-        await upsertByIdentity(
-          email,
-          status,
-          typeof s.customer === "string" ? s.customer : sub?.customer as string | undefined,
-          sub?.id
-        );
+        const customerId =
+          typeof s.customer === "string" ? s.customer : (sub?.customer as string | undefined);
+        // The session carries the CHECKOUT-ERA email. If the customer has since
+        // changed their email, granting under the old one would resurrect a
+        // retired key and lock out the current address — so resolve the current
+        // email first. A transient failure here must not grant on stale data.
+        let email = historicalEmail;
+        if (customerId) {
+          try {
+            const current = await emailForCustomer(customerId);
+            if (current) email = current;
+          } catch {
+            return res.status(502).json({ active: false, error: "Stripe lookup failed — try again." });
+          }
+        }
+        await upsertByIdentity(email, status, customerId, sub?.id);
         return res.json({ active: true, email });
       }
-      return res.json({ active: false, email }); // canceled since checkout
+      return res.json({ active: false, email: historicalEmail }); // canceled since checkout
     }
     // Sponsor gifts (mode=payment) don't grant app access.
-    return res.json({ active: false, email, sponsor: s.mode === "payment" && s.status === "complete" });
+    return res.json({ active: false, email: historicalEmail, sponsor: s.mode === "payment" && s.status === "complete" });
   } catch (e: any) {
     return res.status(404).json({ active: false, error: "Session not found or Stripe error." });
   }

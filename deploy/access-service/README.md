@@ -56,8 +56,11 @@ cross-device access; canceled ones lose it automatically.
 
 ## Hardening built in
 - **Pre-existing subscribers backfill automatically:** on a store miss, `/api/access` does a
-  throttled live Stripe lookup (≤1 per email per 10 min), so flipping to server mode never
-  locks out people who paid before the webhook existed.
+  throttled live Stripe lookup, so flipping to server mode never locks out people who paid
+  before the webhook existed. Throttling is two-layer — per-email TTL (bounded cache with
+  eviction) **plus a global cap of 30 live lookups per 10 minutes** — so varying the email
+  can't be used to hammer the Stripe API or grow memory. Lookups preserve the caller's
+  email casing (Stripe's filter is case-sensitive) while store keys stay normalized.
 - **Saved welcome URLs can't re-grant:** `/api/checkout-session` checks the subscription's
   *current* status with Stripe, not the historical session state.
 - **Email changes can't orphan access:** lifecycle events match records by
