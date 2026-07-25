@@ -32,16 +32,36 @@ export class Store {
     }
   }
 
+  private async persist(): Promise<void> {
+    await fs.mkdir(dirname(this.path), { recursive: true });
+    const tmp = `${this.path}.tmp`;
+    await fs.writeFile(tmp, JSON.stringify(this.data, null, 2));
+    await fs.rename(tmp, this.path);
+  }
+
   get(email: string): AccessRecord | undefined {
     return this.data[Store.key(email)];
   }
 
   async set(email: string, rec: AccessRecord): Promise<void> {
     this.data[Store.key(email)] = rec;
-    await fs.mkdir(dirname(this.path), { recursive: true });
-    const tmp = `${this.path}.tmp`;
-    await fs.writeFile(tmp, JSON.stringify(this.data, null, 2));
-    await fs.rename(tmp, this.path);
+    await this.persist();
+  }
+
+  async delete(email: string): Promise<void> {
+    delete this.data[Store.key(email)];
+    await this.persist();
+  }
+
+  /** Find the email key of a record matching a Stripe customer/subscription id —
+   *  lets lifecycle events revoke the right record even if the customer's email
+   *  changed after checkout. */
+  findKeyByIds(customerId?: string | null, subscriptionId?: string | null): string | undefined {
+    if (!customerId && !subscriptionId) return undefined;
+    return Object.keys(this.data).find((k) => {
+      const r = this.data[k];
+      return (!!customerId && r.customerId === customerId) || (!!subscriptionId && r.subscriptionId === subscriptionId);
+    });
   }
 
   count(): number {
