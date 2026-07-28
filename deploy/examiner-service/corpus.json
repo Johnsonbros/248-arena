@@ -1,0 +1,1290 @@
+[
+ {
+  "id": "book:248 CMR 2.00",
+  "source": "codebook",
+  "ref": "248 CMR 2.00",
+  "title": "248 CMR 2.00 — Board, Licensing & Permits",
+  "text": "## Administration\n\n \n \n- The Board of State Examiners of Plumbers and Gas Fitters administers 248 CMR\n \n- Only a licensed Master Plumber can obtain a plumbing permit\n \n- A plumbing permit is valid for 1 year from date of issuance\n \n- Rough-in plumbing must be inspected before concealment of piping\n \n- A final inspection is required before a new system is placed in service\n \n\n \n## License Types\n\n \n \n- Apprentice: Registered with the Board; works under direct supervision of a Journeyman or Master\n \n- Journeyman: Minimum 3 years practical experience under a Master; passes the written exam; works under general supervision of a Master\n \n- Master: Experience as a Journeyman plus the Master exam; can pull permits, run a plumbing business, and supervise Journeymen and Apprentices\n \n- Licenses renew on a 2-year cycle with required continuing education\n \n\n \n## Permits\n\n \n \n- Permit required for: new fixtures, water heaters, water piping, gas piping\n \n- Permit NOT required for: replacing washers or flappers, clearing drain stoppages\n \n- Permitted work is performed by licensed plumbers (or registered apprentices under supervision)\n \n\n \n## Journeyman Exam\n\n \n \n- Tests knowledge of 248 CMR — open-book format (codebook allowed)\n \n- Passing score: 70%\n \n- Topics: DWV sizing, venting, water distribution, gas piping, backflow, fixtures, materials, permits"
+ },
+ {
+  "id": "book:248 CMR 10.03",
+  "source": "codebook",
+  "ref": "248 CMR 10.03",
+  "title": "248 CMR 10.03 — Definitions",
+  "text": "## Key Definitions\n\n \n \n- Air Gap: The unobstructed vertical distance through free atmosphere between the lowest supply opening and the flood-level rim of the receptacle\n \n- Air Break: An indirect waste connection terminating below the receptor's flood rim but above the trap seal\n \n- Backflow: Flow into the potable distribution from any source other than the intended source — caused by backpressure or backsiphonage\n \n- Branch: Any part of the piping system other than a main, riser, or stack\n \n- Branch Interval: A stack section at least 8 feet high within which the horizontal branches of one story connect\n \n- Building Drain: The lowest piping receiving discharge inside the building, conveying it to the building sewer\n \n- Building Sewer: Horizontal piping from the building drain to the main sewer or point of disposal\n \n- Cross-Connection: Any connection between potable water and water of unknown or questionable safety\n \n- Fixture Unit (DFU): The load-producing value assigned to a fixture for drainage sizing\n \n- Flood-Level Rim: The edge of the receptacle from which water overflows\n \n- Potable Water: Water safe and satisfactory for drinking, cooking, and bathing\n \n- Stack Vent: The dry extension of a soil/waste stack above the highest horizontal branch\n \n- Trap: A fitting providing a liquid seal against sewer gas without materially affecting flow\n \n- Wet Vent: A pipe serving as a vent for one fixture and a drain for another"
+ },
+ {
+  "id": "book:248 CMR 10.04",
+  "source": "codebook",
+  "ref": "248 CMR 10.04",
+  "title": "248 CMR 10.04 — Testing and Safety",
+  "text": "## DWV Testing\n\n \n \n- Rough-in water test: fill to a minimum 10-foot head of water and hold with no loss\n \n- An approved air test may be used as an alternative\n \n- Testing happens before concealment and before the inspector's rough approval\n \n \n## Water Piping\n\n \n \n- Water distribution is tested at working pressure (or as the inspector requires) and proved tight"
+ },
+ {
+  "id": "book:248 CMR 10.05",
+  "source": "codebook",
+  "ref": "248 CMR 10.05",
+  "title": "248 CMR 10.05 — General Regulations",
+  "text": "- Used (secondhand) fixtures and materials may be reinstalled only if approved and restored to good, sanitary working condition\n \n- All work must be performed in a workmanlike manner and conform to 248 CMR\n \n- Piping must be protected from freezing, corrosion, and physical damage"
+ },
+ {
+  "id": "book:248 CMR 10.06",
+  "source": "codebook",
+  "ref": "248 CMR 10.06",
+  "title": "248 CMR 10.06 — Materials",
+  "text": "## Copper Tube Types\n\n \n \n- Type K (green) — heaviest wall; required for underground water service\n \n- Type L (blue) — general purpose water distribution\n \n- Type M (red) — thinnest standard wall; generally above-ground use inside buildings\n \n- DWV (yellow) — drainage/vent only\n \n \n## Drainage Materials\n\n \n \n- Approved underground: cast iron, PVC (Schedule 40), ABS\n \n- NOT approved underground: galvanized steel (corrosion)\n \n- PVC DWV conforms to ASTM D1785 (Sch 40) or ASTM D2665\n \n \n## PEX\n\n \n \n- Approved for water distribution per its listing\n \n- Keep at least 18 inches of metallic piping between PEX and a water heater connection"
+ },
+ {
+  "id": "book:248 CMR 10.07",
+  "source": "codebook",
+  "ref": "248 CMR 10.07",
+  "title": "248 CMR 10.07 — Joints and Connections",
+  "text": "- Only lead-free solder (≤0.2% lead) on potable water joints\n \n- PVC solvent joints require an approved primer before cement (ABS is cemented without primer)\n \n- Copper to galvanized steel requires a dielectric fitting (prevents galvanic corrosion)\n \n- No-hub cast iron joins with shielded couplings; hub-and-spigot uses gaskets or lead & oakum, hubs laid facing upstream\n \n- Threaded joints use tapered NPT threads with approved sealant\n \n- Concealed slip joints require an access panel for inspection"
+ },
+ {
+  "id": "book:248 CMR 10.08",
+  "source": "codebook",
+  "ref": "248 CMR 10.08",
+  "title": "248 CMR 10.08 — Traps and Cleanouts",
+  "text": "## Trap Rules\n\n \n \n- Water seal: not less than 2 inches, not more than 4 inches\n \n- S-traps are prohibited (self-siphoning); double trapping is prohibited\n \n- One trap per fixture — narrow exceptions such as adjacent compartments of a multi-compartment sink\n \n- Traps subject to evaporation need a trap seal primer or equivalent protection\n \n \n## Cleanouts\n\n \n \n- Required at every change of direction greater than 45°\n \n- Required at or near the base of every stack\n \n- Maximum spacing on horizontal drains: 75 feet\n \n- Size: same as the pipe served (up to 4\"); 4\" cleanout acceptable for larger pipes\n \n- Must remain accessible"
+ },
+ {
+  "id": "book:248 CMR 10.09",
+  "source": "codebook",
+  "ref": "248 CMR 10.09",
+  "title": "248 CMR 10.09 — Interceptors, Separators & Holding Tanks",
+  "text": "- Grease interceptors required for commercial kitchen fixtures discharging grease-laden waste\n \n- Food waste grinders must NOT discharge through a grease interceptor — they connect separately\n \n- Oil/sand separators serve garages and similar occupancies\n \n- Interceptors must be sized per the fixtures served and be accessible for cleaning"
+ },
+ {
+  "id": "book:248 CMR 10.10",
+  "source": "codebook",
+  "ref": "248 CMR 10.10",
+  "title": "248 CMR 10.10 — Plumbing Fixtures",
+  "text": "## Fixture Trap Sizes\n\n \n \nFixture | Min Trap Size | \n \nLavatory | 1-1/4\" | \n \nKitchen Sink | 1-1/2\" | \n \nBathtub (with/without shower) | 1-1/2\" | \n \nShower | 2\" | \n \nWater Closet | 3\" (integral) | \n \nLaundry Tub | 1-1/2\" | \n \nFloor Drain | 2\" | \n \nClothes Washer Standpipe | 2\" | \n \nUrinal (wall-hung) | 2\" | \n \n\n \n## Installation Rules\n\n \n \n- Water closet centerline: minimum 15 inches to any side wall, partition, or fixture\n \n- Public-use water closets: elongated bowls with open-front seats\n \n- Maximum flush volume for new water closets: 1.6 gallons\n \n- Fixture overflows connect on the inlet (fixture) side of the trap\n \n- Fixture joints at walls/floors sealed watertight\n \n- Shower valves: pressure-balancing or thermostatic, max 112°F\n \n- Hot water is always supplied to the left side of a fitting\n \n\n \n## Minimum Fixtures (Restaurants)\n\n \n \nOccupancy (seats) | Water Closets (per sex) | \n \n1-50 | 1 | \n \n51-100 | 2 | \n \n101-200 | 3 | \n \n201-400 | 4 |"
+ },
+ {
+  "id": "book:248 CMR 10.11",
+  "source": "codebook",
+  "ref": "248 CMR 10.11",
+  "title": "248 CMR 10.11 — Hangers and Supports",
+  "text": "- Horizontal copper tube (1\" and smaller): support at maximum 6-foot intervals\n \n- Cast iron: support at each joint / every 5 feet\n \n- Plastic piping requires closer support spacing than metal (typically 4 feet)\n \n- Vertical piping supported at each story"
+ },
+ {
+  "id": "book:248 CMR 10.12",
+  "source": "codebook",
+  "ref": "248 CMR 10.12",
+  "title": "248 CMR 10.12 — Indirect Waste Piping",
+  "text": "- Air gap: terminates above the receptor's flood rim (full separation)\n \n- Air break: terminates below the rim but above the trap seal\n \n- Commercial food-handling equipment discharges indirectly (air gap or air break) to a trapped receptor\n \n- Massachusetts requires a listed air gap fitting on dishwasher drains — a high loop alone is not acceptable"
+ },
+ {
+  "id": "book:248 CMR 10.13",
+  "source": "codebook",
+  "ref": "248 CMR 10.13",
+  "title": "248 CMR 10.13 — Piping & Treatment of Special Wastes",
+  "text": "- Corrosive chemical / laboratory waste requires approved acid-resistant piping\n \n- Special wastes are neutralized or treated before entering the sanitary drainage system"
+ },
+ {
+  "id": "book:248 CMR 10.14",
+  "source": "codebook",
+  "ref": "248 CMR 10.14",
+  "title": "248 CMR 10.14 — Water Supply & Distribution",
+  "text": "## Service & Pressure\n\n \n \n- Minimum water service size: 3/4 inch; minimum burial depth in MA: 48 inches\n \n- Water service vs. building sewer separation: 10 feet horizontal (or approved shelf installation)\n \n- Maximum static pressure at fixtures: 80 psi (PRV required above that)\n \n- Full-port shutoff at the service entrance; stop valve at each fixture supply; shutoff at each water heater\n \n- Water hammer arrestors where quick-closing valves are installed\n \n- Piping in exterior walls protected on the heated side of insulation\n \n\n \n## Hot Water\n\n \n \n- Residential fixtures: minimum 110°F; public handwashing max 110°F tempered\n \n- T&P relief valve: opens at 210°F / 150 psi; discharge full-size, unthreaded, terminating near the floor\n \n- Bottom-fed water heaters require a vacuum relief valve\n \n- Thermal expansion tank required on closed systems (backflow preventer on service)\n \n\n \n## Minimum Fixture Supply Sizes\n\n \n \nFixture | Min Supply | \n \nLavatory | 3/8\" | \n \nKitchen Sink | 1/2\" | \n \nBathtub / Shower | 1/2\" | \n \nWater Closet (tank) | 3/8\" | \n \nWater Closet (flush valve) | 1\" | \n \nHose Bibb | 1/2\" | \n \nWater Heater | 3/4\" | \n \n\n \n## Backflow Prevention\n\n \n \n- Backflow occurs by backpressure or backsiphonage\n \n- Air gap: simplest and most reliable — min 1 inch or 2× outlet diameter, whichever is greater\n \n- RPZ: high-hazard connections (boiler makeup, chemical feed); tested annually; min 12 inches above floor, never in a pit\n \n- DCVA: low-hazard (pollutant) connections only\n \n- AVB: min 6 inches above highest downstream outlet\n \n- Hose bibbs require a non-removable vacuum breaker; irrigation systems require an approved assembly"
+ },
+ {
+  "id": "book:248 CMR 10.15",
+  "source": "codebook",
+  "ref": "248 CMR 10.15",
+  "title": "248 CMR 10.15 — Sanitary Drainage System",
+  "text": "## Slope\n\n \n \nPipe Size | Minimum Slope | \n \n3\" or smaller | 1/4\" per foot | \n \n4\" or larger | 1/8\" per foot | \n \n\n \n## DFU Values (Common Fixtures)\n\n \n \nFixture | DFU | \n \nDrinking Fountain | 1/2 | \n \nLavatory | 1 | \n \nKitchen Sink / Bathtub / Shower / Laundry Tray | 2 | \n \nWater Closet (1.6 gpf) | 3 | \n \nBathroom Group (WC + lav + tub/shower) | 6 | \n \n\n \n## Sizing\n\n \n \nPipe Size | Max DFU (Horizontal Branch) | \n \n1-1/2\" | 3 | \n \n2\" | 6 | \n \n3\" | 20 (max 2 water closets) | \n \n4\" | 160 | \n \n \n \n- Minimum building drain receiving a WC: 3 inches\n \n- Minimum building sewer: 4 inches\n \n- Piping at 45° or less from vertical is treated as vertical\n \n\n \n## Fittings\n\n \n \n- Sanitary tee: horizontal-to-vertical only — never horizontal-to-horizontal or vertical-to-horizontal\n \n- Horizontal-to-horizontal: use a wye or combination wye & 1/8 bend (long-pattern fittings)\n \n\n \n## Protection\n\n \n \n- Backwater valve required when fixture flood rims are below the next upstream manhole cover\n \n- Sewage ejector discharge: check valve + full-open shutoff"
+ },
+ {
+  "id": "book:248 CMR 10.16",
+  "source": "codebook",
+  "ref": "248 CMR 10.16",
+  "title": "248 CMR 10.16 — Vents and Venting",
+  "text": "## Purpose & Basics\n\n \n \n- Vents equalize pressure and protect trap seals from siphonage and back-pressure\n \n- Vent size: at least half the drain served, never under 1-1/4\"; WC vent minimum 2 inches\n \n- Vent stack minimum: 2 inches; required for stacks of 5+ branch intervals\n \n- Relief vent at each 10th branch interval on stacks over 10 intervals\n \n- Vents graded to drain back by gravity; dry vents take off vertically above the drain centerline\n \n- No vent connection within 2 pipe diameters of the trap weir (no crown venting)\n \n- Vents over 40 ft developed length increase one pipe size\n \n- AAVs (air admittance valves) are generally prohibited in Massachusetts without specific Board approval\n \n\n \n## Roof Terminals\n\n \n \n- Extend at least 12 inches above the roof\n \n- Minimum 3 inches through the roof (frost closure) — any increase made ≥1 ft below the roof\n \n- Within 10 ft horizontally of a window/door/air intake: terminate at least 2 ft above the opening\n \n\n \n## Trap Arm Maximum Distances (trap to vent)\n\n \n \nTrap Size | Max Distance | \n \n1-1/4\" | 3 ft 6 in | \n \n1-1/2\" | 5 ft | \n \n2\" | 8 ft | \n \n3\" | 12 ft | \n \n4\" | 16 ft | \n \n\n \n## Vent Types\n\n \n \n- Common vent: two same-level fixtures sharing one vent\n \n- Wet vent: vent for one fixture, drain for another — sized for the total load\n \n- Circuit vent: up to 8 fixtures in battery on a horizontal branch\n \n- Island (loop) vent: for island sinks where conventional venting is impractical\n \n- Combined vent headers sized for the total DFU served"
+ },
+ {
+  "id": "book:248 CMR 10.17",
+  "source": "codebook",
+  "ref": "248 CMR 10.17",
+  "title": "248 CMR 10.17 — Storm Drains",
+  "text": "- Storm piping is sized by roof area and local rainfall rate — never by DFU\n \n- Storm water shall not discharge to the sanitary system (or to a septic system)"
+ },
+ {
+  "id": "book:248 CMR 10.18",
+  "source": "codebook",
+  "ref": "248 CMR 10.18",
+  "title": "248 CMR 10.18 — Hospital Fixtures & Medical Gas",
+  "text": "- Installation by ASSE 6010 certified personnel only\n \n- Type L (or K) copper, cleaned and capped for oxygen service (ASTM B819)\n \n- Joints brazed with BCuP alloy under continuous nitrogen purge — soldering prohibited\n \n- System verification by an independent ASSE 6030 verifier before use\n \n- U.S. color code: oxygen = green"
+ },
+ {
+  "id": "book:248 CMR 4.00–8.00",
+  "source": "codebook",
+  "ref": "248 CMR 4.00–8.00",
+  "title": "248 CMR 4.00–8.00 — Fuel Gas Code (NFPA 54 as amended by MA)",
+  "text": "## General Rules\n\n \n \n- Minimum gas pipe size meter → appliance: 1/2 inch\n \n- Max pressure drop (low-pressure system): 0.5 inch WC\n \n- Sediment trap (drip leg) at every appliance inlet\n \n- Shutoff valve at the meter and within 6 feet of each appliance\n \n- Sizing based on BTU demand, run length, pressure drop, and specific gravity\n \n- Appliances in bedrooms/bathrooms must be direct-vent (sealed combustion)\n \n- Confined spaces need two combustion-air openings (top and bottom)\n \n\n \n## Materials & Installation\n\n \n \n- Black iron: threaded or welded; approved gas-rated thread compound only\n \n- CSST must be bonded to the grounding system\n \n- PE plastic: underground outdoors only, with tracer wire and approved riser\n \n- Underground burial: minimum 12 inches of cover\n \n- Through masonry: sleeved; never through ducts, chimneys, or elevator shafts\n \n- Flexible appliance connectors: max 6 feet, never through walls or floors\n \n- Regulator vents terminate outdoors, protected, away from openings\n \n\n \n## Testing & Safety\n\n \n \n- New piping test: 3 psi for 10 minutes, no perceptible drop (air/inert gas only)\n \n- Leak checks with solution or gauge — never a flame\n \n- LP gas is heavier than air and pools in low areas\n \n\n \n## Gas Pipe Sizing (Common)\n\n \n \nPipe Size | Approx Max BTU (50 ft run, 0.5\" WC drop) | \n \n1/2\" | ~90,000 | \n \n3/4\" | ~175,000 | \n \n1\" | ~350,000 | \n \n1-1/4\" | ~700,000 | \n \n1-1/2\" | ~1,100,000 |"
+ },
+ {
+  "id": "book:Related — Title 5 Septic (310 CMR 15.00)",
+  "source": "codebook",
+  "ref": "Related — Title 5 Septic (310 CMR 15.00)",
+  "title": "Related — Title 5 Septic (310 CMR 15.00)",
+  "text": "- Private sewage disposal (septic) is governed by Title 5, 310 CMR 15.00 (DEP), not 248 CMR\n \n- Septic tanks watertight; residential minimum typically 1,000 gallons\n \n- Leaching design based on percolation tests; Title 5 inspection required for property transfer\n \n- No storm water to the septic system; grease traps before septic for food service"
+ },
+ {
+  "id": "q:1",
+  "source": "question",
+  "ref": "248 CMR 10.15",
+  "title": "DWV: What is the minimum size of a building drain that receives discharge from a water closet?",
+  "text": "What is the minimum size of a building drain that receives discharge from a water closet?\nAnswer: 3 inch\nPer 248 CMR 10.15, the minimum size of a building drain receiving discharge from a water closet is 3 inches."
+ },
+ {
+  "id": "q:2",
+  "source": "question",
+  "ref": "248 CMR 10.15",
+  "title": "DWV: What is the minimum slope for a 4-inch horizontal drain pipe?",
+  "text": "What is the minimum slope for a 4-inch horizontal drain pipe?\nAnswer: 1/8 inch per foot\nPer 248 CMR 10.15, horizontal drainage pipes 4 inches and larger shall have a minimum slope of 1/8 inch per foot."
+ },
+ {
+  "id": "q:3",
+  "source": "question",
+  "ref": "248 CMR 10.15",
+  "title": "DWV: What is the minimum slope for a 3-inch or smaller horizontal drain pipe?",
+  "text": "What is the minimum slope for a 3-inch or smaller horizontal drain pipe?\nAnswer: 1/4 inch per foot\nPer 248 CMR 10.15, horizontal drainage pipes 3 inches or smaller shall have a minimum slope of 1/4 inch per foot."
+ },
+ {
+  "id": "q:4",
+  "source": "question",
+  "ref": "248 CMR 10.15",
+  "title": "DWV: What is the maximum number of fixture units (DFU) allowed on a 2-inch horizontal branch?",
+  "text": "What is the maximum number of fixture units (DFU) allowed on a 2-inch horizontal branch?\nAnswer: 6 DFU\nPer 248 CMR 10.15, a 2-inch horizontal branch can handle a maximum of 6 DFU."
+ },
+ {
+  "id": "q:5",
+  "source": "question",
+  "ref": "248 CMR 10.15",
+  "title": "DWV: A combination wye and 1/8 bend is equivalent to what fitting?",
+  "text": "A combination wye and 1/8 bend is equivalent to what fitting?\nAnswer: Sanitary tee\nA combination wye and 1/8 bend may be used in place of a sanitary tee in horizontal to vertical drainage connections."
+ },
+ {
+  "id": "q:6",
+  "source": "question",
+  "ref": "248 CMR 10.15",
+  "title": "DWV: What type of fitting is prohibited for changing direction from horizontal to horizontal in drainage piping?",
+  "text": "What type of fitting is prohibited for changing direction from horizontal to horizontal in drainage piping?\nAnswer: Sanitary tee\nA sanitary tee shall not be used to change direction of flow from horizontal to horizontal in drainage piping."
+ },
+ {
+  "id": "q:7",
+  "source": "question",
+  "ref": "248 CMR 10.15",
+  "title": "DWV: What is the DFU value of a lavatory?",
+  "text": "What is the DFU value of a lavatory?\nAnswer: 1 DFU\nPer 248 CMR 10.15, a lavatory has a drainage fixture unit value of 1."
+ },
+ {
+  "id": "q:8",
+  "source": "question",
+  "ref": "248 CMR 10.15",
+  "title": "DWV: What is the DFU value of a water closet (1.6 GPF or less)?",
+  "text": "What is the DFU value of a water closet (1.6 GPF or less)?\nAnswer: 3 DFU\nPer 248 CMR, a water closet (1.6 GPF or less) has a drainage fixture unit value of 3."
+ },
+ {
+  "id": "q:9",
+  "source": "question",
+  "ref": "248 CMR 10.14",
+  "title": "WATER: What is the minimum size of a water service pipe to a building?",
+  "text": "What is the minimum size of a water service pipe to a building?\nAnswer: 3/4 inch\nPer 248 CMR 10.14, the minimum size of a water service pipe is 3/4 inch."
+ },
+ {
+  "id": "q:10",
+  "source": "question",
+  "ref": "248 CMR 10.14",
+  "title": "WATER: What is the maximum water pressure allowed at any fixture in a building?",
+  "text": "What is the maximum water pressure allowed at any fixture in a building?\nAnswer: 80 psi\nPer 248 CMR 10.14, the maximum static water pressure at any fixture shall not exceed 80 psi. A pressure reducing valve is required when pressure exceeds 80 psi."
+ },
+ {
+  "id": "q:11",
+  "source": "question",
+  "ref": "248 CMR 10.14",
+  "title": "WATER: What is the minimum hot water temperature required at fixtures in a residential dwelling?",
+  "text": "What is the minimum hot water temperature required at fixtures in a residential dwelling?\nAnswer: 110°F\nPer 248 CMR, hot water at fixtures in residential dwellings shall be maintained at a minimum of 110°F."
+ },
+ {
+  "id": "q:12",
+  "source": "question",
+  "ref": "248 CMR 10.14",
+  "title": "WATER: What type of valve is required at the water service entrance to a building?",
+  "text": "What type of valve is required at the water service entrance to a building?\nAnswer: Gate valve or ball valve (full port)\nA full-port shutoff valve (gate or ball valve) is required at the water service entrance to the building."
+ },
+ {
+  "id": "q:13",
+  "source": "question",
+  "ref": "248 CMR 10.14",
+  "title": "WATER: What is the minimum size of a cold water supply pipe to a bathtub?",
+  "text": "What is the minimum size of a cold water supply pipe to a bathtub?\nAnswer: 1/2 inch\nPer 248 CMR 10.14, the minimum cold water supply to a bathtub is 1/2 inch."
+ },
+ {
+  "id": "q:14",
+  "source": "question",
+  "ref": "248 CMR 10.14",
+  "title": "WATER: Water hammer arrestors are required when:",
+  "text": "Water hammer arrestors are required when:\nAnswer: Quick-closing valves are installed\nWater hammer arrestors shall be installed when quick-closing valves are used (dishwashers, washing machines, etc.) to prevent hydraulic shock."
+ },
+ {
+  "id": "q:15",
+  "source": "question",
+  "ref": "248 CMR 4.00",
+  "title": "GAS: What is the minimum size of gas piping from the meter to an appliance?",
+  "text": "What is the minimum size of gas piping from the meter to an appliance?\nAnswer: 1/2 inch\nPer 248 CMR 4.00, the minimum size of gas piping from the meter to any appliance is 1/2 inch."
+ },
+ {
+  "id": "q:16",
+  "source": "question",
+  "ref": "248 CMR 4.00",
+  "title": "GAS: What is the maximum allowable pressure drop in a low-pressure gas piping system?",
+  "text": "What is the maximum allowable pressure drop in a low-pressure gas piping system?\nAnswer: 0.5 inch WC\nPer 248 CMR 4.00, the maximum pressure drop in a low-pressure gas system (under 2 psi) shall not exceed 0.5 inch water column."
+ },
+ {
+  "id": "q:17",
+  "source": "question",
+  "ref": "248 CMR 4.00",
+  "title": "GAS: A drip leg (sediment trap) is required at the inlet of:",
+  "text": "A drip leg (sediment trap) is required at the inlet of:\nAnswer: Every gas appliance\nPer 248 CMR 4.00, a sediment trap (drip leg) is required at the inlet of every gas appliance to catch debris."
+ },
+ {
+  "id": "q:18",
+  "source": "question",
+  "ref": "248 CMR 4.00",
+  "title": "GAS: What type of joint compound can be used on gas piping threads?",
+  "text": "What type of joint compound can be used on gas piping threads?\nAnswer: Compounds approved for gas service\nOnly thread compounds specifically listed/approved for gas service shall be used on gas piping joints."
+ },
+ {
+  "id": "q:19",
+  "source": "question",
+  "ref": "248 CMR 4.00",
+  "title": "GAS: What is the required test pressure for a new gas piping system?",
+  "text": "What is the required test pressure for a new gas piping system?\nAnswer: 3 psi for 10 minutes\nPer 248 CMR 4.00, new gas piping shall be tested at no less than 3 psi gauge pressure for a minimum of 10 minutes with no perceptible drop."
+ },
+ {
+  "id": "q:20",
+  "source": "question",
+  "ref": "248 CMR 4.00",
+  "title": "GAS: A gas shutoff valve is required:",
+  "text": "A gas shutoff valve is required:\nAnswer: At the meter and each appliance\nPer 248 CMR 4.00, an accessible shutoff valve is required at the meter and within 6 feet of each gas appliance."
+ },
+ {
+  "id": "q:21",
+  "source": "question",
+  "ref": "248 CMR 10.14",
+  "title": "BACKFLOW: What is the minimum air gap for a lavatory faucet?",
+  "text": "What is the minimum air gap for a lavatory faucet?\nAnswer: 1 inch or two times the diameter of the outlet, whichever is greater\nThe minimum air gap is generally 1 inch or twice the effective opening (diameter) of the supply outlet, whichever is greater."
+ },
+ {
+  "id": "q:22",
+  "source": "question",
+  "ref": "248 CMR 10.14",
+  "title": "BACKFLOW: Which backflow prevention device is required for a boiler makeup water connection?",
+  "text": "Which backflow prevention device is required for a boiler makeup water connection?\nAnswer: Reduced pressure zone (RPZ) assembly\nA reduced pressure zone (RPZ) backflow preventer is required for boiler makeup water connections as the boiler chemicals create a high-hazard cross-connection."
+ },
+ {
+  "id": "q:23",
+  "source": "question",
+  "ref": "248 CMR 10.14",
+  "title": "BACKFLOW: An atmospheric vacuum breaker (AVB) must be installed at least how far above the highest downstream outlet?",
+  "text": "An atmospheric vacuum breaker (AVB) must be installed at least how far above the highest downstream outlet?\nAnswer: 6 inches\nPer 248 CMR, an atmospheric vacuum breaker must be installed at least 6 inches above the highest downstream point of use."
+ },
+ {
+  "id": "q:24",
+  "source": "question",
+  "ref": "248 CMR 10.14",
+  "title": "BACKFLOW: Which of the following is considered a HIGH hazard cross-connection?",
+  "text": "Which of the following is considered a HIGH hazard cross-connection?\nAnswer: Chemical feed system connected to potable water\nA chemical feed system is a high-hazard cross-connection because it can introduce toxic substances into the potable water supply."
+ },
+ {
+  "id": "q:25",
+  "source": "question",
+  "ref": "248 CMR 10.14",
+  "title": "BACKFLOW: What is the simplest and most reliable form of backflow prevention?",
+  "text": "What is the simplest and most reliable form of backflow prevention?\nAnswer: Air gap\nAn air gap is the simplest and most reliable form of backflow prevention — a physical separation between the water outlet and the flood level rim."
+ },
+ {
+  "id": "q:26",
+  "source": "question",
+  "ref": "248 CMR 10.10",
+  "title": "FIXTURES: What is the minimum trap size for a shower drain?",
+  "text": "What is the minimum trap size for a shower drain?\nAnswer: 2 inch\nPer 248 CMR, the minimum trap size for a shower drain is 2 inches."
+ },
+ {
+  "id": "q:27",
+  "source": "question",
+  "ref": "248 CMR 10.10",
+  "title": "FIXTURES: What is the minimum trap size for a lavatory?",
+  "text": "What is the minimum trap size for a lavatory?\nAnswer: 1-1/4 inch\nPer 248 CMR 10.10, the minimum trap size for a lavatory is 1-1/4 inches."
+ },
+ {
+  "id": "q:28",
+  "source": "question",
+  "ref": "248 CMR 10.16",
+  "title": "FIXTURES: What is the maximum distance from a fixture trap to its vent (for a 1-1/2 inch trap arm)?",
+  "text": "What is the maximum distance from a fixture trap to its vent (for a 1-1/2 inch trap arm)?\nAnswer: 5 feet\nPer 248 CMR 10.16, the maximum trap arm distance for a 1-1/2 inch trap is 5 feet (60 inches)."
+ },
+ {
+  "id": "q:29",
+  "source": "question",
+  "ref": "248 CMR 10.10",
+  "title": "FIXTURES: How many water closets are required for a restaurant with 1-50 seats?",
+  "text": "How many water closets are required for a restaurant with 1-50 seats?\nAnswer: 1 per sex\nPer 248 CMR 10.10, a restaurant with 1-50 seats requires a minimum of 1 water closet per sex."
+ },
+ {
+  "id": "q:30",
+  "source": "question",
+  "ref": "248 CMR 10.08",
+  "title": "FIXTURES: Every fixture trap must have a water seal of at least:",
+  "text": "Every fixture trap must have a water seal of at least:\nAnswer: 2 inches\nPer 248 CMR, each fixture trap shall have a water seal of not less than 2 inches and not more than 4 inches."
+ },
+ {
+  "id": "q:31",
+  "source": "question",
+  "ref": "248 CMR 10.08",
+  "title": "FIXTURES: The maximum water seal depth allowed in a fixture trap is:",
+  "text": "The maximum water seal depth allowed in a fixture trap is:\nAnswer: 4 inches\nPer 248 CMR, the maximum water seal depth is 4 inches. Deeper seals can cause self-siphoning."
+ },
+ {
+  "id": "q:32",
+  "source": "question",
+  "ref": "248 CMR 10.16",
+  "title": "VENTING: What is the minimum size of a vent for a water closet?",
+  "text": "What is the minimum size of a vent for a water closet?\nAnswer: 2 inch\nPer 248 CMR 10.16, the minimum vent size for a water closet is 2 inches."
+ },
+ {
+  "id": "q:33",
+  "source": "question",
+  "ref": "248 CMR 10.16",
+  "title": "VENTING: A vent pipe must extend through the roof to a minimum height of:",
+  "text": "A vent pipe must extend through the roof to a minimum height of:\nAnswer: 12 inches\nPer 248 CMR 10.16, a vent pipe extending through the roof must extend at least 12 inches above the roof surface."
+ },
+ {
+  "id": "q:34",
+  "source": "question",
+  "ref": "248 CMR 10.16",
+  "title": "VENTING: The minimum size of a vent stack serving a building drain is:",
+  "text": "The minimum size of a vent stack serving a building drain is:\nAnswer: 2 inch\nPer 248 CMR 10.16, the minimum vent stack size is 2 inches, regardless of the building drain size."
+ },
+ {
+  "id": "q:35",
+  "source": "question",
+  "ref": "248 CMR 10.16",
+  "title": "VENTING: An island vent (loop vent) is permitted for which fixture?",
+  "text": "An island vent (loop vent) is permitted for which fixture?\nAnswer: Kitchen sink\nAn island vent (loop vent) is typically used for kitchen sinks on islands where conventional venting is not practical."
+ },
+ {
+  "id": "q:36",
+  "source": "question",
+  "ref": "248 CMR 10.16",
+  "title": "VENTING: What is the primary purpose of a plumbing vent system?",
+  "text": "What is the primary purpose of a plumbing vent system?\nAnswer: To equalize pressure and prevent trap siphonage\nThe vent system allows air into the drainage system to equalize pressure and prevent trap siphonage and back-pressure."
+ },
+ {
+  "id": "q:37",
+  "source": "question",
+  "ref": "248 CMR 10.16",
+  "title": "VENTING: A wet vent is defined as:",
+  "text": "A wet vent is defined as:\nAnswer: A vent that also serves as a drain for another fixture\nA wet vent is a pipe that serves as both a vent for one fixture and a drain for another. It must be sized for the total drainage load."
+ },
+ {
+  "id": "q:38",
+  "source": "question",
+  "ref": "248 CMR 10.06",
+  "title": "MATERIALS: Which material is NOT approved for underground drainage piping in Massachusetts?",
+  "text": "Which material is NOT approved for underground drainage piping in Massachusetts?\nAnswer: Galvanized steel\nGalvanized steel is not approved for underground drainage use due to corrosion. Cast iron, PVC, and ABS are commonly approved."
+ },
+ {
+  "id": "q:39",
+  "source": "question",
+  "ref": "248 CMR 10.07",
+  "title": "MATERIALS: What type of solder is required for potable water supply joints?",
+  "text": "What type of solder is required for potable water supply joints?\nAnswer: Lead-free solder (95/5 or similar)\nPer 248 CMR and federal Safe Drinking Water Act, only lead-free solder (containing no more than 0.2% lead) shall be used on potable water systems."
+ },
+ {
+  "id": "q:40",
+  "source": "question",
+  "ref": "248 CMR 10.06",
+  "title": "MATERIALS: PVC piping used for drain, waste, and vent shall conform to what standard?",
+  "text": "PVC piping used for drain, waste, and vent shall conform to what standard?\nAnswer: ASTM D1785 (Schedule 40)\nPVC DWV piping must conform to ASTM D1785 (Schedule 40) or ASTM D2665 (DWV pattern)."
+ },
+ {
+  "id": "q:41",
+  "source": "question",
+  "ref": "248 CMR 10.06",
+  "title": "MATERIALS: Copper water tube Type L is identified by what color marking?",
+  "text": "Copper water tube Type L is identified by what color marking?\nAnswer: Blue\nType L copper is marked with blue lettering/stripe. Type M is red, Type K is green, and DWV is yellow."
+ },
+ {
+  "id": "q:42",
+  "source": "question",
+  "ref": "248 CMR 10.06",
+  "title": "MATERIALS: What is the heaviest type of copper tubing used for underground water service?",
+  "text": "What is the heaviest type of copper tubing used for underground water service?\nAnswer: Type K\nType K is the heaviest copper tubing and is required for underground water service due to its superior wall thickness and corrosion resistance."
+ },
+ {
+  "id": "q:43",
+  "source": "question",
+  "ref": "248 CMR",
+  "title": "GENERAL: In Massachusetts, the plumbing code is found in:",
+  "text": "In Massachusetts, the plumbing code is found in:\nAnswer: 248 CMR\n248 CMR is the Massachusetts State Plumbing Code, administered by the Board of State Examiners of Plumbers and Gas Fitters."
+ },
+ {
+  "id": "q:44",
+  "source": "question",
+  "ref": "248 CMR 2.00",
+  "title": "GENERAL: Who administers the Massachusetts plumbing code?",
+  "text": "Who administers the Massachusetts plumbing code?\nAnswer: Board of State Examiners of Plumbers and Gas Fitters\nThe Board of State Examiners of Plumbers and Gas Fitters administers 248 CMR, the Massachusetts plumbing and gas fitting code."
+ },
+ {
+  "id": "q:45",
+  "source": "question",
+  "ref": "248 CMR 2.00",
+  "title": "GENERAL: A journeyman plumber may work under the supervision of:",
+  "text": "A journeyman plumber may work under the supervision of:\nAnswer: A master plumber only\nPer 248 CMR, a journeyman plumber must work under the general supervision of a master plumber who holds the license for the business."
+ },
+ {
+  "id": "q:46",
+  "source": "question",
+  "ref": "248 CMR 2.00",
+  "title": "GENERAL: How many years of practical experience under a master plumber are required to sit for the journeyman exam in MA?",
+  "text": "How many years of practical experience under a master plumber are required to sit for the journeyman exam in MA?\nAnswer: 3 years\nPer 248 CMR 2.00, an applicant must have at least 3 years of practical experience working under a licensed master plumber to qualify for the journeyman exam."
+ },
+ {
+  "id": "q:47",
+  "source": "question",
+  "ref": "248 CMR 2.00",
+  "title": "GENERAL: A plumbing permit is required for:",
+  "text": "A plumbing permit is required for:\nAnswer: Installing a new water heater\nInstalling a new water heater requires a plumbing permit. Minor repairs like washer or flapper replacement and clearing stoppages do not."
+ },
+ {
+  "id": "q:48",
+  "source": "question",
+  "ref": "248 CMR 10.15",
+  "title": "SIZING: What is the minimum size of a building sewer?",
+  "text": "What is the minimum size of a building sewer?\nAnswer: 4 inch\nPer 248 CMR 10.15, the minimum size of a building sewer is 4 inches."
+ },
+ {
+  "id": "q:49",
+  "source": "question",
+  "ref": "248 CMR 10.10",
+  "title": "SIZING: What size trap is required for a kitchen sink?",
+  "text": "What size trap is required for a kitchen sink?\nAnswer: 1-1/2 inch\nPer 248 CMR, a kitchen sink requires a minimum 1-1/2 inch trap."
+ },
+ {
+  "id": "q:50",
+  "source": "question",
+  "ref": "248 CMR 10.16",
+  "title": "SIZING: What is the maximum trap arm distance for a 2-inch trap?",
+  "text": "What is the maximum trap arm distance for a 2-inch trap?\nAnswer: 8 feet\nPer 248 CMR 10.16, the maximum developed length of a 2-inch trap arm is 8 feet."
+ },
+ {
+  "id": "q:51",
+  "source": "question",
+  "ref": "248 CMR 10.15",
+  "title": "SIZING: The fixture unit value of a bathtub is:",
+  "text": "The fixture unit value of a bathtub is:\nAnswer: 2 DFU\nPer 248 CMR 10.15, a bathtub (with or without shower) has a drainage fixture unit value of 2."
+ },
+ {
+  "id": "q:52",
+  "source": "question",
+  "ref": "248 CMR 10.18",
+  "title": "MEDICAL: Medical gas piping must be installed by a:",
+  "text": "Medical gas piping must be installed by a:\nAnswer: Certified medical gas installer (ASSE 6010)\nMedical gas piping systems shall only be installed by personnel certified under ASSE 6010 (Medical Gas Systems Installer)."
+ },
+ {
+  "id": "q:53",
+  "source": "question",
+  "ref": "248 CMR 10.18",
+  "title": "MEDICAL: What type of copper tubing is required for medical gas piping?",
+  "text": "What type of copper tubing is required for medical gas piping?\nAnswer: Type L, cleaned for oxygen service\nMedical gas piping requires Type L (or K) copper tubing that has been cleaned and capped for oxygen service per ASTM B819."
+ },
+ {
+  "id": "q:54",
+  "source": "question",
+  "ref": "248 CMR 10.18",
+  "title": "MEDICAL: Medical gas piping joints must be:",
+  "text": "Medical gas piping joints must be:\nAnswer: Brazed with BCuP alloy (silver brazing) in a nitrogen purge\nMedical gas piping joints must be brazed using BCuP series alloys under a continuous nitrogen purge to prevent internal oxidation."
+ },
+ {
+  "id": "q:55",
+  "source": "question",
+  "ref": "248 CMR 2.00",
+  "title": "PERMITS: A rough-in inspection must be completed:",
+  "text": "A rough-in inspection must be completed:\nAnswer: Before concealment of piping\nPer 248 CMR, rough-in plumbing must be inspected and approved before any piping is concealed (covered by walls, ceilings, etc.)."
+ },
+ {
+  "id": "q:56",
+  "source": "question",
+  "ref": "248 CMR 2.00",
+  "title": "PERMITS: A plumbing permit in Massachusetts is valid for how long?",
+  "text": "A plumbing permit in Massachusetts is valid for how long?\nAnswer: 1 year\nPer 248 CMR, a plumbing permit is valid for 1 year from the date of issuance. Extensions may be granted."
+ },
+ {
+  "id": "q:57",
+  "source": "question",
+  "ref": "248 CMR 2.00",
+  "title": "PERMITS: Who can pull a plumbing permit in Massachusetts?",
+  "text": "Who can pull a plumbing permit in Massachusetts?\nAnswer: Only a master plumber\nPer 248 CMR 2.00, only a licensed master plumber can obtain a plumbing permit in Massachusetts."
+ },
+ {
+  "id": "q:58",
+  "source": "question",
+  "ref": "248 CMR 10.08",
+  "title": "DWV: A cleanout is required at every change of direction greater than:",
+  "text": "A cleanout is required at every change of direction greater than:\nAnswer: 45 degrees\nPer 248 CMR 10.08, a cleanout is required at each change of direction greater than 45 degrees in the building drain or sewer."
+ },
+ {
+  "id": "q:59",
+  "source": "question",
+  "ref": "248 CMR 10.08",
+  "title": "DWV: What is the maximum distance between cleanouts on a horizontal drain?",
+  "text": "What is the maximum distance between cleanouts on a horizontal drain?\nAnswer: 75 feet\nPer 248 CMR 10.08, cleanouts shall be installed at intervals not exceeding 75 feet on horizontal drains."
+ },
+ {
+  "id": "q:60",
+  "source": "question",
+  "ref": "248 CMR 10.08",
+  "title": "DWV: The minimum size of a cleanout shall be:",
+  "text": "The minimum size of a cleanout shall be:\nAnswer: Same size as the pipe it serves\nPer 248 CMR 10.08, cleanouts shall be the same nominal size as the pipe they serve, up to 4 inches. For pipes larger than 4 inches, a 4-inch cleanout is acceptable."
+ },
+ {
+  "id": "q:61",
+  "source": "question",
+  "ref": "248 CMR 10.03",
+  "title": "GENERAL: What is the definition of \"potable water\"?",
+  "text": "What is the definition of \"potable water\"?\nAnswer: Water that is safe for drinking, cooking, and bathing\nPotable water is water that is safe and satisfactory for drinking, cooking, and bathing — free from impurities in amounts sufficient to cause disease."
+ },
+ {
+  "id": "q:62",
+  "source": "question",
+  "ref": "248 CMR 10.14",
+  "title": "GENERAL: What is the minimum cover depth for a water service pipe in Massachusetts?",
+  "text": "What is the minimum cover depth for a water service pipe in Massachusetts?\nAnswer: 48 inches (4 feet)\nPer Massachusetts code, water service pipes must be buried at least 48 inches (4 feet) deep to protect against freezing."
+ },
+ {
+  "id": "q:63",
+  "source": "question",
+  "ref": "248 CMR 10.14",
+  "title": "WATER: A thermal expansion tank is required when:",
+  "text": "A thermal expansion tank is required when:\nAnswer: A closed system exists (backflow preventer on service)\nWhen a backflow preventer creates a closed system, thermal expansion from the water heater has nowhere to go. A thermal expansion tank absorbs this pressure."
+ },
+ {
+  "id": "q:64",
+  "source": "question",
+  "ref": "248 CMR 4.00",
+  "title": "GAS: Black iron (steel) pipe used for gas piping is joined by:",
+  "text": "Black iron (steel) pipe used for gas piping is joined by:\nAnswer: Threaded fittings or welding\nBlack iron (steel) gas pipe is joined using threaded connections with approved joint compound, or by welding for larger sizes."
+ },
+ {
+  "id": "q:65",
+  "source": "question",
+  "ref": "248 CMR 10.14",
+  "title": "BACKFLOW: How often must an RPZ (reduced pressure zone) assembly be tested?",
+  "text": "How often must an RPZ (reduced pressure zone) assembly be tested?\nAnswer: Annually\nRPZ assemblies must be tested annually by a certified backflow tester to ensure proper operation of the check valves and relief valve."
+ },
+ {
+  "id": "q:66",
+  "source": "question",
+  "ref": "248 CMR 10.15",
+  "title": "DWV: What is the DFU value of a residential kitchen sink?",
+  "text": "What is the DFU value of a residential kitchen sink?\nAnswer: 2 DFU\nPer 248 CMR 10.15, a residential kitchen sink has a drainage fixture unit value of 2."
+ },
+ {
+  "id": "q:67",
+  "source": "question",
+  "ref": "248 CMR 10.15",
+  "title": "DWV: What is the minimum size of a soil stack that receives discharge from a water closet?",
+  "text": "What is the minimum size of a soil stack that receives discharge from a water closet?\nAnswer: 3 inch\nA stack receiving discharge from a water closet must be at least 3 inches — the same minimum as any drain serving a water closet."
+ },
+ {
+  "id": "q:68",
+  "source": "question",
+  "ref": "248 CMR 10.15",
+  "title": "DWV: A sanitary tee IS permitted when changing direction of flow from:",
+  "text": "A sanitary tee IS permitted when changing direction of flow from:\nAnswer: Horizontal to vertical\nA sanitary tee may be used to change direction from horizontal to vertical. It is prohibited for horizontal-to-horizontal and vertical-to-horizontal changes."
+ },
+ {
+  "id": "q:69",
+  "source": "question",
+  "ref": "248 CMR 10.12",
+  "title": "DWV: Waste from commercial food-handling equipment (e.g., a prep sink) must discharge to the drainage system:",
+  "text": "Waste from commercial food-handling equipment (e.g., a prep sink) must discharge to the drainage system:\nAnswer: Indirectly, through an air gap or air break\nCommercial food-handling fixtures must discharge indirectly — through an air gap or air break to a properly trapped receptor — to protect food and equipment from sewage backup."
+ },
+ {
+  "id": "q:70",
+  "source": "question",
+  "ref": "248 CMR 10.08",
+  "title": "DWV: A cleanout is required at what location on every drainage stack?",
+  "text": "A cleanout is required at what location on every drainage stack?\nAnswer: The base of the stack\nA cleanout is required at or near the base of each drainage stack to allow rodding of the horizontal drain."
+ },
+ {
+  "id": "q:71",
+  "source": "question",
+  "ref": "248 CMR 10.08",
+  "title": "DWV: A floor drain trap subject to evaporation (infrequent use) must be protected by:",
+  "text": "A floor drain trap subject to evaporation (infrequent use) must be protected by:\nAnswer: A trap seal primer or equivalent means\nTraps subject to loss of seal by evaporation must be protected — typically with a trap seal primer valve that periodically replenishes the water seal."
+ },
+ {
+  "id": "q:72",
+  "source": "question",
+  "ref": "248 CMR 10.15",
+  "title": "DWV: The discharge pipe from a sewage ejector (sump pump) must be equipped with:",
+  "text": "The discharge pipe from a sewage ejector (sump pump) must be equipped with:\nAnswer: A check valve and a full-open shutoff valve\nSewage ejector discharge piping requires a check valve to prevent backflow into the basin and an accessible full-open valve for service."
+ },
+ {
+  "id": "q:73",
+  "source": "question",
+  "ref": "248 CMR 10.09",
+  "title": "DWV: A commercial food waste grinder must discharge:",
+  "text": "A commercial food waste grinder must discharge:\nAnswer: Directly to the drainage system, bypassing the grease interceptor\nFood waste grinders shall NOT discharge through a grease interceptor — ground solids would quickly clog it. They connect separately to the drainage system."
+ },
+ {
+  "id": "q:74",
+  "source": "question",
+  "ref": "248 CMR 10.15",
+  "title": "DWV: Which fitting is appropriate for joining a fixture drain to a horizontal branch (horizontal-to-horizontal)?",
+  "text": "Which fitting is appropriate for joining a fixture drain to a horizontal branch (horizontal-to-horizontal)?\nAnswer: Wye or combination wye and 1/8 bend\nHorizontal-to-horizontal drainage connections require long-pattern, flow-directing fittings such as a wye or a combination wye and 1/8 bend. Sanitary tees are prohibited in that orientation."
+ },
+ {
+  "id": "q:75",
+  "source": "question",
+  "ref": "248 CMR 10.16",
+  "title": "VENTING: A vent terminal located within 10 feet horizontally of a window that opens must terminate at least:",
+  "text": "A vent terminal located within 10 feet horizontally of a window that opens must terminate at least:\nAnswer: 2 feet above the window\nA vent terminal within 10 feet horizontally of any door, window, or air intake must extend at least 2 feet above the top of that opening to keep sewer gas out of the building."
+ },
+ {
+  "id": "q:76",
+  "source": "question",
+  "ref": "248 CMR 10.16",
+  "title": "VENTING: To prevent frost closure in Massachusetts, a vent extending through the roof must be at least:",
+  "text": "To prevent frost closure in Massachusetts, a vent extending through the roof must be at least:\nAnswer: 3 inches\nIn cold climates like Massachusetts, roof vent terminals must be at least 3 inches in diameter; any size increase must be made at least 1 foot below the roof."
+ },
+ {
+  "id": "q:77",
+  "source": "question",
+  "ref": "248 CMR 10.16",
+  "title": "VENTING: Two fixtures on the same floor level connecting at the same stack fitting may share a single vent. This is called a:",
+  "text": "Two fixtures on the same floor level connecting at the same stack fitting may share a single vent. This is called a:\nAnswer: Common vent\nA common vent serves two fixtures that connect at the same level — for example, back-to-back lavatories venting through one pipe."
+ },
+ {
+  "id": "q:78",
+  "source": "question",
+  "ref": "248 CMR 10.16",
+  "title": "VENTING: A relief vent is required on soil/waste stacks having more than how many branch intervals?",
+  "text": "A relief vent is required on soil/waste stacks having more than how many branch intervals?\nAnswer: 10\nStacks of more than 10 branch intervals require a relief vent at each tenth interval, installed from the top down, to relieve pressure fluctuations."
+ },
+ {
+  "id": "q:79",
+  "source": "question",
+  "ref": "248 CMR 10.16",
+  "title": "VENTING: A dry vent must take off from a horizontal drain:",
+  "text": "A dry vent must take off from a horizontal drain:\nAnswer: Vertically from above the drain centerline\nDry vents must rise vertically from above the centerline of the horizontal drain so they cannot be blocked by waste flow."
+ },
+ {
+  "id": "q:80",
+  "source": "question",
+  "ref": "248 CMR 10.16",
+  "title": "VENTING: All vent piping must be graded so that:",
+  "text": "All vent piping must be graded so that:\nAnswer: It drains back to the drainage pipe by gravity\nVent piping must be installed without sags and graded to drain condensation back to the drainage system by gravity."
+ },
+ {
+  "id": "q:81",
+  "source": "question",
+  "ref": "248 CMR 10.16",
+  "title": "VENTING: A circuit vent may serve a maximum of how many fixtures on a horizontal branch?",
+  "text": "A circuit vent may serve a maximum of how many fixtures on a horizontal branch?\nAnswer: 8\nA circuit vent may serve up to 8 fixtures connected in battery on a horizontal branch, with the vent connecting between the two most upstream fixtures."
+ },
+ {
+  "id": "q:82",
+  "source": "question",
+  "ref": "248 CMR 10.14",
+  "title": "WATER: What is the minimum horizontal separation between a water service pipe and a building sewer in the same trench area?",
+  "text": "What is the minimum horizontal separation between a water service pipe and a building sewer in the same trench area?\nAnswer: 10 feet\nWater service and building sewer generally require 10 feet of horizontal separation, unless the water service is installed on a shelf above the sewer as permitted."
+ },
+ {
+  "id": "q:83",
+  "source": "question",
+  "ref": "248 CMR 10.14",
+  "title": "WATER: Water supply fixture units (WSFU) are used to determine:",
+  "text": "Water supply fixture units (WSFU) are used to determine:\nAnswer: Water distribution pipe sizing\nWSFU values assign a demand load to each fixture; the total is used with sizing tables to size the water service and distribution piping."
+ },
+ {
+  "id": "q:84",
+  "source": "question",
+  "ref": "248 CMR 10.14",
+  "title": "WATER: A shutoff valve is required on the cold water supply:",
+  "text": "A shutoff valve is required on the cold water supply:\nAnswer: At or near the inlet to each water heater\nAn accessible full-open shutoff valve is required on the cold water supply at or near each water heater so it can be serviced without shutting down the building."
+ },
+ {
+  "id": "q:85",
+  "source": "question",
+  "ref": "248 CMR 10.14",
+  "title": "WATER: The discharge pipe from a water heater T&P relief valve must:",
+  "text": "The discharge pipe from a water heater T&P relief valve must:\nAnswer: Be full size and terminate without threads near the floor\nThe T&P discharge must be full size of the valve outlet, run to a safe point of discharge near the floor, and must not be threaded, capped, or directly connected to the drainage system."
+ },
+ {
+  "id": "q:86",
+  "source": "question",
+  "ref": "248 CMR 10.14",
+  "title": "WATER: A temperature and pressure (T&P) relief valve is set to open at:",
+  "text": "A temperature and pressure (T&P) relief valve is set to open at:\nAnswer: 210°F / 150 psi\nStandard T&P relief valves open at 210°F or 150 psi, whichever occurs first, to protect the tank from explosion."
+ },
+ {
+  "id": "q:87",
+  "source": "question",
+  "ref": "248 CMR 10.10",
+  "title": "WATER: Individual shower control valves must be pressure-balancing or thermostatic type with a maximum setting of:",
+  "text": "Individual shower control valves must be pressure-balancing or thermostatic type with a maximum setting of:\nAnswer: 112°F\nShower valves must be pressure-balance or thermostatic mixing type, limited to a maximum outlet temperature of 112°F to prevent scalding."
+ },
+ {
+  "id": "q:88",
+  "source": "question",
+  "ref": "248 CMR 10.14",
+  "title": "WATER: An exterior hose bibb (sillcock) must be protected against backflow by:",
+  "text": "An exterior hose bibb (sillcock) must be protected against backflow by:\nAnswer: A vacuum breaker\nHose connections require an approved vacuum breaker (integral or attached) because a submerged hose is a direct cross-connection."
+ },
+ {
+  "id": "q:89",
+  "source": "question",
+  "ref": "248 CMR 10.08",
+  "title": "FIXTURES: Which trap type is prohibited?",
+  "text": "Which trap type is prohibited?\nAnswer: S-trap\nS-traps are prohibited because they are prone to self-siphoning, which destroys the trap seal."
+ },
+ {
+  "id": "q:90",
+  "source": "question",
+  "ref": "248 CMR 10.10",
+  "title": "FIXTURES: The minimum clearance from the centerline of a water closet to any side wall or partition is:",
+  "text": "The minimum clearance from the centerline of a water closet to any side wall or partition is:\nAnswer: 15 inches\nA water closet must be set at least 15 inches from its centerline to any side wall, partition, or adjacent fixture."
+ },
+ {
+  "id": "q:91",
+  "source": "question",
+  "ref": "248 CMR 10.10",
+  "title": "FIXTURES: A fixture overflow (such as on a lavatory) must connect to the drainage system:",
+  "text": "A fixture overflow (such as on a lavatory) must connect to the drainage system:\nAnswer: On the inlet (fixture) side of the trap\nOverflows must discharge on the inlet side of the fixture trap so the overflow passage is protected by the same trap seal."
+ },
+ {
+  "id": "q:92",
+  "source": "question",
+  "ref": "248 CMR 10.10",
+  "title": "FIXTURES: What is the minimum trap and drain size for a clothes washer standpipe?",
+  "text": "What is the minimum trap and drain size for a clothes washer standpipe?\nAnswer: 2 inch\nA clothes washer standpipe requires a minimum 2-inch trap and drain to handle the pump discharge rate."
+ },
+ {
+  "id": "q:93",
+  "source": "question",
+  "ref": "248 CMR 10.15",
+  "title": "FIXTURES: What is the DFU value of a drinking fountain?",
+  "text": "What is the DFU value of a drinking fountain?\nAnswer: 1/2 DFU\nPer 248 CMR 10.15, a drinking fountain has a drainage fixture unit value of 1/2 — the lowest of any common fixture."
+ },
+ {
+  "id": "q:94",
+  "source": "question",
+  "ref": "248 CMR 10.07",
+  "title": "FIXTURES: Fixtures with concealed slip-joint connections require:",
+  "text": "Fixtures with concealed slip-joint connections require:\nAnswer: An access panel or utility space for inspection\nSlip joints in concealed locations must be accessible — an access panel or utility space is required so the connections can be inspected and repaired."
+ },
+ {
+  "id": "q:95",
+  "source": "question",
+  "ref": "248 CMR 10.16",
+  "title": "SIZING: An individual vent must be at least one-half the diameter of the drain served, but never smaller than:",
+  "text": "An individual vent must be at least one-half the diameter of the drain served, but never smaller than:\nAnswer: 1-1/4 inches\nVents must be at least half the diameter of the drain they serve and in no case smaller than 1-1/4 inches."
+ },
+ {
+  "id": "q:96",
+  "source": "question",
+  "ref": "248 CMR 10.16",
+  "title": "SIZING: What is the maximum trap arm length for a 1-1/4 inch trap?",
+  "text": "What is the maximum trap arm length for a 1-1/4 inch trap?\nAnswer: 3 feet 6 inches\nPer the trap-to-vent distance table, a 1-1/4 inch trap arm may not exceed 3 feet 6 inches in developed length."
+ },
+ {
+  "id": "q:97",
+  "source": "question",
+  "ref": "248 CMR 10.16",
+  "title": "SIZING: What is the maximum trap arm length for a 3-inch trap?",
+  "text": "What is the maximum trap arm length for a 3-inch trap?\nAnswer: 12 feet\nPer the trap-to-vent distance table, a 3-inch trap arm may extend up to 12 feet — following the progression 1-1/2\" = 5 ft, 2\" = 8 ft, 3\" = 12 ft."
+ },
+ {
+  "id": "q:98",
+  "source": "question",
+  "ref": "248 CMR 10.15",
+  "title": "SIZING: A building drain is sized based on:",
+  "text": "A building drain is sized based on:\nAnswer: Total DFU load and pipe slope\nBuilding drains are sized from the total drainage fixture unit load and the slope of the pipe, using the sizing tables."
+ },
+ {
+  "id": "q:99",
+  "source": "question",
+  "ref": "248 CMR 10.15",
+  "title": "SIZING: What is the maximum number of water closets permitted on a 3-inch horizontal fixture branch?",
+  "text": "What is the maximum number of water closets permitted on a 3-inch horizontal fixture branch?\nAnswer: 2\nA 3-inch horizontal branch is limited to 2 water closets; more than that requires a 4-inch branch."
+ },
+ {
+  "id": "q:100",
+  "source": "question",
+  "ref": "248 CMR 10.16",
+  "title": "SIZING: When the developed length of a vent exceeds 40 feet, the vent must be:",
+  "text": "When the developed length of a vent exceeds 40 feet, the vent must be:\nAnswer: Increased one pipe size for its entire length\nVents whose developed length exceeds 40 feet must be increased one nominal size for their entire developed length."
+ },
+ {
+  "id": "q:101",
+  "source": "question",
+  "ref": "248 CMR 4.00",
+  "title": "GAS: Gas pipe sizing is based on all of the following EXCEPT:",
+  "text": "Gas pipe sizing is based on all of the following EXCEPT:\nAnswer: Color of the pipe\nGas piping is sized from the connected BTU load, the longest run length, the allowable pressure drop, and the specific gravity of the gas."
+ },
+ {
+  "id": "q:102",
+  "source": "question",
+  "ref": "248 CMR 4.00",
+  "title": "GAS: CSST (corrugated stainless steel tubing) gas piping systems must be:",
+  "text": "CSST (corrugated stainless steel tubing) gas piping systems must be:\nAnswer: Electrically bonded to the grounding system\nCSST systems must be bonded to the electrical grounding system to reduce the risk of damage from lightning-induced arcing."
+ },
+ {
+  "id": "q:103",
+  "source": "question",
+  "ref": "248 CMR 4.00",
+  "title": "GAS: Gas piping passing through a masonry foundation wall must be:",
+  "text": "Gas piping passing through a masonry foundation wall must be:\nAnswer: Installed in a protective sleeve\nPiping through foundation or masonry walls must pass through a protective sleeve to prevent damage from settlement and corrosion."
+ },
+ {
+  "id": "q:104",
+  "source": "question",
+  "ref": "248 CMR 4.00",
+  "title": "GAS: Gas piping is prohibited from being installed in:",
+  "text": "Gas piping is prohibited from being installed in:\nAnswer: Air ducts, chimneys, and elevator shafts\nGas piping may never run through air ducts, chimneys, gas vents, elevator shafts, or similar spaces where a leak would spread gas through the building."
+ },
+ {
+  "id": "q:105",
+  "source": "question",
+  "ref": "248 CMR 4.00",
+  "title": "GAS: A listed flexible appliance connector for a gas range may not exceed:",
+  "text": "A listed flexible appliance connector for a gas range may not exceed:\nAnswer: 6 feet\nFlexible gas connectors for ranges and dryers are limited to 6 feet in length and may not pass through walls, floors, or partitions."
+ },
+ {
+  "id": "q:106",
+  "source": "question",
+  "ref": "248 CMR 4.00",
+  "title": "GAS: LP (propane) gas differs from natural gas in that LP gas is:",
+  "text": "LP (propane) gas differs from natural gas in that LP gas is:\nAnswer: Heavier than air\nLP gas is heavier than air and pools in low areas — a key safety difference from natural gas, which rises. LP also has a higher BTU content per cubic foot."
+ },
+ {
+  "id": "q:107",
+  "source": "question",
+  "ref": "248 CMR 10.14",
+  "title": "BACKFLOW: A frost-proof hose bibb vacuum breaker must be:",
+  "text": "A frost-proof hose bibb vacuum breaker must be:\nAnswer: Permanently attached (non-removable) once installed\nHose connection vacuum breakers are designed to become non-removable once installed (breakaway set screw) so the protection cannot be defeated."
+ },
+ {
+  "id": "q:108",
+  "source": "question",
+  "ref": "248 CMR 10.14",
+  "title": "BACKFLOW: A double check valve assembly (DCVA) provides protection against:",
+  "text": "A double check valve assembly (DCVA) provides protection against:\nAnswer: Low-hazard (pollutant) cross-connections only\nA DCVA is approved only for low-hazard (pollutant) connections. High-hazard (contaminant) connections require an RPZ or air gap."
+ },
+ {
+  "id": "q:109",
+  "source": "question",
+  "ref": "248 CMR 10.14",
+  "title": "BACKFLOW: A lawn irrigation system connected to potable water requires, at minimum:",
+  "text": "A lawn irrigation system connected to potable water requires, at minimum:\nAnswer: An approved backflow preventer (e.g., pressure vacuum breaker)\nIrrigation systems are cross-connections and require an approved backflow assembly — commonly a pressure vacuum breaker, or an RPZ where chemicals are injected."
+ },
+ {
+  "id": "q:110",
+  "source": "question",
+  "ref": "248 CMR 10.07",
+  "title": "MATERIALS: Before solvent-cementing PVC pipe and fittings, you must apply:",
+  "text": "Before solvent-cementing PVC pipe and fittings, you must apply:\nAnswer: An approved primer\nPVC joints require an approved primer before solvent cement to soften the surfaces for proper fusion. (ABS, by contrast, is cemented without primer.)"
+ },
+ {
+  "id": "q:111",
+  "source": "question",
+  "ref": "248 CMR 10.07",
+  "title": "MATERIALS: When joining copper tubing to galvanized steel pipe, you must use:",
+  "text": "When joining copper tubing to galvanized steel pipe, you must use:\nAnswer: A dielectric union or dielectric fitting\nDissimilar metals like copper and galvanized steel must be joined with a dielectric fitting to prevent galvanic corrosion."
+ },
+ {
+  "id": "q:112",
+  "source": "question",
+  "ref": "248 CMR 10.07",
+  "title": "MATERIALS: No-hub cast iron pipe is joined using:",
+  "text": "No-hub cast iron pipe is joined using:\nAnswer: Shielded (no-hub) couplings\nNo-hub cast iron is joined with shielded couplings — a neoprene sleeve with a stainless steel shield and clamps. Lead and oakum is used on hub-and-spigot pipe."
+ },
+ {
+  "id": "q:113",
+  "source": "question",
+  "ref": "248 CMR 10.10",
+  "title": "GENERAL: The maximum flush volume for a new water closet is:",
+  "text": "The maximum flush volume for a new water closet is:\nAnswer: 1.6 gallons\nFederal and state water-conservation standards limit new water closets to a maximum of 1.6 gallons per flush."
+ },
+ {
+  "id": "q:114",
+  "source": "question",
+  "ref": "248 CMR 10.05",
+  "title": "GENERAL: Used (secondhand) plumbing fixtures and materials may be reinstalled:",
+  "text": "Used (secondhand) plumbing fixtures and materials may be reinstalled:\nAnswer: Only if approved and in good, sanitary working condition\nReused materials and fixtures must be approved and restored to good, sanitary working condition before reinstallation."
+ },
+ {
+  "id": "q:115",
+  "source": "question",
+  "ref": "248 CMR 2.00",
+  "title": "PERMITS: Before a new plumbing system may be put into use, it must:",
+  "text": "Before a new plumbing system may be put into use, it must:\nAnswer: Pass a final inspection by the inspector of plumbing\nA final inspection and approval by the local inspector of plumbing is required before the system is placed in service."
+ },
+ {
+  "id": "q:116",
+  "source": "question",
+  "ref": "248 CMR 10.12",
+  "title": "DWV: What is the difference between an air gap and an air break in indirect waste piping?",
+  "text": "What is the difference between an air gap and an air break in indirect waste piping?\nAnswer: An air gap terminates above the flood rim; an air break terminates below the rim but above the trap seal\nAn air gap ends above the receptor flood level rim (full physical separation). An air break ends below the rim but above the trap weir — protecting against backflow but not rim flooding."
+ },
+ {
+  "id": "q:117",
+  "source": "question",
+  "ref": "248 CMR 10.15",
+  "title": "DWV: A backwater valve is required when:",
+  "text": "A backwater valve is required when:\nAnswer: Fixtures are located below the elevation of the next upstream manhole cover\nFixtures with flood rims below the next upstream manhole cover elevation must be protected by a backwater valve, since the public sewer can back up into them."
+ },
+ {
+  "id": "q:118",
+  "source": "question",
+  "ref": "248 CMR 10.10",
+  "title": "DWV: What is the minimum size of a floor drain?",
+  "text": "What is the minimum size of a floor drain?\nAnswer: 2 inch\nFloor drains must be at least 2 inches, with a minimum 2-inch trap."
+ },
+ {
+  "id": "q:119",
+  "source": "question",
+  "ref": "248 CMR 10.15",
+  "title": "DWV: An offset in a drainage stack is still considered vertical when the angle from vertical does not exceed:",
+  "text": "An offset in a drainage stack is still considered vertical when the angle from vertical does not exceed:\nAnswer: 45 degrees\nPiping at 45 degrees or less from vertical is treated as vertical; beyond 45 degrees it is treated as horizontal and must be sized and sloped accordingly."
+ },
+ {
+  "id": "q:120",
+  "source": "question",
+  "ref": "248 CMR 10.09",
+  "title": "DWV: A grease interceptor (grease trap) is required for:",
+  "text": "A grease interceptor (grease trap) is required for:\nAnswer: Commercial kitchen fixtures that discharge grease-laden waste\nCommercial kitchen fixtures (pot sinks, pre-rinse sinks, etc.) that discharge grease-laden waste must drain through a properly sized grease interceptor."
+ },
+ {
+  "id": "q:121",
+  "source": "question",
+  "ref": "248 CMR 10.13",
+  "title": "DWV: Corrosive chemical or laboratory waste must be:",
+  "text": "Corrosive chemical or laboratory waste must be:\nAnswer: Piped in an approved corrosion-resistant system and neutralized before discharge\nChemical/laboratory waste requires approved acid-resistant piping and treatment (dilution/neutralization) before it may enter the sanitary drainage system."
+ },
+ {
+  "id": "q:122",
+  "source": "question",
+  "ref": "248 CMR 10.15",
+  "title": "DWV: What is the maximum DFU load on a 1-1/2 inch fixture branch?",
+  "text": "What is the maximum DFU load on a 1-1/2 inch fixture branch?\nAnswer: 3 DFU\nA 1-1/2 inch branch is limited to 3 drainage fixture units."
+ },
+ {
+  "id": "q:123",
+  "source": "question",
+  "ref": "248 CMR 10.11",
+  "title": "WATER: Horizontal copper water tubing (1 inch and smaller) must be supported at intervals not exceeding:",
+  "text": "Horizontal copper water tubing (1 inch and smaller) must be supported at intervals not exceeding:\nAnswer: 6 feet\nHorizontal copper tube in smaller sizes is supported at maximum 6-foot intervals to prevent sagging."
+ },
+ {
+  "id": "q:124",
+  "source": "question",
+  "ref": "248 CMR 10.10",
+  "title": "WATER: When facing a faucet or combination fitting, the hot water supply must be on the:",
+  "text": "When facing a faucet or combination fitting, the hot water supply must be on the:\nAnswer: Left side\nHot water must always be supplied to the left side of a fitting as the user faces it — a fundamental anti-scald convention."
+ },
+ {
+  "id": "q:125",
+  "source": "question",
+  "ref": "248 CMR 10.14",
+  "title": "WATER: A bottom-fed storage water heater must be equipped with:",
+  "text": "A bottom-fed storage water heater must be equipped with:\nAnswer: A vacuum relief valve\nBottom-fed water heaters require a vacuum relief valve so a supply-side siphon cannot drain the tank and burn out the heater (or collapse the tank)."
+ },
+ {
+  "id": "q:126",
+  "source": "question",
+  "ref": "248 CMR 10.14",
+  "title": "WATER: Tempered water delivered to public handwashing lavatories must not exceed:",
+  "text": "Tempered water delivered to public handwashing lavatories must not exceed:\nAnswer: 110°F\nPublic handwashing facilities are limited to tempered water at a maximum of 110°F, typically through a limiting device or mixing valve."
+ },
+ {
+  "id": "q:127",
+  "source": "question",
+  "ref": "248 CMR 10.14",
+  "title": "WATER: An individual shutoff (stop) valve is required:",
+  "text": "An individual shutoff (stop) valve is required:\nAnswer: At each fixture supply\nEach fixture supply requires an accessible stop valve so the fixture can be serviced without shutting off water to other fixtures."
+ },
+ {
+  "id": "q:128",
+  "source": "question",
+  "ref": "248 CMR 10.14",
+  "title": "WATER: Water distribution piping must be protected from freezing. Piping in an exterior wall must be:",
+  "text": "Water distribution piping must be protected from freezing. Piping in an exterior wall must be:\nAnswer: Insulated or otherwise protected on the heated side of the insulation\nWater piping in exterior walls must be placed on the heated side of the wall insulation or otherwise protected against freezing."
+ },
+ {
+  "id": "q:129",
+  "source": "question",
+  "ref": "248 CMR 10.16",
+  "title": "VENTING: A stack vent is defined as:",
+  "text": "A stack vent is defined as:\nAnswer: The extension of a soil or waste stack above the highest horizontal drain connection\nThe stack vent is the dry extension of a soil/waste stack above the highest horizontal branch connected to that stack."
+ },
+ {
+  "id": "q:130",
+  "source": "question",
+  "ref": "248 CMR 10.16",
+  "title": "VENTING: A vent connection must be at least how far from the trap weir (to avoid crown venting)?",
+  "text": "A vent connection must be at least how far from the trap weir (to avoid crown venting)?\nAnswer: Two pipe diameters\nThe vent may not connect within two pipe diameters of the trap weir — a crown vent clogs with waste and fails."
+ },
+ {
+  "id": "q:131",
+  "source": "question",
+  "ref": "248 CMR 10.16",
+  "title": "VENTING: Air admittance valves (AAVs) in Massachusetts are:",
+  "text": "Air admittance valves (AAVs) in Massachusetts are:\nAnswer: Generally prohibited except where specifically approved by the Board\nMassachusetts generally does not permit AAVs in place of conventional venting except with specific Board approval — a notable difference from the IPC."
+ },
+ {
+  "id": "q:132",
+  "source": "question",
+  "ref": "248 CMR 10.16",
+  "title": "VENTING: A branch interval on a stack is a length of stack:",
+  "text": "A branch interval on a stack is a length of stack:\nAnswer: At least 8 feet, within which horizontal branches connect\nA branch interval is a stack section at least 8 feet high within which the horizontal branches of one story connect — used for relief-vent and sizing rules."
+ },
+ {
+  "id": "q:133",
+  "source": "question",
+  "ref": "248 CMR 10.16",
+  "title": "VENTING: When two or more vents are combined before extending through the roof, the combined vent is sized based on:",
+  "text": "When two or more vents are combined before extending through the roof, the combined vent is sized based on:\nAnswer: The total fixture units served by all connected vents\nA combined vent header must be sized for the total drainage fixture unit load of all the vents it serves."
+ },
+ {
+  "id": "q:134",
+  "source": "question",
+  "ref": "248 CMR 10.15",
+  "title": "SIZING: What is the DFU value of a complete bathroom group (WC 1.6 gpf, lavatory, and tub/shower)?",
+  "text": "What is the DFU value of a complete bathroom group (WC 1.6 gpf, lavatory, and tub/shower)?\nAnswer: 6 DFU\nA bathroom group with a 1.6 gpf water closet is assigned 6 DFU when sized as a group."
+ },
+ {
+  "id": "q:135",
+  "source": "question",
+  "ref": "248 CMR 10.17",
+  "title": "SIZING: Storm (roof) drainage piping is sized based on:",
+  "text": "Storm (roof) drainage piping is sized based on:\nAnswer: Roof area and local rainfall rate\nStorm drains are sized from the horizontal projected roof area and the design rainfall rate — never with DFU values, which are for sanitary loads."
+ },
+ {
+  "id": "q:136",
+  "source": "question",
+  "ref": "248 CMR 10.16",
+  "title": "SIZING: A vent stack (parallel dry vent) is required for drainage stacks of:",
+  "text": "A vent stack (parallel dry vent) is required for drainage stacks of:\nAnswer: 5 or more branch intervals\nDrainage stacks of 5 or more branch intervals require a parallel vent stack to relieve pressure at the base."
+ },
+ {
+  "id": "q:137",
+  "source": "question",
+  "ref": "248 CMR 10.15",
+  "title": "SIZING: What is the minimum drain size for a fixture with a 1-1/2 inch trap?",
+  "text": "What is the minimum drain size for a fixture with a 1-1/2 inch trap?\nAnswer: 1-1/2 inch\nThe fixture drain may never be smaller than the trap it serves — a 1-1/2 inch trap requires at least a 1-1/2 inch drain."
+ },
+ {
+  "id": "q:138",
+  "source": "question",
+  "ref": "248 CMR 10.15",
+  "title": "SIZING: What is the minimum slope for a 4-inch building sewer?",
+  "text": "What is the minimum slope for a 4-inch building sewer?\nAnswer: 1/8 inch per foot\nBuilding sewers 4 inches and larger require a minimum slope of 1/8 inch per foot, matching the rule for building drains of that size."
+ },
+ {
+  "id": "q:139",
+  "source": "question",
+  "ref": "248 CMR 10.10",
+  "title": "FIXTURES: What is the minimum trap size for a wall-hung urinal?",
+  "text": "What is the minimum trap size for a wall-hung urinal?\nAnswer: 2 inch\nUrinals require a minimum 2-inch trap (integral or external)."
+ },
+ {
+  "id": "q:140",
+  "source": "question",
+  "ref": "248 CMR 10.12",
+  "title": "FIXTURES: In Massachusetts, a domestic dishwasher drain connection requires:",
+  "text": "In Massachusetts, a domestic dishwasher drain connection requires:\nAnswer: A listed air gap fitting mounted above the sink flood rim\nMassachusetts requires a listed air gap fitting (mounted at the sink deck, above the flood rim) on dishwasher drains — a high loop alone is not acceptable."
+ },
+ {
+  "id": "q:141",
+  "source": "question",
+  "ref": "248 CMR 10.10",
+  "title": "FIXTURES: Where a fixture meets a wall or floor, the joint must be:",
+  "text": "Where a fixture meets a wall or floor, the joint must be:\nAnswer: Sealed watertight (caulked/gasketed)\nFixture connections at walls and floors must be sealed watertight to prevent water damage and harborage of vermin."
+ },
+ {
+  "id": "q:142",
+  "source": "question",
+  "ref": "248 CMR 10.15",
+  "title": "FIXTURES: What is the DFU value of a laundry tray (laundry sink)?",
+  "text": "What is the DFU value of a laundry tray (laundry sink)?\nAnswer: 2 DFU\nA laundry tray is assigned 2 drainage fixture units."
+ },
+ {
+  "id": "q:143",
+  "source": "question",
+  "ref": "248 CMR 10.10",
+  "title": "FIXTURES: Water closets for public use must have seats that are:",
+  "text": "Water closets for public use must have seats that are:\nAnswer: Elongated with open-front seats\nPublic-use water closets require elongated bowls with open-front seats for sanitation."
+ },
+ {
+  "id": "q:144",
+  "source": "question",
+  "ref": "248 CMR 10.08",
+  "title": "FIXTURES: A trap may serve more than one fixture only when:",
+  "text": "A trap may serve more than one fixture only when:\nAnswer: Specifically permitted, such as a two- or three-compartment sink within allowed spacing\nOne trap per fixture is the rule, with narrow exceptions — e.g., a multi-compartment sink may share one trap when the compartments are adjacent and within the allowed distance."
+ },
+ {
+  "id": "q:145",
+  "source": "question",
+  "ref": "248 CMR 4.00",
+  "title": "GAS: A gas-fired appliance installed in a bedroom or bathroom must be:",
+  "text": "A gas-fired appliance installed in a bedroom or bathroom must be:\nAnswer: Direct-vent (sealed combustion) type\nFuel-fired appliances in sleeping rooms and bathrooms must be direct-vent/sealed-combustion so combustion air and flue gases never mix with room air."
+ },
+ {
+  "id": "q:146",
+  "source": "question",
+  "ref": "248 CMR 4.00",
+  "title": "GAS: A confined space containing gas appliances requires combustion air openings:",
+  "text": "A confined space containing gas appliances requires combustion air openings:\nAnswer: Two openings — one near the top and one near the bottom of the space\nConfined spaces need two permanent combustion-air openings, one within 12 inches of the top and one within 12 inches of the bottom, sized to the appliance input."
+ },
+ {
+  "id": "q:147",
+  "source": "question",
+  "ref": "248 CMR 4.00",
+  "title": "GAS: The vent (breather) from a gas line pressure regulator must terminate:",
+  "text": "The vent (breather) from a gas line pressure regulator must terminate:\nAnswer: Outdoors, protected from blockage and away from openings\nLine regulator vents must run independently to the outdoors, terminate away from building openings, and be protected against insects and blockage."
+ },
+ {
+  "id": "q:148",
+  "source": "question",
+  "ref": "248 CMR 4.00",
+  "title": "GAS: What is the minimum burial depth for underground gas piping?",
+  "text": "What is the minimum burial depth for underground gas piping?\nAnswer: 12 inches\nUnderground gas piping requires at least 12 inches of cover (deeper where subject to vehicular traffic)."
+ },
+ {
+  "id": "q:149",
+  "source": "question",
+  "ref": "248 CMR 4.00",
+  "title": "GAS: Polyethylene (PE) plastic gas piping may be installed:",
+  "text": "Polyethylene (PE) plastic gas piping may be installed:\nAnswer: Only underground outside the building, with tracer wire\nPE gas pipe is for underground exterior use only, installed with a tracer wire (or other approved locating means), transitioning to metal with an approved riser before entering the building."
+ },
+ {
+  "id": "q:150",
+  "source": "question",
+  "ref": "248 CMR 4.00",
+  "title": "GAS: The proper way to check a gas joint for leaks is:",
+  "text": "The proper way to check a gas joint for leaks is:\nAnswer: Soap/leak-detection solution or a gauge test\nLeak checks are done with approved leak-detection solution or pressure-gauge testing — never with an open flame."
+ },
+ {
+  "id": "q:151",
+  "source": "question",
+  "ref": "248 CMR 10.14",
+  "title": "BACKFLOW: The two conditions that cause backflow are:",
+  "text": "The two conditions that cause backflow are:\nAnswer: Backpressure and backsiphonage\nBackflow occurs by backpressure (downstream pressure exceeds supply) or backsiphonage (negative supply pressure siphons contaminants in)."
+ },
+ {
+  "id": "q:152",
+  "source": "question",
+  "ref": "248 CMR 10.14",
+  "title": "BACKFLOW: An RPZ assembly must be installed with a minimum clearance above the floor of:",
+  "text": "An RPZ assembly must be installed with a minimum clearance above the floor of:\nAnswer: 12 inches\nRPZ assemblies need at least 12 inches of clearance below the relief port so discharge is visible and the assembly is serviceable — and they may never be installed in a pit."
+ },
+ {
+  "id": "q:153",
+  "source": "question",
+  "ref": "248 CMR 10.14",
+  "title": "BACKFLOW: A required air gap at a fixture is measured from the:",
+  "text": "A required air gap at a fixture is measured from the:\nAnswer: Supply outlet (spout) to the flood level rim\nThe air gap is the vertical distance between the supply outlet and the flood level rim of the fixture or receptor."
+ },
+ {
+  "id": "q:154",
+  "source": "question",
+  "ref": "248 CMR 10.06",
+  "title": "MATERIALS: Type M copper tube is:",
+  "text": "Type M copper tube is:\nAnswer: The thinnest-wall standard type, generally limited to above-ground use inside buildings\nType M (red) has the thinnest wall of the standard types and is generally restricted to above-ground water distribution inside buildings."
+ },
+ {
+  "id": "q:155",
+  "source": "question",
+  "ref": "248 CMR 10.06",
+  "title": "MATERIALS: PEX tubing connected to a water heater must:",
+  "text": "PEX tubing connected to a water heater must:\nAnswer: Be kept at least 18 inches away, using metallic piping for the first connection\nPEX may not connect directly to a water heater — the first 18 inches from the heater must be metallic piping per manufacturer listing."
+ },
+ {
+  "id": "q:156",
+  "source": "question",
+  "ref": "248 CMR 10.07",
+  "title": "MATERIALS: When installing hub-and-spigot cast iron drainage pipe, the hubs face:",
+  "text": "When installing hub-and-spigot cast iron drainage pipe, the hubs face:\nAnswer: Upstream, against the flow\nHubs are laid facing upstream so the spigot ends point downstream with the flow, keeping the smooth interior path in the direction of drainage."
+ },
+ {
+  "id": "q:157",
+  "source": "question",
+  "ref": "248 CMR 10.07",
+  "title": "MATERIALS: Threaded pipe joints for water piping use what thread standard?",
+  "text": "Threaded pipe joints for water piping use what thread standard?\nAnswer: NPT tapered pipe threads with approved sealant\nPipe joints use tapered NPT threads made up with an approved thread sealant appropriate for the service."
+ },
+ {
+  "id": "q:158",
+  "source": "question",
+  "ref": "248 CMR 2.00",
+  "title": "GENERAL: A plumbing apprentice in Massachusetts must be:",
+  "text": "A plumbing apprentice in Massachusetts must be:\nAnswer: Registered with the Board and working under licensed supervision\nApprentices must be registered with the Board of State Examiners of Plumbers and Gas Fitters and work under the direct supervision of a licensed plumber."
+ },
+ {
+  "id": "q:159",
+  "source": "question",
+  "ref": "248 CMR 2.00",
+  "title": "GENERAL: Massachusetts plumbing licenses are renewed:",
+  "text": "Massachusetts plumbing licenses are renewed:\nAnswer: Every 2 years with required continuing education\nLicenses renew on a 2-year cycle, and licensees must complete Board-required continuing education for renewal."
+ },
+ {
+  "id": "q:160",
+  "source": "question",
+  "ref": "248 CMR 2.00",
+  "title": "GENERAL: The scope of 248 CMR covers:",
+  "text": "The scope of 248 CMR covers:\nAnswer: Plumbing and fuel gas fitting work in Massachusetts\n248 CMR governs plumbing and gas fitting in the Commonwealth — installation, alteration, repair, and the licensing of those who perform the work."
+ },
+ {
+  "id": "q:161",
+  "source": "question",
+  "ref": "248 CMR 2.00",
+  "title": "GENERAL: Which license class may operate a plumbing business and obtain permits in Massachusetts?",
+  "text": "Which license class may operate a plumbing business and obtain permits in Massachusetts?\nAnswer: Master plumber\nOnly a master plumber may operate a plumbing business and pull permits; journeymen work under a master, and apprentices under direct supervision."
+ },
+ {
+  "id": "q:162",
+  "source": "question",
+  "ref": "248 CMR 10.18",
+  "title": "MEDICAL: In the U.S. color code for medical gases, oxygen outlets and piping are identified by:",
+  "text": "In the U.S. color code for medical gases, oxygen outlets and piping are identified by:\nAnswer: Green\nOxygen is identified by green in the U.S. medical gas color code (white is used internationally)."
+ },
+ {
+  "id": "q:163",
+  "source": "question",
+  "ref": "248 CMR 10.18",
+  "title": "MEDICAL: After installation, a medical gas system must be verified by:",
+  "text": "After installation, a medical gas system must be verified by:\nAnswer: An independent ASSE 6030-certified verifier\nMedical gas systems require verification (cross-connection, purity, and outlet testing) by an independent ASSE 6030 verifier before use."
+ },
+ {
+  "id": "q:164",
+  "source": "question",
+  "ref": "248 CMR 2.00",
+  "title": "PERMITS: Permitted plumbing work may be performed by:",
+  "text": "Permitted plumbing work may be performed by:\nAnswer: Licensed plumbers, and registered apprentices under supervision\nWork under a plumbing permit must be performed by licensed plumbers (or registered apprentices under required supervision)."
+ },
+ {
+  "id": "q:165",
+  "source": "question",
+  "ref": "248 CMR 10.04",
+  "title": "PERMITS: A common rough-in test of the DWV system before inspection is:",
+  "text": "A common rough-in test of the DWV system before inspection is:\nAnswer: A water test with a minimum 10-foot head of water\nThe DWV rough-in is typically tested by filling the system with water to a minimum 10-foot head (or an approved equivalent air test) and holding without loss."
+ }
+]

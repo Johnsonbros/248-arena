@@ -1,0 +1,23 @@
+# arena-examiner — run on the AiSync (Unraid) host.
+#
+#   1) cp .env.example .env   && point LLM_URL/LLM_MODEL at your gateway
+#   2) node build-corpus.mjs  (refresh corpus.json after content changes)
+#   3) docker compose up -d --build
+#   4) expose https://arena-ai.thejohnsonbros.com via cloudflared -> http://<host>:8767
+#
+# Needs to reach the LLM gateway (ai-router-controller / ai-litellm-gateway) and
+# arena-access. If those run on other compose networks, attach this container to
+# the same network or use host LAN IPs in .env.
+services:
+  arena-examiner:
+    build: .
+    container_name: arena-examiner
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "8767:8767"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8767/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 3

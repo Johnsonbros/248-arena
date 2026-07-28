@@ -22,6 +22,7 @@
 const ACCESS_CONFIG = {
   mode: 'code',                       // switch to 'server' after deploying deploy/access-service
   apiBase: 'https://arena-api.thejohnsonbros.com',   // arena-access service URL (server mode)
+  examinerBase: 'https://arena-ai.thejohnsonbros.com', // arena-examiner AI tutor (empty = disabled)
   accessCode: 'SET_YOUR_CODE_HERE',   // used only in 'code' mode
   pricingUrl: 'pricing.html',
   billingPortalUrl: 'https://billing.stripe.com/p/login/14A00cbKX2s430HbVO0sU00',

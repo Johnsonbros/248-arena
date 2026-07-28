@@ -466,7 +466,7 @@ const App = {
     list.scrollTop = list.scrollHeight;
   },
 
-  sendChat() {
+  async sendChat() {
     const input = document.getElementById('chatInput');
     const text = input.value.trim();
     if (!text) return;
@@ -474,17 +474,57 @@ const App = {
     this.chatMessages.push({ role: 'user', text });
     if (this.chatQuestionActive) {
       this.handleChatAnswer(text);
-    } else if (text.toLowerCase().includes('quiz') || text.toLowerCase().includes('question')) {
-      this.askChatQuestion();
-    } else {
-      const responses = [
-        "The MA plumbing exam is based on 248 CMR. Type 'quiz me' to test yourself, or check the Code Book for reference!",
-        "Good question. The 248 CMR covers everything from pipe sizing to backflow prevention. Want me to quiz you?",
-        "Ready to train? Type 'quiz me' and I'll throw you a question from the exam bank. ⚔️",
-        "Study smart! The exam tests 248 CMR knowledge. Type 'quiz me' for practice, or browse the Code Book section."
-      ];
-      this.chatMessages.push({ role: 'ai', text: responses[Math.floor(Math.random() * responses.length)] });
+      this.renderChatMessages();
+      return;
     }
+    if (text.toLowerCase().includes('quiz') || (text.toLowerCase().includes('question') && text.length < 30)) {
+      this.askChatQuestion();
+      this.renderChatMessages();
+      return;
+    }
+
+    // Real Examiner: grounded AI via the examiner service (server mode only).
+    const aiReady = window.CloudSync && CloudSync.enabled() && ACCESS_CONFIG.examinerBase;
+    if (aiReady) {
+      this.chatMessages.push({ role: 'ai', text: '<em>The Examiner is thinking…</em>', pending: true });
+      this.renderChatMessages();
+      try {
+        const history = this.chatMessages
+          .filter(m => !m.pending)
+          .slice(-10)
+          .map(m => ({ role: m.role === 'ai' ? 'assistant' : 'user', content: m.text.replace(/<[^>]+>/g, '') }));
+        const res = await fetch(`${ACCESS_CONFIG.examinerBase}/api/chat`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: CloudSync.email(), messages: history })
+        });
+        const data = await res.json();
+        this.chatMessages = this.chatMessages.filter(m => !m.pending);
+        if (res.ok && data.reply) {
+          const esc = data.reply.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+          const cites = (data.citations || [])
+            .map(c => `<a class="code-ref" href="codebook.html#${encodeURIComponent(c)}" target="_blank">📖 ${c}</a>`)
+            .join(' ');
+          this.chatMessages.push({ role: 'ai', text: esc + (cites ? '\n\n' + cites : '') });
+        } else {
+          this.chatMessages.push({ role: 'ai', text: `⚠️ ${data.error || 'The Examiner is unavailable right now.'}\n\nType 'quiz me' to keep training!` });
+        }
+      } catch (e) {
+        this.chatMessages = this.chatMessages.filter(m => !m.pending);
+        this.chatMessages.push({ role: 'ai', text: "⚠️ Can't reach The Examiner right now. Type 'quiz me' to keep training, or check the Code Book!" });
+      }
+      this.renderChatMessages();
+      return;
+    }
+
+    // Fallback (offline / code mode): the original canned coaching.
+    const responses = [
+      "The MA plumbing exam is based on 248 CMR. Type 'quiz me' to test yourself, or check the Code Book for reference!",
+      "Good question. The 248 CMR covers everything from pipe sizing to backflow prevention. Want me to quiz you?",
+      "Ready to train? Type 'quiz me' and I'll throw you a question from the exam bank. ⚔️",
+      "Study smart! The exam tests 248 CMR knowledge. Type 'quiz me' for practice, or browse the Code Book section."
+    ];
+    this.chatMessages.push({ role: 'ai', text: responses[Math.floor(Math.random() * responses.length)] });
     this.renderChatMessages();
   },
 
