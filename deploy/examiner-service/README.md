@@ -16,11 +16,17 @@ AiSync fleet (your 3090 pays the token bill — $0 per session), answers from th
 ## Endpoints
 | Endpoint | Purpose |
 |---|---|
-| `POST /api/chat` | `{ email, messages }` → `{ reply, citations }` — active subscribers only (checked against arena-access, fail-closed) |
+| `POST /api/chat` | `{ email, messages, kind? }` → `{ reply, citations }` — active subscribers only (checked against arena-access, fail-closed) |
+| `POST /api/voice` | `{ email, kind?, audio(base64), mime?, messages? }` → `{ transcript, reply, citations, audio? }` — full voice loop: **whisper** STT → grounded chat → **kokoro** TTS, all on the fleet |
 | `GET /healthz` | liveness + corpus size |
 
-Guardrails: 40 messages/user/hour, 300/hour globally (the GPU is shared), bounded history
-and reply length.
+`kind`: `tutor` (default — Socratic explainer) or `oral` (**mock oral exam** — asks one
+exam question at a time, judges the answer with a citation, presses on weak answers, keeps
+a running score and gives a verdict).
+
+Guardrails: 40 messages/user/hour (voice counts double — it's GPU time ×3), 300/hour
+globally, bounded history/reply, audio payload caps. TTS is best-effort: if kokoro is
+down, the text reply still comes back.
 
 ## Setup (~10 min, on AiSync)
 ```bash
@@ -44,6 +50,13 @@ routes (an 8–14B instruct model on the 3090 is plenty for grounded Q&A).
 - The local **quiz mode** ("quiz me") stays client-side.
 - Offline / code mode / service down → graceful fallback to the original canned coaching.
 
-## Roadmap (phase 2)
-Voice: whisper (STT) + kokoro (TTS) + the realtime voice gateway already on the fleet —
-streaming spoken mock-oral-exam mode. This service's `/api/chat` is the brain either way.
+## Voice (phase 2 — shipped)
+Push-to-talk in the app's Examiner chat: tap 🎙️, speak, tap ⏹️ — the clip goes to
+`/api/voice`, whisper transcribes it, the grounded chat answers, kokoro speaks the reply
+back. Combined with **oral mode** this is a spoken mock oral exam on your own hardware,
+at $0 per session. The mic button and Tutor/Oral toggle appear automatically when the
+service is reachable and the user is in server mode.
+
+Voice defaults assume the fleet's existing containers (`whisper` on :8000,
+`kokoro-tts` on :8880) — adjust `STT_URL`/`TTS_URL`/`TTS_VOICE` in `.env` to match your
+network names. Roadmap: streaming/barge-in via the realtime voice gateway.

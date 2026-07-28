@@ -144,9 +144,14 @@
         THE EXAMINER — AI Study Chat
       </div>
       <div class="chat-container" id="chatContent">
+        <div id="chatModeRow" style="display:none;gap:8px;padding:8px 0;">
+          <button id="modeTutor" class="action-btn primary" style="flex:1;" onclick="App.setChatKind('tutor')">💬 Tutor</button>
+          <button id="modeOral" class="action-btn" style="flex:1;" onclick="App.setChatKind('oral')">🎓 Mock Oral Exam</button>
+        </div>
         <div class="chat-messages" id="chatMessages"></div>
         <div class="chat-input-row">
           <input type="text" id="chatInput" placeholder="Ask about 248 CMR or type 'quiz me'..." onkeydown="App.chatKeydown(event)">
+          <button id="micBtn" title="Hold a conversation out loud" style="display:none;min-width:48px;" onclick="App.toggleMic()">🎙️</button>
           <button onclick="App.sendChat()">Send</button>
         </div>
       </div>

@@ -443,6 +443,13 @@ const App = {
   chatMessages: [],
   chatQuestionActive: false,
   chatCurrentQ: null,
+  chatKind: 'tutor',
+  _recorder: null,
+  _recChunks: [],
+
+  aiReady() {
+    return window.CloudSync && CloudSync.enabled() && ACCESS_CONFIG.examinerBase;
+  },
 
   renderChat() {
     if (this.chatMessages.length === 0) {
@@ -450,6 +457,102 @@ const App = {
         role: 'ai',
         text: "⚔️ Welcome to The Examiner. I'm your 248 CMR study partner.\n\nAsk me anything about the MA plumbing code, or type 'quiz me' to test your knowledge!\n\n💡 Tip: After answering questions wrong, check the Code Book for the full code reference."
       });
+    }
+    // Voice + oral-exam controls only when the AI service is live.
+    if (this.aiReady()) {
+      const row = document.getElementById('chatModeRow');
+      const mic = document.getElementById('micBtn');
+      if (row) row.style.display = 'flex';
+      if (mic && navigator.mediaDevices?.getUserMedia) mic.style.display = 'block';
+    }
+    this.renderChatMessages();
+  },
+
+  setChatKind(kind) {
+    this.chatKind = kind === 'oral' ? 'oral' : 'tutor';
+    const t = document.getElementById('modeTutor'), o = document.getElementById('modeOral');
+    if (t) t.classList.toggle('primary', this.chatKind === 'tutor');
+    if (o) o.classList.toggle('primary', this.chatKind === 'oral');
+    if (this.chatKind === 'oral') {
+      this.chatMessages.push({ role: 'ai', text: "🎓 <strong>Mock Oral Exam mode.</strong> I'll fire exam questions at you one at a time and judge your answers — out loud if you use the mic. Say or type 'ready' to begin, and 'I'm done' for your verdict." });
+      this.renderChatMessages();
+    }
+  },
+
+  _chatHistory() {
+    return this.chatMessages
+      .filter(m => !m.pending)
+      .slice(-10)
+      .map(m => ({ role: m.role === 'ai' ? 'assistant' : 'user', content: m.text.replace(/<[^>]+>/g, '') }));
+  },
+
+  _renderAiReply(data) {
+    const esc = data.reply.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const cites = (data.citations || [])
+      .map(c => `<a class="code-ref" href="codebook.html#${encodeURIComponent(c)}" target="_blank">📖 ${c}</a>`)
+      .join(' ');
+    this.chatMessages.push({ role: 'ai', text: esc + (cites ? '\n\n' + cites : '') });
+    if (data.audio) {
+      try { new Audio(`data:${data.audioMime || 'audio/mpeg'};base64,${data.audio}`).play().catch(() => {}); } catch (e) {}
+    }
+  },
+
+  // --- voice (push-to-talk) --------------------------------------------------
+  async toggleMic() {
+    const btn = document.getElementById('micBtn');
+    if (this._recorder && this._recorder.state === 'recording') {
+      this._recorder.stop();
+      return;
+    }
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      this._recChunks = [];
+      const rec = new MediaRecorder(stream, MediaRecorder.isTypeSupported?.('audio/webm') ? { mimeType: 'audio/webm' } : undefined);
+      this._recorder = rec;
+      rec.ondataavailable = e => { if (e.data && e.data.size) this._recChunks.push(e.data); };
+      rec.onstop = async () => {
+        stream.getTracks().forEach(t => t.stop());
+        if (btn) { btn.textContent = '🎙️'; btn.classList.remove('primary'); }
+        const blob = new Blob(this._recChunks, { type: rec.mimeType || 'audio/webm' });
+        this._recorder = null;
+        if (blob.size < 1000) return; // accidental tap
+        await this.sendVoice(blob);
+      };
+      rec.start();
+      if (btn) { btn.textContent = '⏹️'; btn.classList.add('primary'); }
+    } catch (e) {
+      this.chatMessages.push({ role: 'ai', text: '⚠️ Mic access was blocked. Allow microphone access for this site to talk to The Examiner.' });
+      this.renderChatMessages();
+    }
+  },
+
+  async sendVoice(blob) {
+    const history = this._chatHistory();
+    this.chatMessages.push({ role: 'ai', text: '<em>🎙️ The Examiner is listening…</em>', pending: true });
+    this.renderChatMessages();
+    try {
+      const audioB64 = await new Promise((resolve, reject) => {
+        const r = new FileReader();
+        r.onload = () => resolve(String(r.result).split(',')[1]);
+        r.onerror = reject;
+        r.readAsDataURL(blob);
+      });
+      const res = await fetch(`${ACCESS_CONFIG.examinerBase}/api/voice`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: CloudSync.email(), kind: this.chatKind, audio: audioB64, mime: blob.type, messages: history })
+      });
+      const data = await res.json();
+      this.chatMessages = this.chatMessages.filter(m => !m.pending);
+      if (res.ok && data.reply) {
+        if (data.transcript) this.chatMessages.push({ role: 'user', text: `🎙️ ${data.transcript.replace(/</g, '&lt;')}` });
+        this._renderAiReply(data);
+      } else {
+        this.chatMessages.push({ role: 'ai', text: `⚠️ ${data.error || 'Voice is unavailable right now — type your question instead.'}` });
+      }
+    } catch (e) {
+      this.chatMessages = this.chatMessages.filter(m => !m.pending);
+      this.chatMessages.push({ role: 'ai', text: "⚠️ Couldn't reach The Examiner's voice line — type your question instead." });
     }
     this.renderChatMessages();
   },
@@ -484,28 +587,19 @@ const App = {
     }
 
     // Real Examiner: grounded AI via the examiner service (server mode only).
-    const aiReady = window.CloudSync && CloudSync.enabled() && ACCESS_CONFIG.examinerBase;
-    if (aiReady) {
+    if (this.aiReady()) {
       this.chatMessages.push({ role: 'ai', text: '<em>The Examiner is thinking…</em>', pending: true });
       this.renderChatMessages();
       try {
-        const history = this.chatMessages
-          .filter(m => !m.pending)
-          .slice(-10)
-          .map(m => ({ role: m.role === 'ai' ? 'assistant' : 'user', content: m.text.replace(/<[^>]+>/g, '') }));
         const res = await fetch(`${ACCESS_CONFIG.examinerBase}/api/chat`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: CloudSync.email(), messages: history })
+          body: JSON.stringify({ email: CloudSync.email(), kind: this.chatKind, messages: this._chatHistory() })
         });
         const data = await res.json();
         this.chatMessages = this.chatMessages.filter(m => !m.pending);
         if (res.ok && data.reply) {
-          const esc = data.reply.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-          const cites = (data.citations || [])
-            .map(c => `<a class="code-ref" href="codebook.html#${encodeURIComponent(c)}" target="_blank">📖 ${c}</a>`)
-            .join(' ');
-          this.chatMessages.push({ role: 'ai', text: esc + (cites ? '\n\n' + cites : '') });
+          this._renderAiReply(data);
         } else {
           this.chatMessages.push({ role: 'ai', text: `⚠️ ${data.error || 'The Examiner is unavailable right now.'}\n\nType 'quiz me' to keep training!` });
         }
