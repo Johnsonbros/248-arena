@@ -19,6 +19,12 @@ const App = {
     this.renderHeader();
     this.showScreen('dashboard');
     this.setupNav();
+    // Cloud sync: adopt server progress (new device / cleared cache), then re-render.
+    if (window.CloudSync) {
+      CloudSync.pull(this.user).then(adopted => {
+        if (adopted) { this.renderHeader(); if (this.currentScreen === 'dashboard') this.renderDashboard(); }
+      });
+    }
   },
 
   renderHeader() {
@@ -343,13 +349,34 @@ const App = {
   lbShowAll: false,
   lbPage: 0,
 
-  renderLeaderboard() {
+  async renderLeaderboard() {
     const container = document.getElementById('leaderboardContent');
     const showAll = this.lbShowAll;
-    const data = showAll 
-      ? Leaderboard.getLeaderboard(this.lbTab, 'ranked', this.lbPage) 
-      : Leaderboard.getLeaderboard(this.lbTab, 'ranked', 0, 10);
-    const userRank = Leaderboard.getUserRank(this.user.id, this.lbTab, 'ranked');
+
+    // Real leaderboard from the server when cloud sync is live; local fallback.
+    let cloud = null;
+    if (window.CloudSync && CloudSync.enabled()) {
+      container.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:40px 0;">Loading rankings…</div>';
+      cloud = await CloudSync.leaderboard(this.lbTab === 'all' ? 'all' : this.lbTab, 'ranked');
+    }
+    let data, userRank;
+    if (cloud) {
+      const pageSize = showAll ? Leaderboard.PAGE_SIZE : 10;
+      const start = showAll ? this.lbPage * pageSize : 0;
+      data = {
+        entries: cloud.entries.slice(start, start + pageSize).map(e => ({
+          ...e, userId: e.you ? this.user.id : 'cloud', level: e.level, title: e.title || 'Fighter'
+        })),
+        total: cloud.total, page: this.lbPage,
+        totalPages: Math.max(1, Math.ceil(Math.min(cloud.entries.length, cloud.total) / pageSize))
+      };
+      userRank = cloud.yourRank;
+    } else {
+      data = showAll
+        ? Leaderboard.getLeaderboard(this.lbTab, 'ranked', this.lbPage)
+        : Leaderboard.getLeaderboard(this.lbTab, 'ranked', 0, 10);
+      userRank = Leaderboard.getUserRank(this.user.id, this.lbTab, 'ranked');
+    }
 
     let html = `
       <div class="leaderboard-tabs">

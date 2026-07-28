@@ -135,6 +135,8 @@ const GameModes = {
         correct: this.correct, total: this.currentIndex, time: elapsed
       });
     }
+    // Sync progress (stats + SRS schedule) to the cloud after every session.
+    if (user && window.CloudSync) CloudSync.push(user);
     return results;
   },
 

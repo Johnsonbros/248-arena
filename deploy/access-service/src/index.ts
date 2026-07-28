@@ -26,7 +26,7 @@
  */
 import express, { type Request, type Response, type NextFunction } from "express";
 import Stripe from "stripe";
-import { Store, type AccessStatus } from "./store.js";
+import { JsonList, JsonMap, Store, type AccessStatus } from "./store.js";
 
 const CFG = {
   port: parseInt(process.env.PORT ?? "8766", 10),
@@ -43,6 +43,27 @@ if (!CFG.stripeKey || !CFG.webhookSecret) {
 
 const stripe = new Stripe(CFG.stripeKey);
 const store = new Store(CFG.dataFile);
+
+interface ProgressRecord {
+  stats: unknown;
+  srs: unknown;
+  updatedAt: string;
+}
+interface ScoreRecord {
+  email: string;      // stored for dedupe/rank; NEVER returned by the API
+  name: string;
+  avatar: string;
+  title: string;
+  level: number;
+  mode: "ranked" | "speed";
+  score: number;
+  correct: number;
+  total: number;
+  time: number;
+  ts: number;
+}
+const progress = new JsonMap<ProgressRecord>(process.env.PROGRESS_FILE ?? "/data/progress.json");
+const scores = new JsonList<ScoreRecord>(process.env.SCORES_FILE ?? "/data/scores.json", 5000);
 
 const ACTIVE: AccessStatus[] = ["active", "trialing", "past_due"];
 
@@ -136,14 +157,22 @@ app.post("/webhook", express.raw({ type: "application/json" }), async (req: Requ
 });
 
 // --- JSON API (CORS-limited to the app's origin) -----------------------------
-app.use(express.json({ limit: "64kb" }));
+app.use(express.json({ limit: "256kb" }));
 app.use((req: Request, res: Response, next: NextFunction) => {
   res.setHeader("Access-Control-Allow-Origin", CFG.siteOrigin);
-  res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
+  res.setHeader("Access-Control-Allow-Methods", "GET, PUT, POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   if (req.method === "OPTIONS") return res.sendStatus(204);
   next();
 });
+
+function normEmail(v: unknown): string {
+  return String(v ?? "").trim().toLowerCase();
+}
+function isActiveSubscriber(email: string): boolean {
+  const rec = store.get(email);
+  return !!rec && ACTIVE.includes(rec.status);
+}
 
 app.get("/healthz", (_req, res) => res.json({ ok: true, service: "arena-access", records: store.count() }));
 
@@ -278,7 +307,86 @@ app.get("/api/checkout-session", async (req: Request, res: Response) => {
   }
 });
 
+// --- Progress sync (active subscribers only) ---------------------------------
+// One record per subscriber email: app stats + the spaced-repetition schedule.
+app.get("/api/progress", (req: Request, res: Response) => {
+  const email = normEmail(req.query.email);
+  if (!email.includes("@")) return res.status(400).json({ error: "Provide ?email=" });
+  if (!isActiveSubscriber(email)) return res.status(403).json({ error: "No active subscription." });
+  const rec = progress.get(email);
+  res.json(rec ? { found: true, ...rec } : { found: false });
+});
+
+app.put("/api/progress", async (req: Request, res: Response) => {
+  const email = normEmail(req.body?.email);
+  if (!email.includes("@")) return res.status(400).json({ error: "email required" });
+  if (!isActiveSubscriber(email)) return res.status(403).json({ error: "No active subscription." });
+  const { stats, srs } = req.body ?? {};
+  if (stats == null || typeof stats !== "object") return res.status(400).json({ error: "stats object required" });
+  const size = JSON.stringify({ stats, srs }).length;
+  if (size > 200_000) return res.status(413).json({ error: "Progress payload too large." });
+  await progress.set(email, { stats, srs: srs ?? {}, updatedAt: new Date().toISOString() });
+  res.json({ ok: true, updatedAt: new Date().toISOString() });
+});
+
+// --- Leaderboard -------------------------------------------------------------
+// Honest caveat: scores are client-submitted; the server validates ranges and
+// requires an active subscription, which stops drive-by junk but not a
+// determined cheater. Server-authoritative scoring needs server-run sessions.
+app.post("/api/score", async (req: Request, res: Response) => {
+  const b = req.body ?? {};
+  const email = normEmail(b.email);
+  if (!email.includes("@")) return res.status(400).json({ error: "email required" });
+  if (!isActiveSubscriber(email)) return res.status(403).json({ error: "No active subscription." });
+  const mode = b.mode === "speed" ? "speed" : b.mode === "ranked" ? "ranked" : null;
+  if (!mode) return res.status(400).json({ error: "mode must be ranked|speed" });
+  const num = (v: unknown, max: number) => {
+    const n = Number(v);
+    return Number.isFinite(n) && n >= 0 && n <= max ? Math.round(n) : null;
+  };
+  const score = num(b.score, 1_000_000);
+  const correct = num(b.correct, 500) ?? 0;
+  const total = num(b.total, 500) ?? 0;
+  const time = num(b.time, 24 * 60 * 60 * 1000) ?? 0;
+  const level = num(b.level, 999) ?? 1;
+  if (score == null) return res.status(400).json({ error: "score out of range" });
+  const clean = (v: unknown, max: number) => String(v ?? "").replace(/[<>]/g, "").slice(0, max);
+  await scores.push({
+    email,
+    name: clean(b.name, 20) || "Fighter",
+    avatar: clean(b.avatar, 4) || "⚔️",
+    title: clean(b.title, 30),
+    level, mode, score, correct, total, time,
+    ts: Date.now(),
+  });
+  res.json({ ok: true });
+});
+
+app.get("/api/leaderboard", (req: Request, res: Response) => {
+  const period = String(req.query.period ?? "all");
+  const mode = req.query.mode === "speed" ? "speed" : "ranked";
+  const email = normEmail(req.query.email); // optional: used only to compute yourRank / mark your row
+  const now = Date.now();
+  const since = period === "weekly" ? now - 7 * 86400_000 : period === "monthly" ? now - 30 * 86400_000 : 0;
+  const best = new Map<string, ScoreRecord>();
+  for (const s of scores.all()) {
+    if (s.mode !== mode || s.ts < since) continue;
+    const prev = best.get(s.email);
+    if (!prev || s.score > prev.score) best.set(s.email, s);
+  }
+  const sorted = [...best.values()].sort((a, b) => b.score - a.score);
+  const yourRank = email ? (sorted.findIndex((s) => s.email === email) + 1 || null) : null;
+  const entries = sorted.slice(0, 100).map((s) => ({
+    name: s.name, avatar: s.avatar, title: s.title, level: s.level,
+    score: s.score, correct: s.correct, total: s.total, ts: s.ts,
+    you: !!email && s.email === email,
+  }));
+  res.json({ entries, total: sorted.length, yourRank });
+});
+
 await store.load();
+await progress.load();
+await scores.load();
 app.listen(CFG.port, () => {
-  console.log(`arena-access listening on :${CFG.port} (origin=${CFG.siteOrigin}, records=${store.count()})`);
+  console.log(`arena-access listening on :${CFG.port} (origin=${CFG.siteOrigin}, access=${store.count()}, progress=${progress.count()}, scores=${scores.count()})`);
 });
