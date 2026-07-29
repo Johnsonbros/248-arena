@@ -25,6 +25,7 @@
  * answers only a boolean, so it can't be used to harvest subscriber data.
  */
 import express, { type Request, type Response, type NextFunction } from "express";
+import { randomBytes } from "node:crypto";
 import Stripe from "stripe";
 import { JsonList, JsonMap, Store, type AccessStatus } from "./store.js";
 
@@ -34,6 +35,12 @@ const CFG = {
   webhookSecret: process.env.STRIPE_WEBHOOK_SECRET ?? "",
   siteOrigin: process.env.SITE_ORIGIN ?? "https://arena.thejohnsonbros.com",
   dataFile: process.env.DATA_FILE ?? "/data/access.json",
+  // Magic-link sign-in (optional; /api/login returns 501 until configured)
+  resendKey: process.env.RESEND_API_KEY ?? "",
+  mailFrom: process.env.MAIL_FROM ?? "248 Arena <arena@thejohnsonbros.com>",
+  appUrl: process.env.APP_URL ?? "https://arena.thejohnsonbros.com",
+  // Key that lets YOU read question reports (GET /api/reports?key=...)
+  reportsKey: process.env.REPORTS_KEY ?? "",
 };
 
 if (!CFG.stripeKey || !CFG.webhookSecret) {
@@ -47,7 +54,15 @@ const store = new Store(CFG.dataFile);
 interface ProgressRecord {
   stats: unknown;
   srs: unknown;
+  profile?: { name?: string; avatar?: string };
   updatedAt: string;
+}
+interface ReportRecord {
+  email: string;
+  questionId: number;
+  reason: string;
+  question: string;
+  ts: number;
 }
 interface ScoreRecord {
   email: string;      // stored for dedupe/rank; NEVER returned by the API
@@ -64,6 +79,7 @@ interface ScoreRecord {
 }
 const progress = new JsonMap<ProgressRecord>(process.env.PROGRESS_FILE ?? "/data/progress.json");
 const scores = new JsonList<ScoreRecord>(process.env.SCORES_FILE ?? "/data/scores.json", 5000);
+const reports = new JsonList<ReportRecord>(process.env.REPORTS_FILE ?? "/data/reports.json", 2000);
 
 const ACTIVE: AccessStatus[] = ["active", "trialing", "past_due"];
 
@@ -321,12 +337,86 @@ app.put("/api/progress", async (req: Request, res: Response) => {
   const email = normEmail(req.body?.email);
   if (!email.includes("@")) return res.status(400).json({ error: "email required" });
   if (!isActiveSubscriber(email)) return res.status(403).json({ error: "No active subscription." });
-  const { stats, srs } = req.body ?? {};
+  const { stats, srs, profile } = req.body ?? {};
   if (stats == null || typeof stats !== "object") return res.status(400).json({ error: "stats object required" });
   const size = JSON.stringify({ stats, srs }).length;
   if (size > 200_000) return res.status(413).json({ error: "Progress payload too large." });
-  await progress.set(email, { stats, srs: srs ?? {}, updatedAt: new Date().toISOString() });
+  const cleanProfile = profile && typeof profile === "object"
+    ? { name: String((profile as any).name ?? "").slice(0, 20), avatar: String((profile as any).avatar ?? "").slice(0, 4) }
+    : undefined;
+  await progress.set(email, { stats, srs: srs ?? {}, ...(cleanProfile ? { profile: cleanProfile } : {}), updatedAt: new Date().toISOString() });
   res.json({ ok: true, updatedAt: new Date().toISOString() });
+});
+
+// --- Question reports (the content-trust pipeline) ---------------------------
+app.post("/api/report", async (req: Request, res: Response) => {
+  const email = normEmail(req.body?.email);
+  if (!email.includes("@")) return res.status(400).json({ error: "email required" });
+  if (!isActiveSubscriber(email)) return res.status(403).json({ error: "No active subscription." });
+  const questionId = Number(req.body?.questionId);
+  if (!Number.isFinite(questionId)) return res.status(400).json({ error: "questionId required" });
+  await reports.push({
+    email,
+    questionId: Math.round(questionId),
+    reason: String(req.body?.reason ?? "").replace(/[<>]/g, "").slice(0, 500),
+    question: String(req.body?.question ?? "").replace(/[<>]/g, "").slice(0, 300),
+    ts: Date.now(),
+  });
+  res.json({ ok: true });
+});
+
+// Owner-only report inbox. Set REPORTS_KEY in .env; without it this stays closed.
+app.get("/api/reports", (req: Request, res: Response) => {
+  if (!CFG.reportsKey || req.query.key !== CFG.reportsKey) return res.status(403).json({ error: "forbidden" });
+  res.json({ reports: [...reports.all()].reverse() });
+});
+
+// --- Magic-link sign-in (optional hardening; needs RESEND_API_KEY) -----------
+const loginTokens = new Map<string, { email: string; exp: number }>();
+const loginRequests = new Map<string, number>();
+
+app.post("/api/login", async (req: Request, res: Response) => {
+  const email = normEmail(req.body?.email);
+  if (!email.includes("@")) return res.status(400).json({ error: "email required" });
+  if (!CFG.resendKey) return res.status(501).json({ error: "login-email not configured" });
+  // Do not leak subscription status here: always claim "sent" for well-formed
+  // requests, only actually sending to active subscribers. Throttle 1/min/email.
+  const last = loginRequests.get(email);
+  if (last && Date.now() - last < 60_000) return res.json({ sent: true });
+  loginRequests.set(email, Date.now());
+  if (loginRequests.size > 5000) loginRequests.clear();
+  if (isActiveSubscriber(email)) {
+    const token = randomBytes(24).toString("hex");
+    // prune expired tokens; bound the map
+    for (const [t, v] of loginTokens) if (v.exp < Date.now()) loginTokens.delete(t);
+    if (loginTokens.size > 2000) loginTokens.clear();
+    loginTokens.set(token, { email, exp: Date.now() + 15 * 60_000 });
+    const link = `${CFG.appUrl}/app.html?login=${token}`;
+    try {
+      const r = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${CFG.resendKey}` },
+        body: JSON.stringify({
+          from: CFG.mailFrom,
+          to: email,
+          subject: "Your 248 Arena sign-in link",
+          html: `<p>Tap to sign in to 248 Arena on this device:</p><p><a href="${link}">Enter the Arena</a></p><p>This link works once and expires in 15 minutes. If you didn't request it, ignore this email.</p>`,
+        }),
+      });
+      if (!r.ok) console.error(`resend error ${r.status}: ${(await r.text()).slice(0, 200)}`);
+    } catch (e: any) {
+      console.error("login email error:", e?.message ?? e);
+    }
+  }
+  res.json({ sent: true });
+});
+
+app.get("/api/login/verify", (req: Request, res: Response) => {
+  const token = String(req.query.token ?? "");
+  const entry = loginTokens.get(token);
+  if (!entry || entry.exp < Date.now()) return res.status(400).json({ ok: false, error: "Link expired or already used — request a new one." });
+  loginTokens.delete(token); // single use
+  res.json({ ok: true, email: entry.email });
 });
 
 // --- Leaderboard -------------------------------------------------------------
@@ -386,6 +476,7 @@ app.get("/api/leaderboard", (req: Request, res: Response) => {
 
 await store.load();
 await progress.load();
+await reports.load();
 await scores.load();
 app.listen(CFG.port, () => {
   console.log(`arena-access listening on :${CFG.port} (origin=${CFG.siteOrigin}, access=${store.count()}, progress=${progress.count()}, scores=${scores.count()})`);

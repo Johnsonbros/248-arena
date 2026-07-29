@@ -297,9 +297,55 @@ const App = {
       ).join('');
     }
 
+    // Exam Sim gets a real verdict against the actual 70% passing bar.
+    const passBanner = results.mode === 'exam'
+      ? `<div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.3rem;letter-spacing:1px;padding:10px;border-radius:10px;margin-bottom:12px;${results.passed
+          ? 'color:#00ff88;border:1px solid rgba(0,255,136,0.4);background:rgba(0,255,136,0.07);'
+          : 'color:#ff2d55;border:1px solid rgba(255,45,85,0.4);background:rgba(255,45,85,0.07);'}">
+          ${results.passed ? '✅ PASSED' : '❌ NOT YET'} — ${results.accuracy}% (exam passing score: 70%)</div>`
+      : '';
+
+    // Per-category breakdown (score report).
+    let categoryHtml = '';
+    const cats = Object.entries(results.byCategory || {});
+    if (cats.length > 1) {
+      categoryHtml = `<div style="text-align:left;margin:14px 0;">
+        <div style="font-family:'Rajdhani',sans-serif;font-weight:700;color:#fff;letter-spacing:0.5px;margin-bottom:8px;">CATEGORY BREAKDOWN</div>` +
+        cats.sort((a, b) => (a[1].correct / a[1].total) - (b[1].correct / b[1].total)).map(([key, s]) => {
+          const pct = Math.round((s.correct / s.total) * 100);
+          const color = pct >= 70 ? '#00ff88' : pct >= 50 ? '#ff6b2b' : '#ff2d55';
+          const name = (window.CATEGORIES && CATEGORIES[key]?.name) || key;
+          return `<div style="display:flex;align-items:center;gap:10px;margin:5px 0;font-size:0.88rem;">
+            <div style="flex:0 0 140px;color:#c8c8d8;">${name}</div>
+            <div style="flex:1;height:8px;background:rgba(255,255,255,0.08);border-radius:4px;overflow:hidden;">
+              <div style="width:${pct}%;height:100%;background:${color};"></div>
+            </div>
+            <div style="flex:0 0 70px;text-align:right;color:${color};">${s.correct}/${s.total} · ${pct}%</div>
+          </div>`;
+        }).join('') + `</div>`;
+    }
+
+    // Review of missed questions — the part that actually teaches.
+    let missedHtml = '';
+    if (results.missed && results.missed.length > 0) {
+      missedHtml = `<details style="text-align:left;margin:14px 0;">
+        <summary style="cursor:pointer;font-family:'Rajdhani',sans-serif;font-weight:700;color:#ff6b2b;letter-spacing:0.5px;">
+          📝 REVIEW ${results.missed.length} MISSED QUESTION${results.missed.length > 1 ? 'S' : ''}</summary>
+        <div style="max-height:340px;overflow-y:auto;margin-top:10px;">` +
+        results.missed.map(m => `
+          <div style="border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px;margin-bottom:10px;font-size:0.88rem;">
+            <div style="color:#fff;margin-bottom:6px;">${m.q.question}</div>
+            <div style="color:#ff2d55;">Your answer: ${m.choiceIndex != null && m.q.options[m.choiceIndex] !== undefined ? m.q.options[m.choiceIndex] : '(none)'}</div>
+            <div style="color:#00ff88;">Correct: ${m.q.options[m.q.correct]}</div>
+            <div style="color:#9898b0;margin-top:6px;">${m.q.explanation}</div>
+            <a class="code-ref" href="codebook.html#${encodeURIComponent(m.q.codeRef)}" target="_blank" style="display:inline-block;margin-top:6px;">📖 ${m.q.codeRef}</a>
+          </div>`).join('') + `</div></details>`;
+    }
+
     gameScreen.innerHTML = `
       <div class="results-card">
-        <h2>${results.eliminated ? '💀 ELIMINATED' : results.timedOut ? '⏰ TIME\'S UP' : '📊 BATTLE RESULTS'}</h2>
+        <h2>${results.eliminated ? '💀 ELIMINATED' : results.timedOut ? '⏰ TIME\'S UP' : results.mode === 'exam' ? '📋 EXAM SCORE REPORT' : '📊 BATTLE RESULTS'}</h2>
+        ${passBanner}
         <div class="results-score">${results.score.toLocaleString()}</div>
         <div style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 8px;">${grade}</div>
         <div class="results-stats">
@@ -318,11 +364,65 @@ const App = {
         </div>
         <div style="color: var(--success); font-weight: 600; margin-bottom: 16px;">+${results.xpEarned} XP earned</div>
         ${badgeHtml}
+        ${categoryHtml}
+        ${missedHtml}
         <div class="question-actions mt-16">
           <button class="action-btn" onclick="App.showScreen('dashboard')">← Arena</button>
           <button class="action-btn primary" onclick="App.startGame('${results.mode}')">Fight Again →</button>
         </div>
       </div>`;
+  },
+
+  // === ACCOUNT ===
+  showAccount() {
+    if (document.getElementById('arena-account')) return;
+    const email = (window.CloudSync && CloudSync.email()) || null;
+    const avatars = ['🔧', '⚡', '🔥', '💧', '🛡️', '⚔️', '🏆', '💀', '🐉', '👑'];
+    const overlay = document.createElement('div');
+    overlay.id = 'arena-account';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(10,10,15,0.9);display:flex;align-items:center;justify-content:center;padding:20px;';
+    overlay.innerHTML = `
+      <div style="max-width:400px;width:100%;background:#14141c;border:1px solid rgba(0,212,255,0.3);border-radius:16px;padding:26px;">
+        <h3 style="font-family:'Orbitron',sans-serif;color:#fff;letter-spacing:1px;margin:0 0 14px;">ACCOUNT</h3>
+        <div style="color:#9898b0;font-size:0.85rem;margin-bottom:14px;">
+          ${email ? `Signed in as <strong style="color:#00d4ff;">${email}</strong>` : 'Local device profile — progress syncs when you subscribe and sign in.'}
+        </div>
+        <label style="display:block;color:#c8c8d8;font-family:'Rajdhani',sans-serif;font-weight:600;margin-bottom:6px;">Arena Tag</label>
+        <input id="accName" type="text" maxlength="20" value="${(this.user.name || '').replace(/"/g, '&quot;')}"
+          style="width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.05);color:#fff;margin-bottom:12px;">
+        <label style="display:block;color:#c8c8d8;font-family:'Rajdhani',sans-serif;font-weight:600;margin-bottom:6px;">Avatar</label>
+        <div id="accAvatars" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;">
+          ${avatars.map(a => `<div data-a="${a}" style="font-size:1.4rem;padding:6px 9px;border-radius:8px;cursor:pointer;border:1px solid ${a === this.user.avatar ? '#00d4ff' : 'rgba(255,255,255,0.1)'};">${a}</div>`).join('')}
+        </div>
+        <button id="accSave" class="action-btn primary" style="width:100%;margin-bottom:10px;">Save</button>
+        <a href="${ACCESS_CONFIG.billingPortalUrl}" target="_blank" class="action-btn" style="display:block;text-align:center;text-decoration:none;margin-bottom:10px;">Manage Subscription</a>
+        <button id="accSignOut" class="action-btn danger" style="width:100%;margin-bottom:10px;">Sign Out</button>
+        <button id="accClose" class="action-btn" style="width:100%;">Close</button>
+      </div>`;
+    document.body.appendChild(overlay);
+    let chosen = this.user.avatar;
+    overlay.querySelectorAll('#accAvatars div').forEach(el => {
+      el.addEventListener('click', () => {
+        chosen = el.dataset.a;
+        overlay.querySelectorAll('#accAvatars div').forEach(x => x.style.border = '1px solid rgba(255,255,255,0.1)');
+        el.style.border = '1px solid #00d4ff';
+      });
+    });
+    overlay.querySelector('#accSave').addEventListener('click', () => {
+      const name = overlay.querySelector('#accName').value.trim();
+      if (name) this.user.name = name;
+      this.user.avatar = chosen;
+      Auth.updateUser(this.user);
+      if (window.CloudSync) CloudSync.push(this.user);
+      this.renderHeader();
+      overlay.remove();
+    });
+    overlay.querySelector('#accSignOut').addEventListener('click', () => {
+      if (window.Subscription) Subscription.revoke();
+      Auth.logout();
+      window.location.href = 'index.html';
+    });
+    overlay.querySelector('#accClose').addEventListener('click', () => overlay.remove());
   },
 
   startTimer(limitMs) {

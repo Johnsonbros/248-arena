@@ -104,6 +104,41 @@ const Subscription = {
     return false;
   },
 
+  // Magic-link sign-in. Returns 'sent' (email on its way), 'fallback' (server
+  // has no mailer — use plain email unlock), or false (bad input).
+  async requestLogin(email) {
+    const e = (email || '').trim().toLowerCase();
+    if (!e.includes('@')) return false;
+    try {
+      const res = await fetch(`${ACCESS_CONFIG.apiBase}/api/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: e })
+      });
+      if (res.status === 501) return 'fallback';
+      const body = await res.json();
+      return body && body.sent ? 'sent' : 'fallback';
+    } catch (err) { return 'fallback'; }
+  },
+
+  // Consume ?login=<token> from a magic-link email.
+  async _checkUrlLogin() {
+    try {
+      const token = new URLSearchParams(window.location.search).get('login');
+      if (!token) return;
+      const res = await fetch(`${ACCESS_CONFIG.apiBase}/api/login/verify?token=${encodeURIComponent(token)}`);
+      const body = await res.json();
+      if (body && body.ok && body.email) {
+        this._setGrant(body.email, true);
+        this._ensureUser();
+      }
+      // Clean the token out of the URL either way (it's single-use).
+      const url = new URL(window.location.href);
+      url.searchParams.delete('login');
+      history.replaceState(null, '', url.toString());
+    } catch (e) {}
+  },
+
   // welcome.html calls this with Stripe's {CHECKOUT_SESSION_ID} — verifies the
   // real session with Stripe before granting anything.
   async grantBySession(sessionId) {
@@ -127,10 +162,16 @@ const Subscription = {
   },
 
   // --- unlock from the paywall input (admin phone, access code, or email) ----
+  // Returns true (unlocked), false (rejected), or 'sent' (magic link emailed).
   async grantByInput(input) {
     if (this.grantAdmin(input)) return true;
     const v = (input || '').trim();
-    if (ACCESS_CONFIG.mode === 'server' && v.includes('@')) return this.grantByEmail(v);
+    if (ACCESS_CONFIG.mode === 'server' && v.includes('@')) {
+      // Prefer verified sign-in when the server has a mailer; otherwise plain unlock.
+      const login = await this.requestLogin(v);
+      if (login === 'sent') return 'sent';
+      return this.grantByEmail(v);
+    }
     const ok = v === ACCESS_CONFIG.accessCode && ACCESS_CONFIG.accessCode !== 'SET_YOUR_CODE_HERE';
     if (ok) localStorage.setItem(this.KEY, 'granted');
     return ok;
@@ -205,7 +246,11 @@ const Subscription = {
       btn.textContent = 'CHECKING…';
       const ok = await this.grantByInput(input.value);
       btn.textContent = 'UNLOCK';
-      if (ok) {
+      if (ok === 'sent') {
+        err.style.display = 'block';
+        err.style.color = '#00ff88';
+        err.textContent = '📬 Check your email — we sent you a one-tap sign-in link (it expires in 15 minutes).';
+      } else if (ok) {
         overlay.remove();
         document.body.style.overflow = '';
         if (!document.getElementById('userName') || location.pathname.endsWith('app.html')) location.reload();
@@ -229,9 +274,14 @@ if (Subscription.isAdmin()) Subscription._ensureUser();
 // this script for its helpers without being paywalled themselves.
 const ARENA_SHOULD_ENFORCE = /app\.html$/.test(location.pathname) || window.ARENA_ENFORCE === true;
 if (ARENA_SHOULD_ENFORCE) {
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => Subscription.enforce());
-  } else {
+  const go = async () => {
+    // A magic-link token must be consumed BEFORE the gate decides.
+    if (new URLSearchParams(location.search).get('login')) await Subscription._checkUrlLogin();
     Subscription.enforce();
+  };
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', go);
+  } else {
+    go();
   }
 }

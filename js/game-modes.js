@@ -54,6 +54,7 @@ const GameModes = {
     this.currentMode = mode;
     this.currentIndex = 0; this.score = 0; this.correct = 0;
     this.streak = 0; this.eliminated = false; this.lives = 3;
+    this.answerLog = [];
     this.startTime = Date.now();
     switch(mode) {
       case 'practice': this.currentQuestions = this.getAdaptiveQuestions(20, user); this.timeLimit = 0; break;
@@ -82,6 +83,8 @@ const GameModes = {
     const isCorrect = choiceIndex === q.correct;
     // Feed the spaced-repetition scheduler on every answer, in every mode.
     if (window.SRS && !q.isImposter) SRS.record(q.id, isCorrect);
+    // Session log powers the end-of-session score report.
+    this.answerLog.push({ q, choiceIndex, isCorrect });
     const isLoot = Math.random() < 0.1;
     let pointsEarned = 0;
     if (isCorrect) {
@@ -121,10 +124,23 @@ const GameModes = {
 
   getResults(user, timedOut = false) {
     const elapsed = Date.now() - this.startTime;
+    // Per-category breakdown + missed questions for the score report.
+    const byCategory = {};
+    const missed = [];
+    for (const entry of (this.answerLog || [])) {
+      const cat = entry.q.category;
+      if (!byCategory[cat]) byCategory[cat] = { correct: 0, total: 0 };
+      byCategory[cat].total++;
+      if (entry.isCorrect) byCategory[cat].correct++;
+      else missed.push(entry);
+    }
+    const accuracy = this.currentIndex > 0 ? Math.round((this.correct / this.currentIndex) * 100) : 0;
     const results = {
       mode: this.currentMode, score: this.score, correct: this.correct,
       total: this.currentQuestions.length, answered: this.currentIndex,
-      accuracy: this.currentIndex > 0 ? Math.round((this.correct / this.currentIndex) * 100) : 0,
+      accuracy,
+      byCategory, missed,
+      passed: accuracy >= 70,   // the real exam's passing bar
       time: elapsed, timeFormatted: this.formatTime(elapsed),
       timedOut, eliminated: this.eliminated,
       xpEarned: Math.round(this.score / 10),
@@ -186,6 +202,11 @@ const GameModes = {
     const reports = JSON.parse(localStorage.getItem('arena248_reports') || '[]');
     reports.push({ questionId, reason, date: Date.now() });
     localStorage.setItem('arena248_reports', JSON.stringify(reports));
+    // Send it where it matters: the owner's report inbox (server mode).
+    if (window.CloudSync) {
+      const q = (window.QUESTIONS || []).find(x => x.id === questionId);
+      CloudSync.reportQuestion(questionId, reason, q ? q.question : '');
+    }
   }
 };
 

@@ -42,6 +42,11 @@ const CloudSync = {
       const localAnswered = user?.stats?.totalAnswered || 0;
       if (serverAnswered > localAnswered) {
         user.stats = data.stats;
+        // Identity travels with the account: adopt name/avatar on a new device.
+        if (data.profile) {
+          if (data.profile.name) user.name = data.profile.name;
+          if (data.profile.avatar) user.avatar = data.profile.avatar;
+        }
         Auth.updateUser(user);
         if (data.srs) localStorage.setItem('arena248_srs', JSON.stringify(data.srs));
         localStorage.setItem(this.LAST_KEY, String(Date.now()));
@@ -65,7 +70,10 @@ const CloudSync = {
       await this._fetch('/api/progress', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: this.email(), stats: user.stats, srs })
+        body: JSON.stringify({
+          email: this.email(), stats: user.stats, srs,
+          profile: { name: user.name, avatar: user.avatar }
+        })
       });
       localStorage.setItem(this.LAST_KEY, String(Date.now()));
     } catch (e) { /* retry on next push */ }
@@ -86,6 +94,18 @@ const CloudSync = {
         })
       });
     } catch (e) { /* score stays local-only this round */ }
+  },
+
+  // Fire-and-forget: send a question report to the owner's inbox.
+  async reportQuestion(questionId, reason, questionText) {
+    if (!this.enabled()) return;
+    try {
+      await this._fetch('/api/report', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: this.email(), questionId, reason, question: questionText })
+      });
+    } catch (e) { /* stays in local reports only */ }
   },
 
   // period: weekly|monthly|all. Returns null when unavailable (caller falls
