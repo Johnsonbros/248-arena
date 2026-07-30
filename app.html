@@ -6,6 +6,9 @@
   <title>248 Arena — Play</title>
   <link rel="stylesheet" href="css/styles.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚔️</text></svg>">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0a0a0f">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <!-- Access gate: enforces the paywall (see js/subscription.js + LAUNCH.md) -->
   <script src="js/subscription.js"></script>
 </head>
@@ -33,6 +36,18 @@
 
     <!-- Dashboard Screen -->
     <div class="screen active" id="screen-dashboard">
+      <!-- Exam Readiness -->
+      <div id="readinessCard" style="background:rgba(255,255,255,0.03);border:1px solid rgba(0,212,255,0.25);border-radius:14px;padding:18px 20px;margin-bottom:16px;">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px;">
+          <div style="font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:1px;color:#fff;">EXAM READINESS</div>
+          <div style="font-family:'Orbitron',sans-serif;font-size:1.6rem;" id="readinessPct">—</div>
+        </div>
+        <div style="height:10px;background:rgba(255,255,255,0.08);border-radius:5px;overflow:hidden;margin:10px 0 8px;">
+          <div id="readinessBar" style="height:100%;width:0%;transition:width 0.6s;"></div>
+        </div>
+        <div id="readinessMsg" style="color:#9898b0;font-size:0.88rem;"></div>
+        <div id="readinessParts" style="color:#6c6c80;font-size:0.75rem;margin-top:4px;"></div>
+      </div>
       <!-- Stats -->
       <div class="stats-grid">
         <div class="stat-card">
@@ -80,7 +95,7 @@
         <div class="mode-card" data-mode="exam" onclick="App.startGame('exam')">
           <div class="mode-icon">📝</div>
           <div class="mode-name">Exam Sim</div>
-          <div class="mode-desc">100 questions in 2 hours. Just like the real exam.</div>
+          <div class="mode-desc">80 questions, 160 minutes — mirrors the real PSI exam format.</div>
         </div>
         <div class="mode-card" data-mode="royale" onclick="App.startGame('royale')">
           <div class="mode-icon">🏟️</div>
@@ -191,6 +206,7 @@
 <script src="js/sync.js"></script>
 <script src="js/leaderboard.js"></script>
 <script src="js/game-modes.js"></script>
+<script src="js/readiness.js"></script>
 <script src="js/app.js"></script>
 
 </body>

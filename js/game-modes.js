@@ -1,5 +1,14 @@
 // 248 Arena — Game Modes Module
 
+// Approximate category mix of the real MA Journeyman exam. ONE PLACE to tune:
+// weights are fractions of the exam (sum = 1.0). ⚠️ Estimated from exam topic
+// outlines — Johnson Bros should true these up from exam-day experience.
+const EXAM_BLUEPRINT = {
+  DWV: 0.20, VENTING: 0.14, WATER: 0.14, GAS: 0.12, FIXTURES: 0.10,
+  BACKFLOW: 0.08, SIZING: 0.08, MATERIALS: 0.06, GENERAL: 0.04,
+  PERMITS: 0.02, MEDICAL: 0.02
+};
+
 const GameModes = {
   currentMode: null, currentQuestions: [], currentIndex: 0,
   score: 0, correct: 0, streak: 0, startTime: 0,
@@ -50,6 +59,39 @@ const GameModes = {
     return this.shuffle(selected);
   },
 
+  // Exam Sim mirrors the REAL exam's category mix (EXAM_BLUEPRINT), sampled
+  // neutrally — no adaptive weighting, because a dress rehearsal shouldn't
+  // bend toward your weaknesses the way practice does.
+  getBlueprintQuestions(count) {
+    const byCat = {};
+    QUESTIONS.forEach(q => { (byCat[q.category] = byCat[q.category] || []).push(q); });
+    const cats = Object.keys(EXAM_BLUEPRINT).filter(c => byCat[c]?.length);
+    // Allocate seats by weight, then hand out remainder to largest fractions.
+    const alloc = {};
+    let used = 0;
+    const fracs = [];
+    cats.forEach(c => {
+      const exact = count * EXAM_BLUEPRINT[c];
+      alloc[c] = Math.floor(exact);
+      used += alloc[c];
+      fracs.push({ c, frac: exact - alloc[c] });
+    });
+    fracs.sort((a, b) => b.frac - a.frac);
+    for (let i = 0; used < count && i < fracs.length; i++, used++) alloc[fracs[i].c]++;
+    const selected = [];
+    cats.forEach(c => {
+      const pool = this.shuffle(byCat[c]);
+      // If a category has fewer questions than its allocation, take what exists.
+      selected.push(...pool.slice(0, Math.min(alloc[c], pool.length)));
+    });
+    // Backfill any shortfall from the whole bank.
+    if (selected.length < count) {
+      const chosen = new Set(selected.map(q => q.id));
+      selected.push(...this.shuffle(QUESTIONS.filter(q => !chosen.has(q.id))).slice(0, count - selected.length));
+    }
+    return this.shuffle(selected);
+  },
+
   start(mode, user) {
     this.currentMode = mode;
     this.currentIndex = 0; this.score = 0; this.correct = 0;
@@ -59,7 +101,8 @@ const GameModes = {
     switch(mode) {
       case 'practice': this.currentQuestions = this.getAdaptiveQuestions(20, user); this.timeLimit = 0; break;
       case 'ranked': this.currentQuestions = this.getAdaptiveQuestions(25, user); this.timeLimit = 0; break;
-      case 'exam': this.currentQuestions = this.getAdaptiveQuestions(100, user); this.timeLimit = 120*60*1000; break;
+      // Real MA exam via PSI: 80 questions, 160 minutes, closed book, 70% to pass.
+      case 'exam': this.currentQuestions = this.getBlueprintQuestions(80); this.timeLimit = 160*60*1000; break;
       case 'royale': this.currentQuestions = this.getAdaptiveQuestions(30, user); this.timeLimit = 0; this.lives = 3; break;
       case 'speed': this.currentQuestions = this.getAdaptiveQuestions(25, user); this.timeLimit = 5*60*1000; break;
       case 'imposter': this.currentQuestions = this.generateImposterQuestions(15); this.timeLimit = 0; break;

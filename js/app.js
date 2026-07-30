@@ -77,6 +77,17 @@ const App = {
       if (dueEl) dueEl.textContent = srs.due;
       if (masteredEl) masteredEl.textContent = srs.mastered;
     }
+    if (window.Readiness) {
+      const r = Readiness.compute(this.user);
+      const pctEl = document.getElementById('readinessPct');
+      const barEl = document.getElementById('readinessBar');
+      const msgEl = document.getElementById('readinessMsg');
+      const partsEl = document.getElementById('readinessParts');
+      if (pctEl) { pctEl.textContent = r.pct + '%'; pctEl.style.color = r.color; }
+      if (barEl) { barEl.style.width = r.pct + '%'; barEl.style.background = r.color; }
+      if (msgEl) msgEl.textContent = r.message;
+      if (partsEl) partsEl.textContent = `Accuracy ${r.components.accuracy}% (exam-weighted) · Retention ${r.components.retention}% · Coverage ${r.components.coverage}%`;
+    }
     this.renderCategories();
     this.renderBattlePass();
   },
@@ -396,6 +407,7 @@ const App = {
         </div>
         <button id="accSave" class="action-btn primary" style="width:100%;margin-bottom:10px;">Save</button>
         <a href="${ACCESS_CONFIG.billingPortalUrl}" target="_blank" class="action-btn" style="display:block;text-align:center;text-decoration:none;margin-bottom:10px;">Manage Subscription</a>
+        <a href="help.html" target="_blank" class="action-btn" style="display:block;text-align:center;text-decoration:none;margin-bottom:10px;">Help &amp; FAQ</a>
         <button id="accSignOut" class="action-btn danger" style="width:100%;margin-bottom:10px;">Sign Out</button>
         <button id="accClose" class="action-btn" style="width:100%;">Close</button>
       </div>`;

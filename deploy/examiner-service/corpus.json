@@ -4,7 +4,7 @@
   "source": "codebook",
   "ref": "248 CMR 2.00",
   "title": "248 CMR 2.00 — Board, Licensing & Permits",
-  "text": "## Administration\n\n \n \n- The Board of State Examiners of Plumbers and Gas Fitters administers 248 CMR\n \n- Only a licensed Master Plumber can obtain a plumbing permit\n \n- A plumbing permit is valid for 1 year from date of issuance\n \n- Rough-in plumbing must be inspected before concealment of piping\n \n- A final inspection is required before a new system is placed in service\n \n\n \n## License Types\n\n \n \n- Apprentice: Registered with the Board; works under direct supervision of a Journeyman or Master\n \n- Journeyman: Minimum 3 years practical experience under a Master; passes the written exam; works under general supervision of a Master\n \n- Master: Experience as a Journeyman plus the Master exam; can pull permits, run a plumbing business, and supervise Journeymen and Apprentices\n \n- Licenses renew on a 2-year cycle with required continuing education\n \n\n \n## Permits\n\n \n \n- Permit required for: new fixtures, water heaters, water piping, gas piping\n \n- Permit NOT required for: replacing washers or flappers, clearing drain stoppages\n \n- Permitted work is performed by licensed plumbers (or registered apprentices under supervision)\n \n\n \n## Journeyman Exam\n\n \n \n- Tests knowledge of 248 CMR — open-book format (codebook allowed)\n \n- Passing score: 70%\n \n- Topics: DWV sizing, venting, water distribution, gas piping, backflow, fixtures, materials, permits"
+  "text": "## Administration\n\n \n \n- The Board of State Examiners of Plumbers and Gas Fitters administers 248 CMR\n \n- Only a licensed Master Plumber can obtain a plumbing permit\n \n- A plumbing permit is valid for 1 year from date of issuance\n \n- Rough-in plumbing must be inspected before concealment of piping\n \n- A final inspection is required before a new system is placed in service\n \n\n \n## License Types\n\n \n \n- Apprentice: Registered with the Board; works under direct supervision of a Journeyman or Master\n \n- Journeyman: Requires 6,800 hours of licensed apprentice work experience plus 550 hours of tier education (five 110-hour tiers); passes the written exam; works under general supervision of a Master\n \n- Master: Experience as a Journeyman plus the Master exam; can pull permits, run a plumbing business, and supervise Journeymen and Apprentices\n \n- Licenses renew on a 2-year cycle with required continuing education\n \n\n \n## Permits\n\n \n \n- Permit required for: new fixtures, water heaters, water piping, gas piping\n \n- Permit NOT required for: replacing washers or flappers, clearing drain stoppages\n \n- Permitted work is performed by licensed plumbers (or registered apprentices under supervision)\n \n\n \n## Journeyman Exam (administered by PSI)\n\n \n \n- 80 multiple-choice questions, 160 minutes, closed book\n \n- Passing score: 70%\n \n- Based on 248 CMR — topics: DWV sizing, venting, water distribution, gas piping, backflow, fixtures, materials, joints, permits/inspections\n \n- Apply through the Board; confirm current requirements and fees at mass.gov"
  },
  {
   "id": "book:248 CMR 10.03",
@@ -450,9 +450,9 @@
  {
   "id": "q:46",
   "source": "question",
-  "ref": "248 CMR 2.00",
-  "title": "GENERAL: How many years of practical experience under a master plumber are required to sit for the journeyman exam in MA?",
-  "text": "How many years of practical experience under a master plumber are required to sit for the journeyman exam in MA?\nAnswer: 3 years\nPer 248 CMR 2.00, an applicant must have at least 3 years of practical experience working under a licensed master plumber to qualify for the journeyman exam."
+  "ref": "248 CMR 11.00",
+  "title": "GENERAL: How many hours of licensed apprentice work experience are required to qualify for the MA journeyman plumber exam?",
+  "text": "How many hours of licensed apprentice work experience are required to qualify for the MA journeyman plumber exam?\nAnswer: 6,800 hours\nCurrent Board requirements: 6,800 hours of documented work experience as a licensed apprentice, plus 550 hours of tier education (five 110-hour tiers), to qualify for the journeyman exam."
  },
  {
   "id": "q:47",

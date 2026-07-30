@@ -393,11 +393,11 @@ const QUESTIONS = [
   },
   {
     id: 46, category: 'GENERAL', difficulty: 2,
-    question: 'How many years of practical experience under a master plumber are required to sit for the journeyman exam in MA?',
-    options: ['1 year', '2 years', '3 years', '5 years'],
-    correct: 2,
-    explanation: 'Per 248 CMR 2.00, an applicant must have at least 3 years of practical experience working under a licensed master plumber to qualify for the journeyman exam.',
-    codeRef: '248 CMR 2.00'
+    question: 'How many hours of licensed apprentice work experience are required to qualify for the MA journeyman plumber exam?',
+    options: ['4,000 hours', '6,800 hours', '8,000 hours', '10,000 hours'],
+    correct: 1,
+    explanation: 'Current Board requirements: 6,800 hours of documented work experience as a licensed apprentice, plus 550 hours of tier education (five 110-hour tiers), to qualify for the journeyman exam.',
+    codeRef: '248 CMR 11.00'
   },
   {
     id: 47, category: 'GENERAL', difficulty: 1,

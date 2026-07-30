@@ -125,6 +125,36 @@ async function upsertByIdentity(
   console.log(`${status}: ${targetEmail}${existingKey && existingKey !== targetEmail ? ` (migrated from ${existingKey})` : ""}`);
 }
 
+/** Best-effort welcome email on first subscription (needs RESEND_API_KEY). */
+async function sendWelcomeEmail(email: string): Promise<void> {
+  if (!CFG.resendKey) return;
+  try {
+    const r = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${CFG.resendKey}` },
+      body: JSON.stringify({
+        from: CFG.mailFrom,
+        to: email,
+        subject: "Welcome to the Arena ⚔️ — here's how to start",
+        html: `
+<p>You're in. Your 7-day free trial of <strong>248 Arena</strong> just started.</p>
+<p><strong>Getting started:</strong></p>
+<ol>
+  <li><a href="${CFG.appUrl}/app.html">Open the Arena</a> and start with <strong>Practice mode</strong> — it adapts to you.</li>
+  <li>Watch your <strong>Exam Readiness</strong> score climb on the dashboard. Past 70%, run full Exam Sims.</li>
+  <li>Ask <strong>The Examiner</strong> (the AI tutor) anything about 248 CMR — or tap the mic and say it out loud.</li>
+</ol>
+<p>On another device? Just enter this email in the app and tap the sign-in link we send.</p>
+<p>Questions or a wrong answer to report? Reply to this email — plumbers read it. <a href="${CFG.appUrl}/help.html">Help &amp; FAQ</a></p>
+<p style="color:#888;font-size:12px;">You won't be charged until your trial ends. Cancel anytime from the app (avatar → Manage Subscription). 248 Arena is an independent study aid, not affiliated with the Commonwealth of Massachusetts.</p>`,
+      }),
+    });
+    if (!r.ok) console.error(`welcome email error ${r.status}: ${(await r.text()).slice(0, 200)}`);
+  } catch (e: any) {
+    console.error("welcome email error:", e?.message ?? e);
+  }
+}
+
 const app = express();
 
 // --- Stripe webhook (raw body required for signature verification) ----------
@@ -143,12 +173,15 @@ app.post("/webhook", express.raw({ type: "application/json" }), async (req: Requ
         const email = s.customer_details?.email;
         // Only subscriptions grant app access; one-time payments are sponsor gifts.
         if (email && s.mode === "subscription") {
+          const existing = store.get(email);
+          const isNewSubscriber = !existing || !ACTIVE.includes(existing.status);
           await upsertByIdentity(
             email,
             "trialing", // corrected by the subscription.updated event that follows
             typeof s.customer === "string" ? s.customer : undefined,
             typeof s.subscription === "string" ? s.subscription : undefined
           );
+          if (isNewSubscriber) void sendWelcomeEmail(email); // fire-and-forget
         }
         break;
       }
