@@ -25,7 +25,7 @@
  * answers only a boolean, so it can't be used to harvest subscriber data.
  */
 import express, { type Request, type Response, type NextFunction } from "express";
-import { randomBytes } from "node:crypto";
+import { randomBytes, randomInt } from "node:crypto";
 import Stripe from "stripe";
 import { JsonList, JsonMap, Store, type AccessStatus } from "./store.js";
 
@@ -150,6 +150,30 @@ interface ScoreRecord {
 const progress = new JsonMap<ProgressRecord>(process.env.PROGRESS_FILE ?? "/data/progress.json");
 const scores = new JsonList<ScoreRecord>(process.env.SCORES_FILE ?? "/data/scores.json", 5000);
 const reports = new JsonList<ReportRecord>(process.env.REPORTS_FILE ?? "/data/reports.json", 2000);
+
+// Pulse: one row per post-session fun rating. The fleet-wide benchmark for
+// "is this actually fun?" — see GET /api/pulse-summary.
+interface PulseRecord {
+  email: string;      // for per-user aggregation; never returned by the API
+  ts: number;
+  rating: number;     // 1 (😩) | 2 (😐) | 3 (🔥)
+  mode: string | null;
+  accuracy: number | null;
+  answered: number | null;
+  durMs: number | null;
+}
+const pulse = new JsonList<PulseRecord>(process.env.PULSE_FILE ?? "/data/pulse.json", 20000);
+
+// Scholarship seats: admin-minted codes that grant time-boxed full access with
+// no card — how sponsored vo-tech students get in. Code -> record.
+interface ScholarshipRecord {
+  months: number;
+  note: string;
+  createdAt: string;
+  usedBy?: string;
+  usedAt?: string;
+}
+const scholarships = new JsonMap<ScholarshipRecord>(process.env.SCHOLARSHIPS_FILE ?? "/data/scholarships.json");
 
 const ACTIVE: AccessStatus[] = ["active", "trialing", "past_due"];
 
@@ -290,7 +314,10 @@ function normEmail(v: unknown): string {
 }
 function isActiveSubscriber(email: string): boolean {
   const rec = store.get(email);
-  return !!rec && ACTIVE.includes(rec.status);
+  if (!rec || !ACTIVE.includes(rec.status)) return false;
+  // Scholarship seats carry an expiry; a lapsed one no longer unlocks anything.
+  if (rec.expiresAt && Date.parse(rec.expiresAt) < Date.now()) return false;
+  return true;
 }
 
 app.get("/healthz", (_req, res) => res.json({ ok: true, service: "arena-access", records: store.count() }));
@@ -376,8 +403,13 @@ app.get("/api/access", async (req: Request, res: Response) => {
   if (!email || !email.includes("@") || email.length > 200) {
     return res.status(400).json({ active: false, error: "Provide ?email=" });
   }
+  // isActiveSubscriber also enforces scholarship expiry — a lapsed seat must
+  // read as inactive here, or the client's 24h recheck would renew it forever.
+  if (isActiveSubscriber(email)) return res.json({ active: true });
   const rec = store.get(email);
-  if (rec && ACTIVE.includes(rec.status)) return res.json({ active: true });
+  // An expired scholarship is a definitive local answer — do NOT fall through
+  // to the Stripe backfill, which would burn a live lookup on every recheck.
+  if (rec?.source === "scholarship") return res.json({ active: false });
   // Store miss (or revoked): throttled live check — backfills pre-service
   // subscribers and re-activates legitimate resubscribes.
   const active = await backfillFromStripe(rawEmail, email);
@@ -481,6 +513,126 @@ app.post("/api/report", async (req: Request, res: Response) => {
 app.get("/api/reports", (req: Request, res: Response) => {
   if (!CFG.reportsKey || req.query.key !== CFG.reportsKey) return res.status(403).json({ error: "forbidden" });
   res.json({ reports: [...reports.all()].reverse() });
+});
+
+// --- Pulse: the fun benchmark -------------------------------------------------
+app.post("/api/pulse", async (req: Request, res: Response) => {
+  const email = normEmail(req.body?.email);
+  if (!email.includes("@")) return res.status(400).json({ error: "email required" });
+  if (!isActiveSubscriber(email)) return res.status(403).json({ error: "No active subscription." });
+  const rating = Number(req.body?.rating);
+  if (![1, 2, 3].includes(rating)) return res.status(400).json({ error: "rating must be 1, 2, or 3" });
+  const num = (v: unknown, max: number) => {
+    const n = Number(v);
+    return Number.isFinite(n) && n >= 0 && n <= max ? n : null;
+  };
+  await pulse.push({
+    email,
+    ts: Date.now(),
+    rating,
+    mode: req.body?.mode ? String(req.body.mode).slice(0, 20) : null,
+    accuracy: num(req.body?.accuracy, 100),
+    answered: num(req.body?.answered, 500),
+    durMs: num(req.body?.durMs, 6 * 60 * 60 * 1000),
+  });
+  res.json({ ok: true });
+});
+
+// Owner-only aggregate view — the numbers to move release over release:
+// average rating overall and per mode, the rating histogram, and how many
+// distinct players are rating at all. Emails are aggregated, never returned.
+app.get("/api/pulse-summary", (req: Request, res: Response) => {
+  if (!CFG.reportsKey || req.query.key !== CFG.reportsKey) return res.status(403).json({ error: "forbidden" });
+  const rows = pulse.all();
+  const cut30 = Date.now() - 30 * 86400000;
+  const recent = rows.filter((r) => r.ts >= cut30);
+  const byMode: Record<string, { n: number; sum: number; hist: number[] }> = {};
+  const hist = [0, 0, 0];
+  const users = new Set<string>();
+  for (const r of recent) {
+    users.add(r.email);
+    hist[r.rating - 1]++;
+    const m = r.mode ?? "unknown";
+    if (!byMode[m]) byMode[m] = { n: 0, sum: 0, hist: [0, 0, 0] };
+    byMode[m].n++;
+    byMode[m].sum += r.rating;
+    byMode[m].hist[r.rating - 1]++;
+  }
+  res.json({
+    windowDays: 30,
+    totalRatings: recent.length,
+    distinctRaters: users.size,
+    avgRating: recent.length ? +(recent.reduce((a, r) => a + r.rating, 0) / recent.length).toFixed(2) : null,
+    histogram: { "😩": hist[0], "😐": hist[1], "🔥": hist[2] },
+    byMode: Object.fromEntries(Object.entries(byMode)
+      .sort((a, b) => b[1].n - a[1].n)
+      .map(([m, s]) => [m, { ratings: s.n, avg: +(s.sum / s.n).toFixed(2), "😩": s.hist[0], "😐": s.hist[1], "🔥": s.hist[2] }])),
+    allTimeRatings: rows.length,
+  });
+});
+
+// --- Scholarship seats ---------------------------------------------------------
+// Free, time-boxed, card-less access for sponsored students. Codes are minted
+// by the owner (REPORTS_KEY-gated), handed out on paper or by email, and
+// redeemed with nothing but an email address.
+const CODE_ALPHABET = "ABCDEFGHJKMNPQRSTUVWXYZ23456789"; // no 0/O/1/I/L
+function mintCode(): string {
+  let s = "";
+  for (let i = 0; i < 8; i++) s += CODE_ALPHABET[randomInt(CODE_ALPHABET.length)];
+  return `SCHLR-${s.slice(0, 4)}-${s.slice(4)}`;
+}
+
+app.post("/api/scholarship/mint", async (req: Request, res: Response) => {
+  if (!CFG.reportsKey || req.body?.key !== CFG.reportsKey) return res.status(403).json({ error: "forbidden" });
+  const count = Math.min(Math.max(Number(req.body?.count) || 1, 1), 50);
+  const months = Math.min(Math.max(Number(req.body?.months) || 3, 1), 12);
+  const note = String(req.body?.note ?? "").replace(/[<>]/g, "").slice(0, 120);
+  const codes: string[] = [];
+  for (let i = 0; i < count; i++) {
+    const code = mintCode();
+    await scholarships.set(code, { months, note, createdAt: new Date().toISOString() });
+    codes.push(code);
+  }
+  console.log(`scholarship: minted ${count} code(s) x ${months}mo (${note || "no note"})`);
+  res.json({ ok: true, months, note, codes });
+});
+
+app.get("/api/scholarship/list", (req: Request, res: Response) => {
+  if (!CFG.reportsKey || req.query.key !== CFG.reportsKey) return res.status(403).json({ error: "forbidden" });
+  res.json({ scholarships: scholarships.entries().map(([code, r]) => ({ code: code.toUpperCase(), ...r })) });
+});
+
+// Redemption is public, so it gets its own brute-force wall on top of the
+// codes' entropy (30^8 ≈ 6.5e11): a global sliding-window cap on attempts.
+const redeemAttempts: number[] = [];
+app.post("/api/scholarship/redeem", async (req: Request, res: Response) => {
+  const now = Date.now();
+  while (redeemAttempts.length && redeemAttempts[0] < now - 10 * 60 * 1000) redeemAttempts.shift();
+  if (redeemAttempts.length >= 60) return res.status(429).json({ error: "Too many attempts — try again in a few minutes." });
+  redeemAttempts.push(now);
+
+  const email = normEmail(req.body?.email);
+  const code = String(req.body?.code ?? "").trim().toUpperCase();
+  if (!email.includes("@")) return res.status(400).json({ error: "email required" });
+  if (!/^SCHLR-[A-Z2-9]{4}-[A-Z2-9]{4}$/.test(code)) return res.status(400).json({ error: "That doesn't look like a scholarship code." });
+  const rec = scholarships.get(code);
+  if (!rec) return res.status(404).json({ error: "Unknown code — check for typos (no zeros or letter O in codes)." });
+  if (rec.usedBy) {
+    // Same student re-entering their own code (new device) is fine; anyone
+    // else gets told it's spent.
+    if (rec.usedBy === email && isActiveSubscriber(email)) return res.json({ ok: true, alreadyYours: true });
+    return res.status(409).json({ error: "This code has already been used." });
+  }
+  // Never let a scholarship downgrade a real subscription.
+  const existing = store.get(email);
+  if (existing && ACTIVE.includes(existing.status) && existing.source !== "scholarship") {
+    return res.status(409).json({ error: "This email already has an active subscription." });
+  }
+  const expiresAt = new Date(now + rec.months * 30 * 86400000).toISOString();
+  await scholarships.set(code, { ...rec, usedBy: email, usedAt: new Date(now).toISOString() });
+  await store.set(email, { status: "active", source: "scholarship", expiresAt, updatedAt: new Date(now).toISOString() });
+  console.log(`scholarship: ${code} redeemed by ${email} until ${expiresAt}`);
+  res.json({ ok: true, expiresAt, months: rec.months });
 });
 
 // --- Magic-link sign-in (optional hardening; needs RESEND_API_KEY) -----------
@@ -590,6 +742,8 @@ await store.load();
 await progress.load();
 await reports.load();
 await scores.load();
+await pulse.load();
+await scholarships.load();
 app.listen(CFG.port, () => {
   console.log(`arena-access listening on :${CFG.port} (origin=${CFG.siteOrigin}, access=${store.count()}, progress=${progress.count()}, scores=${scores.count()})`);
 });

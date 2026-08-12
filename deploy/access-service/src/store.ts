@@ -12,6 +12,11 @@ export interface AccessRecord {
   status: AccessStatus;
   customerId?: string;
   subscriptionId?: string;
+  /** How this record came to exist: "stripe" (default) or "scholarship". */
+  source?: string;
+  /** Scholarship seats expire; Stripe records never carry this (webhooks own
+   *  their lifecycle). Past this instant the record no longer grants access. */
+  expiresAt?: string;
   updatedAt: string;
 }
 
@@ -97,6 +102,10 @@ export class JsonMap<T> {
   async set(key: string, value: T): Promise<void> {
     this.data[key.trim().toLowerCase()] = value;
     await this.persist();
+  }
+
+  entries(): Array<[string, T]> {
+    return Object.entries(this.data);
   }
 
   count(): number {

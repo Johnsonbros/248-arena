@@ -105,6 +105,59 @@ The app is static files — serve them behind Caddy + the existing Cloudflare Tu
 
 ---
 
+## Scholarship seats — free accounts for students
+
+Sponsored students (vo-tech kids, apprentices who can't swing $19.99) get in with a
+**scholarship code**, not a Stripe checkout. Codes are minted by you, time-boxed, single-use,
+and redeemable with nothing but an email address — no card, no billing relationship, nothing
+to cancel. Server mode only.
+
+**Mint codes** (one per $20 sponsorship is the honest ratio — 3 months each):
+
+```bash
+curl -X POST https://arena-api.thejohnsonbros.com/api/scholarship/mint \
+  -H 'Content-Type: application/json' \
+  -d '{"key":"YOUR_REPORTS_KEY","count":10,"months":3,"note":"Worcester Tech cohort Sept 2026"}'
+# → {"ok":true,"codes":["SCHLR-XXXX-XXXX", ...]}
+```
+
+**See who redeemed what:**
+
+```bash
+curl 'https://arena-api.thejohnsonbros.com/api/scholarship/list?key=YOUR_REPORTS_KEY'
+```
+
+**How a student uses one:** open the Arena → the gate asks for email or code → they type the
+`SCHLR-` code → enter their email → full access until the code's expiry. Re-entering the same
+code with the same email on a new device just works; anyone else gets "already used."
+
+Rules baked in: codes can't downgrade a real subscription, expired seats stop unlocking (and
+stop syncing) automatically, and redemption is rate-limited against brute force on top of the
+codes' ~10^11 entropy. Print them on cards, email them to a shop teacher, staple them to the
+sponsorship thank-you — they're just codes.
+
+**Privacy note for minors:** vo-tech students can be under 18. The whole system asks a student
+for exactly one thing — an email address. No name, no DOB, no payment details, no documents
+(the Locker refuses PII by design). Keep it that way.
+
+---
+
+## The fun benchmark — /api/pulse-summary
+
+After every few sessions the app asks players one tap: 😩 / 😐 / 🔥. Ratings land in
+`/data/pulse.json` with the session's mode and accuracy. Your improvement loop:
+
+```bash
+curl 'https://arena-api.thejohnsonbros.com/api/pulse-summary?key=YOUR_REPORTS_KEY'
+# → avg rating overall + per mode, 😩/😐/🔥 histogram, distinct raters (30-day window)
+```
+
+Change a mode → watch its average move release over release. A mode that's played a lot but
+rated 😐 is where the next design hour goes. Client-side, the same data feeds each player's
+private Fun Index (frequency + volume + variety + stated rating) in `js/pulse.js`.
+
+---
+
 ## Go / no-go
 
 You can sell the moment Steps 1–3 are done and the end-to-end test passes. Everything else

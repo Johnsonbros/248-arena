@@ -49,6 +49,8 @@ const GameModes = {
     if (!f) return QUESTIONS;
     let pool = QUESTIONS;
     if (f.category) pool = pool.filter(q => q.category === f.category);
+    // Conquest territories: match by codeRef citation prefix.
+    if (f.refs) pool = pool.filter(q => f.refs.some(p => (q.codeRef || '').startsWith(p)));
     if (window.SRS && f.only === 'new') pool = pool.filter(q => !SRS.seen(q.id));
     if (window.SRS && f.only === 'due') {
       const due = new Set(SRS.dueIds());
@@ -191,6 +193,8 @@ const GameModes = {
     // Skip imposter (mutated options) and drills (generated one-offs — scheduling
     // an id that will never be generated again would just bloat the queue).
     if (window.SRS && !q.isImposter && !q.isDrill) SRS.record(q.id, isCorrect);
+    // Conquest ledger: lifetime per-question accuracy, feeds territory ranks.
+    if (window.Conquest && !q.isImposter && !q.isDrill) Conquest.record(q.id, isCorrect);
     // Session log powers the end-of-session score report.
     this.answerLog.push({ q, choiceIndex, isCorrect });
     const isLoot = Math.random() < 0.1;

@@ -170,6 +170,12 @@ const Subscription = {
   async grantByInput(input) {
     if (this.grantAdmin(input)) return true;
     const v = (input || '').trim();
+    // Scholarship code (sponsored student seat): redeem with just an email.
+    if (ACCESS_CONFIG.mode === 'server' && /^SCHLR-/i.test(v)) {
+      const email = (prompt('Scholarship code! Enter your email to attach your free seat to:') || '').trim().toLowerCase();
+      if (!email.includes('@')) return false;
+      return this.redeemScholarship(v, email);
+    }
     if (ACCESS_CONFIG.mode === 'server' && v.includes('@')) {
       // Prefer verified sign-in when the server has a mailer; otherwise plain unlock.
       const login = await this.requestLogin(v);
@@ -179,6 +185,22 @@ const Subscription = {
     const ok = v === ACCESS_CONFIG.accessCode && ACCESS_CONFIG.accessCode !== 'SET_YOUR_CODE_HERE';
     if (ok) localStorage.setItem(this.KEY, 'granted');
     return ok;
+  },
+
+  // Redeem a sponsored-seat code. On success the email unlocks like any
+  // subscriber: same grant, same sync, same 24h recheck against the server.
+  async redeemScholarship(code, email) {
+    try {
+      const res = await fetch(`${ACCESS_CONFIG.apiBase}/api/scholarship/redeem`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: code.trim().toUpperCase(), email })
+      });
+      const body = await res.json();
+      if (res.ok && body.ok) { this._setGrant(email, true); this._ensureUser(); return true; }
+      if (body && body.error) alert(body.error);
+    } catch (err) {}
+    return false;
   },
 
   // Back-compat alias (older pages call grantByCode).
@@ -225,10 +247,10 @@ const Subscription = {
           padding:14px;border-radius:10px;margin-bottom:14px;">START FREE TRIAL →</a>
         <div style="border-top:1px solid rgba(255,255,255,0.08);margin:18px 0;padding-top:18px;">
           <p style="color:#9898b0;font-size:0.85rem;margin-bottom:10px;">${serverMode
-            ? 'Already subscribed? Enter the email you subscribed with:'
+            ? 'Already subscribed? Enter the email you subscribed with — or a SCHLR- scholarship code:'
             : 'Already subscribed? Enter your access code:'}</p>
-          <input id="arena-access-code" type="${serverMode ? 'email' : 'text'}"
-            placeholder="${serverMode ? 'you@example.com' : 'Access code'}"
+          <input id="arena-access-code" type="text" ${serverMode ? 'inputmode="email" autocomplete="email"' : ''}
+            placeholder="${serverMode ? 'you@example.com or SCHLR-XXXX-XXXX' : 'Access code'}"
             style="width:100%;padding:11px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);
             background:rgba(255,255,255,0.05);color:#fff;text-align:center;margin-bottom:10px;">
           <button id="arena-access-btn"

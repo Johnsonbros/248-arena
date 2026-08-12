@@ -120,8 +120,18 @@ const App = {
     }
     if (window.Plan) Plan.render(this.user);
     this.renderSimHistory();
+    if (window.Conquest) Conquest.render();
     this.renderCategories();
     this.renderBattlePass();
+  },
+
+  // Battle one Code Conquest territory: a focused session drawn only from
+  // questions citing that district of 248 CMR.
+  battleTerritory(id) {
+    const t = Conquest.TERRITORIES.find(x => x.id === id);
+    if (!t) return;
+    GameModes.focus = { refs: t.refs };
+    this.startGame('practice');
   },
 
   // Recent exam sims inside the readiness card: score chips plus the delta
@@ -449,6 +459,8 @@ const App = {
     if (this.timerInterval) clearInterval(this.timerInterval);
     // Finishing the session the plan asked for is what marks the task done.
     if (window.Plan && this.planTask) { Plan.complete(this.planTask); this.planTask = null; }
+    // Pulse ledger: one row per finished session, occasional one-tap rating.
+    if (window.Pulse) Pulse.record(results);
     const gameScreen = document.getElementById('screen-game');
     let grade = '';
     if (results.accuracy >= 90) grade = '🏆 A+ — LEGENDARY';
@@ -459,8 +471,17 @@ const App = {
 
     let badgeHtml = '';
     if (results.newBadges && results.newBadges.length > 0) {
-      badgeHtml = results.newBadges.map(b => 
+      badgeHtml = results.newBadges.map(b =>
         `<div class="badge-unlock">${b.icon} ${b.name} Unlocked!</div>`
+      ).join('');
+    }
+
+    // Conquest promotions earned by this session — territory rank-ups pay XP
+    // and get announced right where the win happened.
+    if (window.Conquest) {
+      const ups = Conquest.collectRankUps(this.user);
+      badgeHtml += ups.map(u =>
+        `<div class="badge-unlock">${u.rank.icon} ${u.territory.name} → ${u.rank.name}! +${u.xp} XP</div>`
       ).join('');
     }
 
@@ -532,6 +553,7 @@ const App = {
         </div>
         <div style="color: var(--success); font-weight: 600; margin-bottom: 16px;">+${results.xpEarned} XP earned</div>
         ${badgeHtml}
+        ${window.Pulse ? Pulse.promptHtml() : ''}
         ${categoryHtml}
         ${missedHtml}
         <div class="question-actions mt-16">
