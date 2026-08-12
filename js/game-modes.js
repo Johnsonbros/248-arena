@@ -39,21 +39,42 @@ const GameModes = {
     return a;
   },
 
+  // Today's Plan aims a session at one thing: a single weak category, only the
+  // due reviews, or only unseen material. Set before start(), cleared after.
+  //   GameModes.focus = { category: 'VENTING' } | { only: 'due' } | { only: 'new' }
+  focus: null,
+
+  _focusPool() {
+    const f = this.focus;
+    if (!f) return QUESTIONS;
+    let pool = QUESTIONS;
+    if (f.category) pool = pool.filter(q => q.category === f.category);
+    if (window.SRS && f.only === 'new') pool = pool.filter(q => !SRS.seen(q.id));
+    if (window.SRS && f.only === 'due') {
+      const due = new Set(SRS.dueIds());
+      pool = pool.filter(q => due.has(q.id));
+    }
+    // A focus that matches nothing must never hand back an empty session.
+    return pool.length ? pool : QUESTIONS;
+  },
+
   getAdaptiveQuestions(count, user) {
     const selected = [];
+    const source = this._focusPool();
 
     // 1) Spaced repetition first: up to half the session is due reviews —
-    //    questions previously missed or scheduled to resurface today.
-    if (window.SRS) {
+    //    questions previously missed or scheduled to resurface today. Skipped
+    //    when the session is deliberately aimed at unseen material.
+    if (window.SRS && this.focus?.only !== 'new') {
       const dueIds = new Set(SRS.dueIds());
-      const dueQs = this.shuffle(QUESTIONS.filter(q => dueIds.has(q.id)));
+      const dueQs = this.shuffle(source.filter(q => dueIds.has(q.id)));
       selected.push(...dueQs.slice(0, Math.floor(count / 2)));
     }
 
     // 2) Fill the rest weighted by weak categories, favoring unseen questions.
     const chosen = new Set(selected.map(q => q.id));
     const stats = user?.stats?.categoryStats || {};
-    const weighted = QUESTIONS.filter(q => !chosen.has(q.id)).map(q => {
+    const weighted = source.filter(q => !chosen.has(q.id)).map(q => {
       const catStat = stats[q.category];
       let weight = 1;
       if (catStat) {
@@ -64,7 +85,7 @@ const GameModes = {
       return { q, weight };
     });
     const pool = [...weighted];
-    while (selected.length < Math.min(count, QUESTIONS.length) && pool.length > 0) {
+    while (selected.length < Math.min(count, source.length) && pool.length > 0) {
       const totalWeight = pool.reduce((s, w) => s + w.weight, 0);
       let r = Math.random() * totalWeight;
       for (let i = 0; i < pool.length; i++) {
@@ -282,3 +303,7 @@ const GameModes = {
 };
 
 window.GameModes = GameModes;
+// `const` at script top level does NOT land on window, so anything reading
+// these through `window.` (Readiness, Plan) needs them published explicitly.
+window.EXAM_BLUEPRINT = EXAM_BLUEPRINT;
+window.EXAM_FORMAT = EXAM_FORMAT;

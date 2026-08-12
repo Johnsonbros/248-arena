@@ -89,8 +89,26 @@ const App = {
       if (msgEl) msgEl.textContent = r.message;
       if (partsEl) partsEl.textContent = `Accuracy ${r.components.accuracy}% (exam-weighted) · Retention ${r.components.retention}% · Coverage ${r.components.coverage}%`;
     }
+    if (window.Plan) Plan.render(this.user);
     this.renderCategories();
     this.renderBattlePass();
+  },
+
+  // === TODAY'S PLAN ===
+  // Each task launches the session that satisfies it. `planTask` is remembered
+  // so the plan can mark itself complete when the session ends — the user never
+  // ticks a box, the app watches what they actually did.
+  planTask: null,
+  _pendingPlanTask: null,
+
+  planRun(kind, category) {
+    if (kind === 'hours') { this.showScreen('locker'); return; }
+    this._pendingPlanTask = kind;
+    GameModes.focus =
+      kind === 'reviews' ? { only: 'due' } :
+      kind === 'new'     ? { only: 'new' } :
+      kind === 'weak'    ? { category } : null;
+    this.startGame(kind === 'exam' ? 'exam' : 'practice');
   },
 
   renderCategories() {
@@ -141,7 +159,13 @@ const App = {
     this.gameActive = true;
     this.answered = false;
     this.eliminatedOption = null;
+    // Only a session launched from Today's Plan can complete a plan task —
+    // picking Practice off the grid shouldn't silently tick a box.
+    this.planTask = this._pendingPlanTask;
+    this._pendingPlanTask = null;
     const q = GameModes.start(mode, this.user);
+    // One-shot: a focused session must not leak into the next mode the user picks.
+    GameModes.focus = null;
     if (!q) return;
     this.showScreen('game');
     this.currentQuestion = q;
@@ -219,7 +243,9 @@ const App = {
     if (this.answered) return;
     this.answered = true;
     const result = GameModes.answer(idx, this.user);
-    
+    // Answering — not merely opening the app — is what keeps a streak alive.
+    if (window.Plan) Plan.touch();
+
     document.querySelectorAll('.option-btn').forEach((btn, i) => {
       btn.classList.add('disabled');
       if (i === result.correctAnswer) btn.classList.add('correct');
@@ -295,6 +321,8 @@ const App = {
 
   showResults(results) {
     if (this.timerInterval) clearInterval(this.timerInterval);
+    // Finishing the session the plan asked for is what marks the task done.
+    if (window.Plan && this.planTask) { Plan.complete(this.planTask); this.planTask = null; }
     const gameScreen = document.getElementById('screen-game');
     let grade = '';
     if (results.accuracy >= 90) grade = '🏆 A+ — LEGENDARY';
