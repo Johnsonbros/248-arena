@@ -68,7 +68,7 @@
           <div class="stat-value" id="statLevel">1</div>
           <div class="stat-label">Level</div>
         </div>
-        <div class="stat-card" id="statDueCard" title="Questions the Smart Review scheduler has queued for you — missed ones come back fast, mastered ones fade out">
+        <div class="stat-card" id="statDueCard" onclick="App.planRun('reviews')" style="cursor:pointer;" title="Tap to clear today's reviews — missed questions come back fast, mastered ones fade out">
           <div class="stat-value" id="statDue" style="color:#00ff88;">0</div>
           <div class="stat-label">Due Review</div>
         </div>
@@ -226,5 +226,10 @@
 <script src="js/plan.js"></script>
 <script src="js/app.js"></script>
 
+<script>
+// Offline support: the whole study engine is client-side, so with the service
+// worker installed the app works in a basement with no signal. See sw.js.
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+</script>
 </body>
 </html>

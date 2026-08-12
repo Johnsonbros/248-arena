@@ -157,6 +157,20 @@ const GameModes = {
     return this.getCurrentQuestion();
   },
 
+  // Replay an explicit set of questions (e.g. the ones just missed). Runs as
+  // untimed practice: same scoring and SRS behavior, no clock, no lives.
+  startWith(questions) {
+    if (!questions || !questions.length) return null;
+    this.currentMode = 'practice';
+    this.currentIndex = 0; this.score = 0; this.correct = 0;
+    this.streak = 0; this.eliminated = false; this.lives = 3;
+    this.answerLog = [];
+    this.startTime = Date.now();
+    this.timeLimit = 0;
+    this.currentQuestions = this.shuffle([...questions]);
+    return this.getCurrentQuestion();
+  },
+
   getCurrentQuestion() {
     if (this.currentIndex >= this.currentQuestions.length) return null;
     const q = this.currentQuestions[this.currentIndex];

@@ -44,6 +44,35 @@ const App = {
         if (screen) this.showScreen(screen);
       });
     });
+    this.setupKeys();
+  },
+
+  // Keyboard play: 1-4 / A-D answer, Enter or Space advances. Desktop studying
+  // shouldn't need a mouse — answer, read, Enter, next, the whole session.
+  setupKeys() {
+    document.addEventListener('keydown', (e) => {
+      if (this.currentScreen !== 'game' || !this.gameActive) return;
+      // Never swallow keys meant for an input (report prompt, chat, etc.)
+      const tag = document.activeElement?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+
+      if (!this.answered) {
+        let idx = -1;
+        if (/^[1-5]$/.test(e.key)) idx = Number(e.key) - 1;
+        else if (/^[a-eA-E]$/.test(e.key)) idx = e.key.toUpperCase().charCodeAt(0) - 65;
+        if (idx >= 0 && document.getElementById('opt-' + idx)) {
+          e.preventDefault();
+          this.selectAnswer(idx);
+        }
+        return;
+      }
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        // Whatever the primary action currently is — next question or results.
+        document.querySelector('#questionActions .action-btn.primary')?.click();
+      }
+    });
   },
 
   showScreen(name) {
@@ -111,6 +140,13 @@ const App = {
     this.startGame(kind === 'exam' ? 'exam' : 'practice');
   },
 
+  // Tap a category row → a practice session of only that category. The report
+  // becomes the launcher: see a weak bar, hit it.
+  drillCategory(key) {
+    GameModes.focus = { category: key };
+    this.startGame('practice');
+  },
+
   renderCategories() {
     const container = document.getElementById('categoryList');
     const stats = this.user.stats.categoryStats;
@@ -120,7 +156,7 @@ const App = {
       const pct = s.total > 0 ? Math.round((s.correct / s.total) * 100) : 0;
       const cls = pct >= 70 ? 'good' : pct >= 50 ? 'ok' : 'bad';
       html += `
-        <div class="category-item">
+        <div class="category-item" onclick="App.drillCategory('${key}')" style="cursor:pointer;" title="Practice ${cat.name} only">
           <div class="cat-icon">${cat.icon}</div>
           <div class="cat-info">
             <div class="cat-name">${cat.name}</div>
@@ -129,6 +165,7 @@ const App = {
               <div class="progress-fill ${cls}" style="width: ${pct}%"></div>
             </div>
           </div>
+          <div style="color:#6c6c80;font-size:0.9rem;">▶</div>
         </div>`;
     });
     container.innerHTML = html;
@@ -236,6 +273,7 @@ const App = {
           <button class="action-btn" onclick="App.challengeQuestion()">⚔️ Challenge</button>
           ${q.isDrill ? '' : '<button class="action-btn danger" onclick="App.reportQuestion()">🚩 Report</button>'}
         </div>
+        <div class="kbd-hint">⌨️ <strong>1–4</strong> or <strong>A–D</strong> to answer · <strong>Enter</strong> for next</div>
       </div>`;
   },
 
@@ -409,9 +447,32 @@ const App = {
         ${missedHtml}
         <div class="question-actions mt-16">
           <button class="action-btn" onclick="App.showScreen('dashboard')">← Arena</button>
-          <button class="action-btn primary" onclick="App.startGame('${results.mode}')">Fight Again →</button>
+          ${results.missed && results.missed.length > 0
+            ? `<button class="action-btn primary" onclick="App.retryMissed()">🔁 Retry ${results.missed.length} Missed →</button>
+               <button class="action-btn" onclick="App.startGame('${results.mode}')">Fight Again →</button>`
+            : `<button class="action-btn primary" onclick="App.startGame('${results.mode}')">Fight Again →</button>`}
         </div>
       </div>`;
+    // Stash the misses for retryMissed() — the DOM string can't carry objects.
+    this._lastMissed = (results.missed || []).map(m => m.q);
+  },
+
+  // Immediately replay exactly what was just missed. Reading the review list is
+  // recognition; answering the same questions again is recall — recall is what
+  // the exam tests. Untimed regardless of the original mode: this is repair work.
+  _lastMissed: [],
+  retryMissed() {
+    if (!this._lastMissed.length) return;
+    this.gameActive = true;
+    this.answered = false;
+    this.eliminatedOption = null;
+    this.planTask = null;
+    const q = GameModes.startWith(this._lastMissed);
+    this._lastMissed = [];
+    if (!q) return;
+    this.showScreen('game');
+    this.currentQuestion = q;
+    this.renderQuestion(q);
   },
 
   // === ACCOUNT ===
@@ -743,11 +804,16 @@ const App = {
         if (res.ok && data.reply) {
           this._renderAiReply(data);
         } else {
-          this.chatMessages.push({ role: 'ai', text: `⚠️ ${data.error || 'The Examiner is unavailable right now.'}\n\nType 'quiz me' to keep training!` });
+          // Put the question back in the box — retrying should cost one
+          // keypress, not a retype. (429 = rate limit: retyping won't help,
+          // so say when, and don't restore.)
+          if (res.status !== 429) input.value = text;
+          this.chatMessages.push({ role: 'ai', text: `⚠️ ${data.error || 'The Examiner is unavailable right now.'}${res.status === 429 ? '' : '\n\nYour question is still in the box — press Enter to retry.'}` });
         }
       } catch (e) {
         this.chatMessages = this.chatMessages.filter(m => !m.pending);
-        this.chatMessages.push({ role: 'ai', text: "⚠️ Can't reach The Examiner right now. Type 'quiz me' to keep training, or check the Code Book!" });
+        input.value = text;
+        this.chatMessages.push({ role: 'ai', text: "⚠️ Can't reach The Examiner right now — your question is still in the box, press Enter to retry. Or type 'quiz me' to keep training offline." });
       }
       this.renderChatMessages();
       return;

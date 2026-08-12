@@ -702,5 +702,10 @@
 
 <script src="js/codebook.js"></script>
 
+<script>
+// Offline support: the whole study engine is client-side, so with the service
+// worker installed the app works in a basement with no signal. See sw.js.
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+</script>
 </body>
 </html>

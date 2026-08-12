@@ -155,6 +155,10 @@ const Subscription = {
       const res = await fetch(`${ACCESS_CONFIG.apiBase}/api/access?email=${encodeURIComponent(email)}`);
       const body = await res.json();
       if (body && body.active) { this._setGrant(email, true); return; }
+      // Only an authoritative answer revokes. A 5xx with a JSON error body has
+      // no `active` field — treating that as "canceled" would lock a paying
+      // user out over a server hiccup. Keep the grant; recheck next time.
+      if (!res.ok) return;
       // Revoked (canceled subscription): drop the grant and re-gate.
       localStorage.removeItem(this.GRANT_KEY);
       if (!this.isAdmin()) location.reload();

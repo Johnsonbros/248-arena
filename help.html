@@ -54,6 +54,15 @@
       <p>The app schedules every question you answer using spaced repetition — misses come back within minutes, and questions you keep getting right come back at growing intervals (that's how they stick). "Due Review" is today's queue; Practice mode serves those first.</p>
     </div>
 
+    <div class="qa">
+      <h4>Does it work offline?</h4>
+      <p><strong>Yes.</strong> After your first visit, the whole study engine — every question, every mode, the Code Book, your review schedule, the Locker — works with no signal at all. Basement, crawlspace, dead zone: doesn't matter. Only the leaderboard, cross-device sync, and The Examiner chat need a connection, and they catch up on their own when you're back in coverage. On your phone, use "Add to Home Screen" and it installs like an app.</p>
+    </div>
+    <div class="qa">
+      <h4>Keyboard shortcuts?</h4>
+      <p>On a computer: press <strong>1–4</strong> (or <strong>A–D</strong>) to answer, then <strong>Enter</strong> for the next question. A whole session without touching the mouse.</p>
+    </div>
+
     <h2>GAME MODES</h2>
     <div class="qa">
       <ul>
@@ -139,5 +148,10 @@
     </p>
   </footer>
 </div>
+<script>
+// Offline support: the whole study engine is client-side, so with the service
+// worker installed the app works in a basement with no signal. See sw.js.
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+</script>
 </body>
 </html>
