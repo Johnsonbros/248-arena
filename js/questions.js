@@ -1,5 +1,5 @@
 // Massachusetts 248 CMR Plumbing Code Question Bank
-// 190 questions accurate to MA code (batches 2-3: ids 66-165, batch 4 gas: ids 166-190)
+// 200 questions accurate to MA code (batch 4 gas: 166-190, batch 5 licensure: 191-200)
 
 const CATEGORIES = {
   DWV: { name: 'DWV', icon: '🔧', color: '#3b82f6', fullName: 'Drain, Waste & Vent' },
@@ -393,11 +393,11 @@ const QUESTIONS = [
   },
   {
     id: 46, category: 'GENERAL', difficulty: 2,
-    question: 'How many hours of licensed apprentice work experience are required to qualify for the MA journeyman plumber exam?',
-    options: ['4,000 hours', '6,800 hours', '8,000 hours', '10,000 hours'],
+    question: 'How many clock hours of licensed apprentice work experience are required to qualify for the MA journeyman plumber exam?',
+    options: ['4,000 clock hours', '6,800 clock hours', '8,000 clock hours', '10,000 clock hours'],
     correct: 1,
-    explanation: 'Current Board requirements: 6,800 hours of documented work experience as a licensed apprentice, plus 550 hours of tier education (five 110-hour tiers), to qualify for the journeyman exam.',
-    codeRef: '248 CMR 11.00'
+    explanation: 'Per 248 CMR 11.02, an applicant must document no less than 6,800 clock hours of practical work experience as a licensed apprentice, under the direct supervision of a Massachusetts licensed journeyman or master plumber. That is four years at the required pace: each year an apprentice earns 165 education hours (1½ tiers) must be paired with 1,700 clock hours of qualifying work experience — 4 × 1,700 = 6,800. (The 8,000-hour figure is the older standard that applied to apprentices licensed before September 1, 2008.)',
+    codeRef: '248 CMR 11.02'
   },
   {
     id: 47, category: 'GENERAL', difficulty: 1,
@@ -1608,6 +1608,90 @@ const QUESTIONS = [
     correct: 1,
     explanation: 'Commissioning includes a leak check, verifying operating/manifold pressure against the rating plate, and confirming proper draft, venting, and combustion air before the appliance is left in service.',
     codeRef: '248 CMR 4.00'
+  },
+
+  // === BATCH 5 — LICENSURE & EDUCATION (ids 191–200) ===
+  // Sourced from 248 CMR 11.00 (Education and Experience Standards and
+  // Requirements for Licensure) — every answer cites its subsection.
+  {
+    id: 191, category: 'GENERAL', difficulty: 2,
+    question: 'Under 248 CMR 11.02, how many clock hours of qualifying work experience must an apprentice accrue for each year in which they obtain 165 clock hours of education?',
+    options: ['850 clock hours', '1,200 clock hours', '1,700 clock hours', '2,000 clock hours'],
+    correct: 2,
+    explanation: 'Per 248 CMR 11.02, for each year in which an apprentice obtains 165 clock hours of education (one and a half tiers), that apprentice must accrue 1,700 clock hours of qualifying work experience as a licensed apprentice. Four such years produce the 6,800 hours required for the journeyman exam.',
+    codeRef: '248 CMR 11.02'
+  },
+  {
+    id: 192, category: 'GENERAL', difficulty: 2,
+    question: 'How many total clock hours of tier education are required for journeyman licensure in Massachusetts?',
+    options: ['330 hours', '440 hours', '550 hours', '660 hours'],
+    correct: 2,
+    explanation: 'The Board-approved tier program totals 550 clock hours — five tiers of 110 hours each (Tiers 1 through 5) — completed alongside the required apprentice work experience.',
+    codeRef: '248 CMR 11.02'
+  },
+  {
+    id: 193, category: 'GENERAL', difficulty: 3,
+    question: 'A licensed apprentice may complete Tier 1 and Tier 2 education (220 hours) in:',
+    options: ['A single calendar year', 'Two separate calendar years only', 'Three years', 'Any order over five years'],
+    correct: 0,
+    explanation: 'Per 248 CMR 11.02, a licensed apprentice may complete all 220 hours of Tier 1 and Tier 2 in a single calendar year. An unlicensed individual may complete Tier 1 prior to obtaining an apprentice license.',
+    codeRef: '248 CMR 11.02'
+  },
+  {
+    id: 194, category: 'GENERAL', difficulty: 3,
+    question: 'A graduate of an approved public vocational-technical high school plumbing program may receive credit of up to:',
+    options: ['100 education hours and 500 experience hours', '300 education hours and 1,700 experience hours', '550 education hours and 6,800 experience hours', 'No credit is available'],
+    correct: 1,
+    explanation: 'Per 248 CMR 11.02, eligible applicants may be granted up to 300 hours of education credit and 1,700 clock hours of experience credit from an approved Public Comprehensive High School Career/Vocational Technical School program.',
+    codeRef: '248 CMR 11.02'
+  },
+  {
+    id: 195, category: 'GENERAL', difficulty: 2,
+    question: 'Apprentice work experience toward journeyman licensure must be performed under the direct supervision of:',
+    options: ['Any licensed tradesperson', 'A Massachusetts licensed journeyman or master plumber', 'A master plumber only', 'A building inspector'],
+    correct: 1,
+    explanation: 'Per 248 CMR 11.02, the required clock hours must be worked as a licensed apprentice under the direct supervision of a Commonwealth of Massachusetts licensed journeyman or master plumber.',
+    codeRef: '248 CMR 11.02'
+  },
+  {
+    id: 196, category: 'GENERAL', difficulty: 2,
+    question: 'Which additional requirements apply to a candidate for the Master Plumber license?',
+    options: ['No additional requirements beyond the journeyman license', 'One year as a licensed journeyman, 1,700 hours of work, and Tier 5 (110 hours)', 'Five years as a journeyman', 'A college degree in engineering'],
+    correct: 1,
+    explanation: 'A master candidate must have held a journeyman license for at least one year, documented 1,700 clock hours of qualifying work, and completed the 110-hour Tier 5 of the Board-approved five-tier education program.',
+    codeRef: '248 CMR 11.02'
+  },
+  {
+    id: 197, category: 'GENERAL', difficulty: 1,
+    question: 'How often must a Massachusetts plumbing license be renewed, and how much continuing education is required?',
+    options: ['Annually with 6 hours of CE', 'Every 2 years with 12 hours of CE', 'Every 3 years with 24 hours of CE', 'Every 5 years with no CE'],
+    correct: 1,
+    explanation: 'Per 248 CMR 11.04 (Mandatory Continuing Education), licenses renew on a two-year cycle and licensees must complete 12 hours of Board-approved continuing education as a condition of renewal.',
+    codeRef: '248 CMR 11.04'
+  },
+  {
+    id: 198, category: 'GENERAL', difficulty: 2,
+    question: 'Which 248 CMR section contains the education and experience standards for licensure?',
+    options: ['248 CMR 3.00', '248 CMR 10.00', '248 CMR 11.00', '248 CMR 4.00'],
+    correct: 2,
+    explanation: '248 CMR 11.00 is titled "Education and Experience Standards and Requirements for Licensure." 11.02 covers the apprentice/journeyman/master pathway; 11.04 covers mandatory continuing education.',
+    codeRef: '248 CMR 11.00'
+  },
+  {
+    id: 199, category: 'GENERAL', difficulty: 3,
+    question: 'An apprentice licensed BEFORE September 1, 2008 was required to complete how many clock hours of practical experience?',
+    options: ['6,800 clock hours', '8,000 clock hours', '10,000 clock hours', 'The same 6,800 hours'],
+    correct: 1,
+    explanation: 'Apprentices licensed before September 1, 2008 fell under the older standard of 8,000 clock hours of practical work experience. The current pathway under 248 CMR 11.02 requires 6,800 clock hours paired with the tier education program.',
+    codeRef: '248 CMR 11.02'
+  },
+  {
+    id: 200, category: 'PERMITS', difficulty: 2,
+    question: 'Which section of 248 CMR governs the general conduct of plumbing and gas work, including business and apprentice licenses and inspector requirements?',
+    options: ['248 CMR 3.00', '248 CMR 5.00', '248 CMR 10.00', '248 CMR 11.00'],
+    correct: 0,
+    explanation: 'Per 248 CMR 3.03, business and apprentice licenses, renewals, and inspector requirements sit in 248 CMR 3.00 — the general provisions governing the conduct of plumbing and gas work.',
+    codeRef: '248 CMR 3.00'
   }
 ];
 
