@@ -106,6 +106,9 @@ const GameModes = {
       case 'royale': this.currentQuestions = this.getAdaptiveQuestions(30, user); this.timeLimit = 0; this.lives = 3; break;
       case 'speed': this.currentQuestions = this.getAdaptiveQuestions(25, user); this.timeLimit = 5*60*1000; break;
       case 'imposter': this.currentQuestions = this.generateImposterQuestions(15); this.timeLimit = 0; break;
+      // Worksheet: randomized calculation problems (fixture units, sizing, slope,
+      // trap arms, gas demand) — generated fresh every session.
+      case 'drills': this.currentQuestions = window.Drills ? Drills.generate(15) : this.getAdaptiveQuestions(15, user); this.timeLimit = 0; break;
     }
     return this.getCurrentQuestion();
   },
@@ -125,7 +128,9 @@ const GameModes = {
     const q = this.currentQuestions[this.currentIndex];
     const isCorrect = choiceIndex === q.correct;
     // Feed the spaced-repetition scheduler on every answer, in every mode.
-    if (window.SRS && !q.isImposter) SRS.record(q.id, isCorrect);
+    // Skip imposter (mutated options) and drills (generated one-offs — scheduling
+    // an id that will never be generated again would just bloat the queue).
+    if (window.SRS && !q.isImposter && !q.isDrill) SRS.record(q.id, isCorrect);
     // Session log powers the end-of-session score report.
     this.answerLog.push({ q, choiceIndex, isCorrect });
     const isLoot = Math.random() < 0.1;

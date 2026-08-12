@@ -155,7 +155,8 @@ const App = {
     
     const modeLabels = {
       practice: '📚 Practice', ranked: '⚔️ Ranked', exam: '📝 Exam Sim',
-      royale: '🏟️ Code Royale', speed: '⚡ Speed Run', imposter: '🕵️ Imposter'
+      royale: '🏟️ Code Royale', speed: '⚡ Speed Run', imposter: '🕵️ Imposter',
+      drills: '📐 Worksheet'
     };
     const modeLabel = modeLabels[q.mode] || '';
 
@@ -208,7 +209,7 @@ const App = {
         <div class="question-actions" id="questionActions">
           <button class="action-btn" onclick="App.getHint()">💡 Hint (-50pts)</button>
           <button class="action-btn" onclick="App.challengeQuestion()">⚔️ Challenge</button>
-          <button class="action-btn danger" onclick="App.reportQuestion()">🚩 Report</button>
+          ${q.isDrill ? '' : '<button class="action-btn danger" onclick="App.reportQuestion()">🚩 Report</button>'}
         </div>
       </div>`;
   },
