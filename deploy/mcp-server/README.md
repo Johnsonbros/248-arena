@@ -19,11 +19,21 @@ that works from anywhere.
 | `stripe_payment_links` | verify what a buy.stripe.com link actually charges (amount, one-time vs recurring) | ✅ |
 | `stripe_prices` | list active prices + products | ✅ |
 | `stripe_revenue_summary` | active/trialing subscription counts + recent charge totals | ✅ |
+| `arena_business_stats` | one-call business health: subscribers, scholarship seats, engagement, open reports | ✅ |
+| `arena_pulse_summary` | the fun benchmark: 30-day 😩/😐/🔥 ratings, overall + per game mode | ✅ |
+| `arena_question_reports` | player-filed bad-question reports (content triage queue) | ✅ |
+| `arena_scholarship_list` | scholarship code ledger with redemption status | ✅ |
+| `arena_scholarship_mint` | mint single-use, time-boxed free-seat codes for sponsored students | ❌ |
+| `arena_access_check` | does an email currently unlock the app? | ✅ |
 
-The only mutating tools are deploy/restart. No arbitrary shell — every action is a fixed
-command with validated arguments. Stripe tools are **GET-only by construction** and only
-activate when `STRIPE_KEY` is set — use a **restricted read-only key**, never your full
-secret key.
+The only mutating tools are deploy/restart/scholarship-mint. No arbitrary shell — every
+action is a fixed command with validated arguments. Stripe tools are **GET-only by
+construction** and only activate when `STRIPE_KEY` is set — use a **restricted read-only
+key**, never your full secret key. Business tools activate when `ACCESS_ADMIN_KEY`
+(= arena-access's `REPORTS_KEY`) is set; they talk to arena-access over the docker
+network. This is the full surface an autonomous ops agent (Hermes / OpenClaw / a
+scheduled Claude session) needs to run the day-to-day — see `docs/API.md` for the
+loop and the rules.
 
 ## Run it on AiSync
 ```bash

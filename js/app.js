@@ -610,6 +610,7 @@ const App = {
         <button id="accSave" class="action-btn primary" style="width:100%;margin-bottom:10px;">Save</button>
         <a href="${ACCESS_CONFIG.billingPortalUrl}" target="_blank" class="action-btn" style="display:block;text-align:center;text-decoration:none;margin-bottom:10px;">Manage Subscription</a>
         <a href="help.html" target="_blank" class="action-btn" style="display:block;text-align:center;text-decoration:none;margin-bottom:10px;">Help &amp; FAQ</a>
+        ${window.Subscription && Subscription.isAdmin && Subscription.isAdmin() ? '<a href="admin.html" target="_blank" class="action-btn" style="display:block;text-align:center;text-decoration:none;margin-bottom:10px;">🛠️ Owner Console</a>' : ''}
         <button id="accSignOut" class="action-btn danger" style="width:100%;margin-bottom:10px;">Sign Out</button>
         <button id="accClose" class="action-btn" style="width:100%;">Close</button>
       </div>`;

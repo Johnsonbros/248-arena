@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>248 Arena — Owner Console</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛠️</text></svg>">
+  <style>
+    .console { max-width: 860px; margin: 0 auto; padding: 36px 20px 90px; }
+    .console h1 { font-family: 'Orbitron', sans-serif; color: #fff; letter-spacing: 2px; font-size: 1.5rem; }
+    .console .sub { color: #9898b0; margin: 8px 0 26px; font-size: 0.9rem; }
+    .panel { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 20px 22px; margin-bottom: 18px; }
+    .panel h2 { font-family: 'Rajdhani', sans-serif; color: #00d4ff; letter-spacing: 1px; font-size: 1.1rem; margin: 0 0 12px; }
+    .panel table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    .panel th { text-align: left; color: #6c6c80; font-family: 'Rajdhani', sans-serif; letter-spacing: 0.5px; padding: 6px 8px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .panel td { color: #c8c8d8; padding: 7px 8px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .panel .muted { color: #6c6c80; font-size: 0.8rem; }
+    .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-bottom: 14px; }
+    .kpi { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px; text-align: center; }
+    .kpi .v { font-family: 'Orbitron', sans-serif; font-size: 1.3rem; color: #00d4ff; }
+    .kpi .l { color: #6c6c80; font-size: 0.72rem; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+    input, select { padding: 9px 11px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); color: #fff; font-size: 0.9rem; }
+    button.act { padding: 9px 16px; border-radius: 8px; border: 1px solid rgba(0,212,255,0.4); background: transparent; color: #00d4ff; font-family: 'Rajdhani', sans-serif; font-weight: 700; letter-spacing: 0.5px; cursor: pointer; }
+    button.act:hover { background: rgba(0,212,255,0.1); }
+    .code-chip { font-family: monospace; background: rgba(0,212,255,0.08); border: 1px solid rgba(0,212,255,0.25); border-radius: 6px; padding: 2px 8px; cursor: pointer; }
+    .err { color: #ff2d55; font-size: 0.85rem; }
+    .overflow { overflow-x: auto; }
+  </style>
+</head>
+<body>
+<div class="landing-page">
+  <nav class="landing-nav">
+    <div class="landing-logo"><div class="logo-text"><span>248</span> ARENA</div></div>
+    <div class="landing-nav-links"><a href="app.html">App</a><a href="help.html">Help</a></div>
+  </nav>
+
+  <div class="console">
+    <h1>🛠️ OWNER CONSOLE</h1>
+    <p class="sub">Fun benchmark · scholarship seats · question reports. Everything here is read with your
+      server admin key (<code>REPORTS_KEY</code>) — the key never leaves this browser except to your own API.</p>
+
+    <!-- Key -->
+    <div class="panel">
+      <h2>ADMIN KEY</h2>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <input id="key" type="password" placeholder="REPORTS_KEY from the service .env" style="flex:1;min-width:220px;">
+        <button class="act" onclick="Console.saveKey()">Use key</button>
+      </div>
+      <div id="keyState" class="muted" style="margin-top:8px;"></div>
+    </div>
+
+    <!-- Pulse -->
+    <div class="panel">
+      <h2>📊 FUN BENCHMARK <button class="act" style="float:right;padding:4px 12px;font-size:0.75rem;" onclick="Console.loadPulse()">Refresh</button></h2>
+      <div id="pulse" class="muted">Enter your key above.</div>
+    </div>
+
+    <!-- Scholarships -->
+    <div class="panel">
+      <h2>🎓 SCHOLARSHIP SEATS <button class="act" style="float:right;padding:4px 12px;font-size:0.75rem;" onclick="Console.loadScholarships()">Refresh</button></h2>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px;">
+        <label class="muted">Mint</label>
+        <input id="mCount" type="number" value="5" min="1" max="50" style="width:70px;" title="How many codes">
+        <label class="muted">codes ×</label>
+        <input id="mMonths" type="number" value="3" min="1" max="12" style="width:70px;" title="Months of access each">
+        <label class="muted">months, note:</label>
+        <input id="mNote" type="text" placeholder="e.g. Worcester Tech Sept cohort" style="flex:1;min-width:180px;" maxlength="120">
+        <button class="act" onclick="Console.mint()">Mint</button>
+      </div>
+      <div id="minted"></div>
+      <div id="scholarships" class="muted">—</div>
+    </div>
+
+    <!-- Reports -->
+    <div class="panel">
+      <h2>🚩 QUESTION REPORTS <button class="act" style="float:right;padding:4px 12px;font-size:0.75rem;" onclick="Console.loadReports()">Refresh</button></h2>
+      <div id="reports" class="muted">—</div>
+    </div>
+  </div>
+</div>
+
+<script src="js/subscription.js"></script>
+<script>
+const Console = {
+  KEY: 'arena248_adminkey',
+  api: (window.ACCESS_CONFIG && ACCESS_CONFIG.apiBase) || '',
+
+  esc(s) {
+    return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  },
+
+  key() { return localStorage.getItem(this.KEY) || ''; },
+
+  saveKey() {
+    const v = document.getElementById('key').value.trim();
+    if (!v) return;
+    localStorage.setItem(this.KEY, v);
+    this.boot();
+  },
+
+  async fetchJson(path, opts) {
+    const res = await fetch(this.api + path, opts);
+    const body = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(body.error || ('HTTP ' + res.status));
+    return body;
+  },
+
+  async loadPulse() {
+    const el = document.getElementById('pulse');
+    try {
+      const d = await this.fetchJson(`/api/pulse-summary?key=${encodeURIComponent(this.key())}`);
+      const modes = Object.entries(d.byMode || {});
+      el.innerHTML = `
+        <div class="kpis">
+          <div class="kpi"><div class="v">${d.avgRating ?? '—'}</div><div class="l">Avg rating (30d)</div></div>
+          <div class="kpi"><div class="v">${d.totalRatings}</div><div class="l">Ratings (30d)</div></div>
+          <div class="kpi"><div class="v">${d.distinctRaters}</div><div class="l">Players rating</div></div>
+          <div class="kpi"><div class="v">${d.histogram['🔥']}🔥 ${d.histogram['😐']}😐 ${d.histogram['😩']}😩</div><div class="l">Histogram</div></div>
+        </div>
+        ${modes.length ? `<div class="overflow"><table>
+          <tr><th>Mode</th><th>Avg</th><th>Ratings</th><th>🔥</th><th>😐</th><th>😩</th><th>Read</th></tr>
+          ${modes.map(([m, s]) => `<tr><td>${this.esc(m)}</td><td style="color:${s.avg >= 2.5 ? '#00ff88' : s.avg >= 2 ? '#ff6b2b' : '#ff2d55'};">${s.avg}</td><td>${s.ratings}</td><td>${s['🔥']}</td><td>${s['😐']}</td><td>${s['😩']}</td>
+            <td class="muted">${s.avg >= 2.5 ? 'keep it' : s.ratings >= 5 ? 'needs design time' : 'small sample'}</td></tr>`).join('')}
+        </table></div>` : '<div class="muted">No ratings yet — they arrive after players finish a few sessions.</div>'}`;
+    } catch (e) { el.innerHTML = `<span class="err">${this.esc(e.message)}</span>`; }
+  },
+
+  async loadScholarships() {
+    const el = document.getElementById('scholarships');
+    try {
+      const d = await this.fetchJson(`/api/scholarship/list?key=${encodeURIComponent(this.key())}`);
+      const rows = (d.scholarships || []).sort((a, b) => (b.createdAt || '').localeCompare(a.createdAt || ''));
+      const used = rows.filter(r => r.usedBy).length;
+      el.innerHTML = `
+        <div class="muted" style="margin-bottom:8px;">${rows.length} code(s) · ${used} redeemed · ${rows.length - used} available. Tap a code to copy it.</div>
+        ${rows.length ? `<div class="overflow"><table>
+          <tr><th>Code</th><th>Months</th><th>Note</th><th>Status</th></tr>
+          ${rows.map(r => `<tr>
+            <td><span class="code-chip" onclick="Console.copy('${this.esc(r.code)}', this)">${this.esc(r.code)}</span></td>
+            <td>${r.months}</td><td class="muted">${this.esc(r.note || '')}</td>
+            <td>${r.usedBy ? `<span style="color:#00ff88;">redeemed</span> <span class="muted">${this.esc(r.usedBy)} · ${this.esc((r.usedAt || '').slice(0, 10))}</span>` : '<span style="color:#00d4ff;">available</span>'}</td>
+          </tr>`).join('')}
+        </table></div>` : ''}`;
+    } catch (e) { el.innerHTML = `<span class="err">${this.esc(e.message)}</span>`; }
+  },
+
+  async mint() {
+    const out = document.getElementById('minted');
+    try {
+      const d = await this.fetchJson('/api/scholarship/mint', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          key: this.key(),
+          count: Number(document.getElementById('mCount').value) || 1,
+          months: Number(document.getElementById('mMonths').value) || 3,
+          note: document.getElementById('mNote').value
+        })
+      });
+      out.innerHTML = `<div style="margin-bottom:12px;">✅ Minted ${d.codes.length} × ${d.months}mo:
+        ${d.codes.map(c => `<span class="code-chip" onclick="Console.copy('${this.esc(c)}', this)" style="margin:2px;">${this.esc(c)}</span>`).join(' ')}
+        <button class="act" style="padding:3px 10px;font-size:0.72rem;margin-left:6px;" onclick="Console.copy('${d.codes.join('\\n')}', this)">Copy all</button></div>`;
+      this.loadScholarships();
+    } catch (e) { out.innerHTML = `<span class="err">${this.esc(e.message)}</span>`; }
+  },
+
+  async loadReports() {
+    const el = document.getElementById('reports');
+    try {
+      const d = await this.fetchJson(`/api/reports?key=${encodeURIComponent(this.key())}`);
+      const rows = (d.reports || []).slice(0, 50);
+      el.innerHTML = rows.length ? `<div class="overflow"><table>
+        <tr><th>When</th><th>Q#</th><th>Question</th><th>Reason</th><th>From</th></tr>
+        ${rows.map(r => `<tr>
+          <td class="muted">${new Date(r.ts).toISOString().slice(0, 10)}</td>
+          <td>${Number(r.questionId)}</td>
+          <td class="muted">${this.esc((r.question || '').slice(0, 70))}…</td>
+          <td>${this.esc(r.reason)}</td>
+          <td class="muted">${this.esc(r.email)}</td>
+        </tr>`).join('')}
+      </table></div>` : '<div class="muted">No reports — the bank is holding up.</div>';
+    } catch (e) { el.innerHTML = `<span class="err">${this.esc(e.message)}</span>`; }
+  },
+
+  copy(text, el) {
+    navigator.clipboard?.writeText(text).then(() => {
+      const old = el.textContent;
+      el.textContent = '✓ copied';
+      setTimeout(() => { el.textContent = old; }, 900);
+    }).catch(() => {});
+  },
+
+  boot() {
+    const k = this.key();
+    const state = document.getElementById('keyState');
+    if (!k) { state.textContent = 'No key stored yet.'; return; }
+    document.getElementById('key').value = k;
+    state.textContent = 'Key stored in this browser. Loading…';
+    Promise.all([this.loadPulse(), this.loadScholarships(), this.loadReports()])
+      .then(() => { state.textContent = 'Key stored in this browser.'; });
+  }
+};
+Console.boot();
+</script>
+</body>
+</html>

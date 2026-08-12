@@ -142,6 +142,18 @@ for exactly one thing — an email address. No name, no DOB, no payment details,
 
 ---
 
+## Running it with agents (API + MCP everywhere)
+
+Every owner operation above is also plain HTTPS (`docs/API.md` is the full map) and an
+MCP tool on **arena-ops-mcp** — so Hermes/OpenClaw/a scheduled Claude session can run
+the day-to-day autonomously: `arena_business_stats` for the heartbeat,
+`arena_pulse_summary` for fun trends, `arena_question_reports` for content triage,
+`arena_scholarship_mint`/`list` for seats, `arena_deploy` to ship. Set
+`ACCESS_ADMIN_KEY` (= `REPORTS_KEY`) in the MCP server's `.env` to switch the business
+tools on. Prefer the human view? `admin.html` is the same API surface with buttons.
+
+---
+
 ## The fun benchmark — /api/pulse-summary
 
 After every few sessions the app asks players one tap: 😩 / 😐 / 🔥. Ratings land in

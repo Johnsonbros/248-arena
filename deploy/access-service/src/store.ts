@@ -58,6 +58,10 @@ export class Store {
     await this.persist();
   }
 
+  entries(): Array<[string, AccessRecord]> {
+    return Object.entries(this.data);
+  }
+
   /** Find the email key of a record matching a Stripe customer/subscription id —
    *  lets lifecycle events revoke the right record even if the customer's email
    *  changed after checkout. */

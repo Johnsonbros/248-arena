@@ -515,6 +515,47 @@ app.get("/api/reports", (req: Request, res: Response) => {
   res.json({ reports: [...reports.all()].reverse() });
 });
 
+// --- Business health (owner/agent telemetry) ------------------------------------
+// One call answers "how is the business doing?" — built for the autonomous ops
+// agents (and the owner console) so nothing needs SSH or a database client.
+app.get("/api/stats", (req: Request, res: Response) => {
+  if (!CFG.reportsKey || req.query.key !== CFG.reportsKey) return res.status(403).json({ error: "forbidden" });
+  const now = Date.now();
+  let active = 0, trialing = 0, pastDue = 0, revoked = 0;
+  let scholarshipActive = 0, scholarshipExpired = 0;
+  for (const [email, rec] of store.entries()) {
+    const alive = ACTIVE.includes(rec.status) && !(rec.expiresAt && Date.parse(rec.expiresAt) < now);
+    if (rec.source === "scholarship") {
+      alive ? scholarshipActive++ : scholarshipExpired++;
+      continue;
+    }
+    if (!alive) { revoked++; continue; }
+    if (rec.status === "trialing") trialing++;
+    else if (rec.status === "past_due") pastDue++;
+    else active++;
+  }
+  const schRows = scholarships.entries();
+  const day7 = now - 7 * 86400000;
+  res.json({
+    subscribers: { active, trialing, pastDue, revoked },
+    scholarships: {
+      minted: schRows.length,
+      redeemed: schRows.filter(([, r]) => r.usedBy).length,
+      available: schRows.filter(([, r]) => !r.usedBy).length,
+      activeSeats: scholarshipActive,
+      expiredSeats: scholarshipExpired,
+    },
+    engagement: {
+      progressRecords: progress.count(),
+      leaderboardScores: scores.count(),
+      pulseRatings7d: pulse.all().filter((r) => r.ts >= day7).length,
+      pulseRatingsAllTime: pulse.all().length,
+    },
+    content: { openQuestionReports: reports.all().length },
+    generatedAt: new Date(now).toISOString(),
+  });
+});
+
 // --- Pulse: the fun benchmark -------------------------------------------------
 app.post("/api/pulse", async (req: Request, res: Response) => {
   const email = normEmail(req.body?.email);
