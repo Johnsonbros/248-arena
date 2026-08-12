@@ -58,6 +58,7 @@ const App = {
       case 'dashboard': this.renderDashboard(); break;
       case 'leaderboard': this.renderLeaderboard(); break;
       case 'badges': this.renderBadges(); break;
+      case 'locker': if (window.Locker) Locker.render(); break;
       case 'chat': this.renderChat(); break;
     }
   },

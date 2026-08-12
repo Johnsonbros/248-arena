@@ -50,8 +50,13 @@ const CloudSync = {
         Auth.updateUser(user);
         if (data.srs) localStorage.setItem('arena248_srs', JSON.stringify(data.srs));
         localStorage.setItem(this.LAST_KEY, String(Date.now()));
+        this._adoptLocker(data.locker);
         return true; // caller should re-render
       }
+      // The Locker is adopted independently of the stats race above. Someone can
+      // log four years of hours on their phone and barely answer a question on
+      // it; losing that record to a stats comparison would be unforgivable.
+      this._adoptLocker(data.locker);
     } catch (e) { /* offline or server not deployed — stay local */ }
     return false;
   },
@@ -63,16 +68,36 @@ const CloudSync = {
     this._pushTimer = setTimeout(() => this._pushNow(user), 4000);
   },
 
+  // Adopt the server's Locker when it holds more logged hours than this device.
+  // "More entries wins" is the same conservative rule the stats sync uses: it
+  // can never destroy a record, only decline to overwrite a fuller one.
+  _adoptLocker(remote) {
+    if (!remote || typeof remote !== 'object' || !Array.isArray(remote.entries)) return;
+    if (!window.Locker) return;
+    try {
+      const local = Locker.load();
+      if (remote.entries.length <= local.entries.length) return;
+      Locker.save({
+        items: remote.items && typeof remote.items === 'object' ? remote.items : local.items,
+        entries: remote.entries,
+        legacy: remote.legacy === true
+      });
+      if (window.App && App.currentScreen === 'locker') Locker.render();
+    } catch (e) {}
+  },
+
   async _pushNow(user) {
     try {
       let srs = {};
       try { srs = JSON.parse(localStorage.getItem('arena248_srs')) || {}; } catch (e) {}
+      const locker = window.Locker ? Locker.load() : undefined;
       await this._fetch('/api/progress', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email: this.email(), stats: user.stats, srs,
-          profile: { name: user.name, avatar: user.avatar }
+          profile: { name: user.name, avatar: user.avatar },
+          ...(locker ? { locker } : {})
         })
       });
       localStorage.setItem(this.LAST_KEY, String(Date.now()));

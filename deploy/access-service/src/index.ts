@@ -55,7 +55,77 @@ interface ProgressRecord {
   stats: unknown;
   srs: unknown;
   profile?: { name?: string; avatar?: string };
+  /** License Locker: checklist status + hour log. Never document files, never
+   *  personal information — see sanitizeLocker() and docs/DOCUMENT_VAULT.md. */
+  locker?: LockerRecord;
   updatedAt: string;
+}
+interface LockerEntry {
+  id: string;
+  date: string;
+  hours: number;
+  kind: "work" | "education";
+  where: string;
+  note: string;
+}
+interface LockerRecord {
+  items: Record<string, { status?: string; date?: string; note?: string }>;
+  entries: LockerEntry[];
+  legacy: boolean;
+}
+
+// Massachusetts 201 CMR 17.02 defines "Personal Information" as a resident's
+// name plus an SSN, driver's licence / state ID number, or financial account
+// number. This service must never come to hold any of those, so the Locker's
+// client-side filter is mirrored here — a client is not a trust boundary, and
+// a hand-rolled PUT would otherwise walk straight past it.
+const PII_RE = [
+  /\b\d{3}-\d{2}-\d{4}\b/,        // SSN
+  /\b\d{9}\b/,                     // bare 9-digit (SSN without dashes)
+  /\b(?:\d[ -]?){13,16}\b/,        // card / account number
+  /\bS\d{8}\b/i,                   // MA licence number
+  /\b(ssn|social security)\b/i,
+];
+const clean = (v: unknown, max: number): string => {
+  const s = String(v ?? "").replace(/[<>]/g, "").slice(0, max);
+  return PII_RE.some((re) => re.test(s)) ? "" : s;
+};
+
+function sanitizeLocker(raw: unknown): LockerRecord | undefined {
+  if (!raw || typeof raw !== "object") return undefined;
+  const r = raw as Record<string, unknown>;
+  const items: LockerRecord["items"] = {};
+  if (r.items && typeof r.items === "object") {
+    for (const [k, v] of Object.entries(r.items as Record<string, unknown>).slice(0, 40)) {
+      if (!v || typeof v !== "object") continue;
+      const it = v as Record<string, unknown>;
+      items[clean(k, 40)] = {
+        status: ["todo", "doing", "done"].includes(String(it.status)) ? String(it.status) : "todo",
+        date: clean(it.date, 10),
+        note: clean(it.note, 240),
+      };
+    }
+  }
+  const entries: LockerEntry[] = [];
+  // 4 years of weekly entries is ~210; 3,000 is generous headroom and still a
+  // hard bound on how much a single account can push into the store.
+  if (Array.isArray(r.entries)) {
+    for (const e of (r.entries as unknown[]).slice(0, 3000)) {
+      if (!e || typeof e !== "object") continue;
+      const x = e as Record<string, unknown>;
+      const hours = Number(x.hours);
+      if (!Number.isFinite(hours) || hours <= 0 || hours > 400) continue;
+      entries.push({
+        id: clean(x.id, 32) || String(entries.length),
+        date: clean(x.date, 10),
+        hours: Math.round(hours * 10) / 10,
+        kind: x.kind === "education" ? "education" : "work",
+        where: clean(x.where, 80),
+        note: clean(x.note, 160),
+      });
+    }
+  }
+  return { items, entries, legacy: r.legacy === true };
 }
 interface ReportRecord {
   email: string;
@@ -370,14 +440,23 @@ app.put("/api/progress", async (req: Request, res: Response) => {
   const email = normEmail(req.body?.email);
   if (!email.includes("@")) return res.status(400).json({ error: "email required" });
   if (!isActiveSubscriber(email)) return res.status(403).json({ error: "No active subscription." });
-  const { stats, srs, profile } = req.body ?? {};
+  const { stats, srs, profile, locker } = req.body ?? {};
   if (stats == null || typeof stats !== "object") return res.status(400).json({ error: "stats object required" });
-  const size = JSON.stringify({ stats, srs }).length;
-  if (size > 200_000) return res.status(413).json({ error: "Progress payload too large." });
+  const size = JSON.stringify({ stats, srs, locker }).length;
+  if (size > 400_000) return res.status(413).json({ error: "Progress payload too large." });
   const cleanProfile = profile && typeof profile === "object"
     ? { name: String((profile as any).name ?? "").slice(0, 20), avatar: String((profile as any).avatar ?? "").slice(0, 4) }
     : undefined;
-  await progress.set(email, { stats, srs: srs ?? {}, ...(cleanProfile ? { profile: cleanProfile } : {}), updatedAt: new Date().toISOString() });
+  // Never let a client blank out a Locker it simply didn't send — four years of
+  // logged hours must not evaporate because an old build pushed a short payload.
+  const cleanLocker = sanitizeLocker(locker) ?? progress.get(email)?.locker;
+  await progress.set(email, {
+    stats,
+    srs: srs ?? {},
+    ...(cleanProfile ? { profile: cleanProfile } : {}),
+    ...(cleanLocker ? { locker: cleanLocker } : {}),
+    updatedAt: new Date().toISOString(),
+  });
   res.json({ ok: true, updatedAt: new Date().toISOString() });
 });
 
