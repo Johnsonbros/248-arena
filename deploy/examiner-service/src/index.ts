@@ -22,6 +22,7 @@
  */
 import express, { type Request, type Response, type NextFunction } from "express";
 import { Retriever } from "./retrieve.js";
+import { ModelRouter } from "./router.js";
 
 const CFG = {
   port: parseInt(process.env.PORT ?? "8767", 10),
@@ -42,6 +43,19 @@ const CFG = {
 
 const retriever = new Retriever(CFG.corpusPath);
 console.log(`corpus loaded: ${retriever.count()} chunks`);
+
+// Tiered routing: the 3090 handles the bulk; premium models are reserved for
+// genuinely hard turns and high-value workflows, under a hard hourly cap.
+const router = new ModelRouter({
+  localModel: CFG.llmModel,
+  localUrl: CFG.llmUrl,
+  localKey: CFG.llmKey,
+  premiumModel: process.env.PREMIUM_MODEL ?? "",
+  premiumUrl: process.env.PREMIUM_URL ?? CFG.llmUrl, // route through the same gateway by default
+  premiumKey: process.env.PREMIUM_KEY ?? CFG.llmKey,
+  premiumPerHour: parseInt(process.env.PREMIUM_PER_HOUR ?? "20", 10),
+});
+console.log(`model routing: local=${CFG.llmModel} premium=${process.env.PREMIUM_MODEL || "(disabled)"}`);
 
 const TUTOR_PROMPT = `You are The Examiner — a sharp, encouraging study tutor for the Massachusetts Journeyman Plumbing exam, built into the 248 Arena app. Rules:
 1. GROUNDING: Base code answers ONLY on the 248 CMR study excerpts provided in each request. If the excerpts don't cover the question, say you're not certain and point the student to the relevant Code Book section or the official 248 CMR — NEVER invent section numbers, measurements, or requirements.
@@ -94,8 +108,22 @@ function sanitizeHistory(raw: unknown): ChatTurn[] {
   }));
 }
 
+/** One LLM call against a chosen tier. */
+async function callModel(messages: unknown[], decision: { model: string; url: string; key: string }, kind: string): Promise<string> {
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  if (decision.key) headers["Authorization"] = `Bearer ${decision.key}`;
+  const res = await fetch(decision.url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ model: decision.model, messages, max_tokens: 500, temperature: kind === "oral" ? 0.5 : 0.3 }),
+  });
+  if (!res.ok) throw new Error(`LLM ${res.status}: ${(await res.text()).slice(0, 300)}`);
+  const data: any = await res.json();
+  return String(data?.choices?.[0]?.message?.content ?? "").trim();
+}
+
 /** The grounded chat pipeline shared by text and voice. */
-async function runChat(history: ChatTurn[], kind: string): Promise<{ reply: string; citations: string[] }> {
+async function runChat(history: ChatTurn[], kind: string): Promise<{ reply: string; citations: string[]; tier: string }> {
   const lastUser = [...history].reverse().find(m => m.role === "user")?.content ?? "";
   const prevUser = history.filter(m => m.role === "user").slice(-2, -1)[0]?.content ?? "";
   // In oral mode the examiner also needs material to ASK about, not just answer with.
@@ -114,23 +142,29 @@ async function runChat(history: ChatTurn[], kind: string): Promise<{ reply: stri
     ...history,
   ];
 
-  const headers: Record<string, string> = { "Content-Type": "application/json" };
-  if (CFG.llmKey) headers["Authorization"] = `Bearer ${CFG.llmKey}`;
-  const llmRes = await fetch(CFG.llmUrl, {
-    method: "POST",
-    headers,
-    body: JSON.stringify({ model: CFG.llmModel, messages, max_tokens: 500, temperature: kind === "oral" ? 0.5 : 0.3 }),
-  });
-  if (!llmRes.ok) {
-    const errText = await llmRes.text();
-    throw new Error(`LLM ${llmRes.status}: ${errText.slice(0, 300)}`);
+  // Route: local 3090 model by default, premium only when the turn is hard.
+  let decision = router.route(lastUser, kind);
+  let reply = await callModel(messages, decision, kind);
+
+  // One escalation retry if the local answer looks weak and premium is free.
+  if (decision.tier === "local" && router.looksWeak(reply)) {
+    const retry = router.route(lastUser, kind, true);
+    if (retry.tier === "premium") {
+      console.log(`escalating: local reply looked weak -> ${retry.model}`);
+      try {
+        const better = await callModel(messages, retry, kind);
+        if (better) { reply = better; decision = retry; }
+      } catch (e: any) {
+        console.error("premium retry failed, keeping local reply:", e?.message ?? e);
+      }
+    }
   }
-  const data: any = await llmRes.json();
-  const reply = String(data?.choices?.[0]?.message?.content ?? "").trim();
   if (!reply) throw new Error("Empty reply from LLM");
-  const cited = [...new Set([...reply.matchAll(/248 CMR [\d.]+(?:–[\d.]+)?/g)].map(m => m[0]))];
+  console.log(`[${decision.tier}] ${decision.reason} · mix ${router.mix().localPct}% local`);
+
+  const cited = [...new Set([...reply.matchAll(/(?:248 CMR|NFPA) [\d.]+(?:–[\d.]+)?/g)].map(m => m[0]))];
   const citations = cited.length ? cited : [...new Set(chunks.map(c => c.ref))].slice(0, 3);
-  return { reply, citations };
+  return { reply, citations, tier: decision.tier };
 }
 
 // --- voice helpers -----------------------------------------------------------
@@ -174,7 +208,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
-app.get("/healthz", (_req, res) => res.json({ ok: true, service: "arena-examiner", chunks: retriever.count() }));
+app.get("/healthz", (_req, res) => res.json({ ok: true, service: "arena-examiner", chunks: retriever.count(), routing: router.mix() }));
 
 app.post("/api/chat", async (req: Request, res: Response) => {
   const email = String(req.body?.email ?? "").trim().toLowerCase();

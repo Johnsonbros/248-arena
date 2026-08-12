@@ -1,15 +1,31 @@
 // 248 Arena — Game Modes Module
 
-// Approximate category mix of the real MA Journeyman exam. ONE PLACE to tune:
-// weights are fractions of the exam (sum = 1.0). ⚠️ Estimated from exam topic
-// outlines — Johnson Bros should true these up from exam-day experience.
+// Real MA plumbing exam structure (PSI, closed book, computer-based).
+// Journeyman: Part I 70q/150min, Part II 30q/120min — 70% to pass each part.
+// Master:     Part I 60q/120min, Part II 30q/120min — 70% to pass each part.
+// Sources: PSI candidate bulletin listings + MA prep providers (2025/26).
+const EXAM_FORMAT = {
+  journeyman: { part1: { questions: 70, minutes: 150 }, part2: { questions: 30, minutes: 120 } },
+  master:     { part1: { questions: 60, minutes: 120 }, part2: { questions: 30, minutes: 120 } },
+  passing: 70
+};
+
+// Category mix, mapped from PSI's published topic areas for the MA plumbing
+// exam: General Regulations/Inspections/Permits · Gas Piping, Equipment &
+// Appliances · Venting · Traps & Cleanouts · Fixtures, Equipment & Clearances ·
+// Water Heaters · Piping, Valves & Controls · Water Supply · Hangers & Supports ·
+// Drain, Waste & Vent · Separators/Interceptors/Grease Traps · Joints & Connections.
+// ⚠️ The bulletin lists topics but not weights — these fractions are our best
+// mapping onto the app's categories. Tune here as real exam experience comes in.
 const EXAM_BLUEPRINT = {
-  DWV: 0.20, VENTING: 0.14, WATER: 0.14, GAS: 0.12, FIXTURES: 0.10,
-  BACKFLOW: 0.08, SIZING: 0.08, MATERIALS: 0.06, GENERAL: 0.04,
-  PERMITS: 0.02, MEDICAL: 0.02
+  DWV: 0.18, VENTING: 0.13, WATER: 0.14, GAS: 0.13, FIXTURES: 0.11,
+  SIZING: 0.09, BACKFLOW: 0.07, MATERIALS: 0.07, GENERAL: 0.05,
+  PERMITS: 0.02, MEDICAL: 0.01
 };
 
 const GameModes = {
+  examTarget: 'journeyman',   // 'journeyman' | 'master'
+  examPart: 1,                // 1 | 2
   currentMode: null, currentQuestions: [], currentIndex: 0,
   score: 0, correct: 0, streak: 0, startTime: 0,
   timeLimit: 0, eliminated: false, lives: 3,
@@ -101,8 +117,15 @@ const GameModes = {
     switch(mode) {
       case 'practice': this.currentQuestions = this.getAdaptiveQuestions(20, user); this.timeLimit = 0; break;
       case 'ranked': this.currentQuestions = this.getAdaptiveQuestions(25, user); this.timeLimit = 0; break;
-      // Real MA exam via PSI: 80 questions, 160 minutes, closed book, 70% to pass.
-      case 'exam': this.currentQuestions = this.getBlueprintQuestions(80); this.timeLimit = 160*60*1000; break;
+      // Mirrors the real PSI exam. Default = Journeyman Part I (70q/150min);
+      // set GameModes.examTarget = 'master' and GameModes.examPart = 2 to switch.
+      case 'exam': {
+        const fmt = EXAM_FORMAT[this.examTarget === 'master' ? 'master' : 'journeyman'];
+        const part = this.examPart === 2 ? fmt.part2 : fmt.part1;
+        this.currentQuestions = this.getBlueprintQuestions(part.questions);
+        this.timeLimit = part.minutes * 60 * 1000;
+        break;
+      }
       case 'royale': this.currentQuestions = this.getAdaptiveQuestions(30, user); this.timeLimit = 0; this.lives = 3; break;
       case 'speed': this.currentQuestions = this.getAdaptiveQuestions(25, user); this.timeLimit = 5*60*1000; break;
       case 'imposter': this.currentQuestions = this.generateImposterQuestions(15); this.timeLimit = 0; break;

@@ -4,7 +4,7 @@
   "source": "codebook",
   "ref": "248 CMR 2.00",
   "title": "248 CMR 2.00 — Board, Licensing & Permits",
-  "text": "## Administration\n\n \n \n- The Board of State Examiners of Plumbers and Gas Fitters administers 248 CMR\n \n- Only a licensed Master Plumber can obtain a plumbing permit\n \n- A plumbing permit is valid for 1 year from date of issuance\n \n- Rough-in plumbing must be inspected before concealment of piping\n \n- A final inspection is required before a new system is placed in service\n \n\n \n## License Types\n\n \n \n- Apprentice: Registered with the Board; works under direct supervision of a Journeyman or Master\n \n- Journeyman: Requires 6,800 hours of licensed apprentice work experience plus 550 hours of tier education (five 110-hour tiers); passes the written exam; works under general supervision of a Master\n \n- Master: Experience as a Journeyman plus the Master exam; can pull permits, run a plumbing business, and supervise Journeymen and Apprentices\n \n- Licenses renew on a 2-year cycle with required continuing education\n \n\n \n## Permits\n\n \n \n- Permit required for: new fixtures, water heaters, water piping, gas piping\n \n- Permit NOT required for: replacing washers or flappers, clearing drain stoppages\n \n- Permitted work is performed by licensed plumbers (or registered apprentices under supervision)\n \n\n \n## Journeyman Exam (administered by PSI)\n\n \n \n- 80 multiple-choice questions, 160 minutes, closed book\n \n- Passing score: 70%\n \n- Based on 248 CMR — topics: DWV sizing, venting, water distribution, gas piping, backflow, fixtures, materials, joints, permits/inspections\n \n- Apply through the Board; confirm current requirements and fees at mass.gov"
+  "text": "## Administration\n\n \n \n- The Board of State Examiners of Plumbers and Gas Fitters administers 248 CMR\n \n- Only a licensed Master Plumber can obtain a plumbing permit\n \n- A plumbing permit is valid for 1 year from date of issuance\n \n- Rough-in plumbing must be inspected before concealment of piping\n \n- A final inspection is required before a new system is placed in service\n \n\n \n## License Types\n\n \n \n- Apprentice: Registered with the Board; works under direct supervision of a Journeyman or Master\n \n- Journeyman: Requires 6,800 hours of licensed apprentice work experience plus 550 hours of tier education (five 110-hour tiers); passes the written exam; works under general supervision of a Master\n \n- Master: Experience as a Journeyman plus the Master exam; can pull permits, run a plumbing business, and supervise Journeymen and Apprentices\n \n- Licenses renew on a 2-year cycle with required continuing education\n \n\n \n## Permits\n\n \n \n- Permit required for: new fixtures, water heaters, water piping, gas piping\n \n- Permit NOT required for: replacing washers or flappers, clearing drain stoppages\n \n- Permitted work is performed by licensed plumbers (or registered apprentices under supervision)\n \n\n \n## The Exams (administered by PSI — closed book, computer-based, two parts)\n\n \n \n- Journeyman: Part I — 70 questions / 150 minutes; Part II — 30 questions / 120 minutes\n \n- Master: Part I — 60 questions / 120 minutes; Part II — 30 questions / 120 minutes\n \n- Passing score: 70% on each part\n \n- Questions are drawn from 248 CMR, MGL c. 142, and for gas NFPA 54 / NFPA 58 as amended — plus general trade practice\n \n- Topic areas: general regulations/inspections/permits · gas piping, equipment & appliances · venting · traps & cleanouts · fixtures, equipment & clearances · water heaters · piping, valves & controls · water supply · hangers & supports · drain, waste & vent · separators/interceptors/grease traps · joints & connections\n \n- Master eligibility: 1 year as a licensed Journeyman + 1,700 hours + Tier 5 (110 hrs)\n \n- Licenses renew every 2 years with 12 hours of continuing education\n \n- Confirm current requirements, fees, and the official content outline in the PSI candidate bulletin and at mass.gov before applying"
  },
  {
   "id": "book:248 CMR 10.03",
@@ -119,11 +119,18 @@
   "text": "- Installation by ASSE 6010 certified personnel only\n \n- Type L (or K) copper, cleaned and capped for oxygen service (ASTM B819)\n \n- Joints brazed with BCuP alloy under continuous nitrogen purge — soldering prohibited\n \n- System verification by an independent ASSE 6030 verifier before use\n \n- U.S. color code: oxygen = green"
  },
  {
-  "id": "book:248 CMR 4.00–8.00",
+  "id": "book:248 CMR 3.00–7.00",
   "source": "codebook",
-  "ref": "248 CMR 4.00–8.00",
-  "title": "248 CMR 4.00–8.00 — Fuel Gas Code (NFPA 54 as amended by MA)",
-  "text": "## General Rules\n\n \n \n- Minimum gas pipe size meter → appliance: 1/2 inch\n \n- Max pressure drop (low-pressure system): 0.5 inch WC\n \n- Sediment trap (drip leg) at every appliance inlet\n \n- Shutoff valve at the meter and within 6 feet of each appliance\n \n- Sizing based on BTU demand, run length, pressure drop, and specific gravity\n \n- Appliances in bedrooms/bathrooms must be direct-vent (sealed combustion)\n \n- Confined spaces need two combustion-air openings (top and bottom)\n \n\n \n## Materials & Installation\n\n \n \n- Black iron: threaded or welded; approved gas-rated thread compound only\n \n- CSST must be bonded to the grounding system\n \n- PE plastic: underground outdoors only, with tracer wire and approved riser\n \n- Underground burial: minimum 12 inches of cover\n \n- Through masonry: sleeved; never through ducts, chimneys, or elevator shafts\n \n- Flexible appliance connectors: max 6 feet, never through walls or floors\n \n- Regulator vents terminate outdoors, protected, away from openings\n \n\n \n## Testing & Safety\n\n \n \n- New piping test: 3 psi for 10 minutes, no perceptible drop (air/inert gas only)\n \n- Leak checks with solution or gauge — never a flame\n \n- LP gas is heavier than air and pools in low areas\n \n\n \n## Gas Pipe Sizing (Common)\n\n \n \nPipe Size | Approx Max BTU (50 ft run, 0.5\" WC drop) | \n \n1/2\" | ~90,000 | \n \n3/4\" | ~175,000 | \n \n1\" | ~350,000 | \n \n1-1/4\" | ~700,000 | \n \n1-1/2\" | ~1,100,000 |"
+  "ref": "248 CMR 3.00–7.00",
+  "title": "248 CMR 3.00–7.00 — Gas Code Structure (what the exam draws from)",
+  "text": "## How Massachusetts organizes fuel gas\n\n \n \n- 248 CMR 3.00 — General provisions governing the conduct of plumbing and gas work (licensing conduct, business/apprentice licenses, inspector requirements)\n \n- 248 CMR 4.00 — The Massachusetts Fuel Gas Code — the umbrella gas regulation\n \n- 248 CMR 5.00 — Massachusetts amendments to NFPA 54 (National Fuel Gas Code)\n \n- 248 CMR 6.00 — Massachusetts amendments to NFPA 58 (Liquefied Petroleum Gas Code)\n \n- 248 CMR 7.00 — Large gas utilization equipment\n \n- 248 CMR 10.00 — Uniform State Plumbing Code · 248 CMR 11.00 — Education & experience standards\n \n Why it matters: in Massachusetts, gas fitting is licensed together with plumbing — the journeyman exam tests both. Gas questions come from 248 CMR 4.00–7.00 plus NFPA 54/58 as amended by Massachusetts, so a national NFPA answer can be wrong here. Always follow the MA amendment."
+ },
+ {
+  "id": "book:248 CMR 4.00–7.00",
+  "source": "codebook",
+  "ref": "248 CMR 4.00–7.00",
+  "title": "248 CMR 4.00–7.00 — Fuel Gas Practice (NFPA 54/58 as amended by MA)",
+  "text": "## General Rules\n\n \n \n- Minimum gas pipe size meter → appliance: 1/2 inch\n \n- Max pressure drop (low-pressure system): 0.5 inch WC\n \n- Sediment trap (drip leg) at every appliance inlet\n \n- Shutoff valve at the meter and within 6 feet of each appliance\n \n- Sizing based on BTU demand, run length, pressure drop, and specific gravity\n \n- Appliances in bedrooms/bathrooms must be direct-vent (sealed combustion)\n \n- Confined spaces need two combustion-air openings (top and bottom)\n \n\n \n## Materials & Installation\n\n \n \n- Black iron: threaded or welded; approved gas-rated thread compound only\n \n- CSST must be bonded to the grounding system\n \n- PE plastic: underground outdoors only, with tracer wire and approved riser\n \n- Underground burial: minimum 12 inches of cover\n \n- Through masonry: sleeved; never through ducts, chimneys, or elevator shafts\n \n- Flexible appliance connectors: max 6 feet, never through walls or floors\n \n- Regulator vents terminate outdoors, protected, away from openings\n \n\n \n## Testing & Safety\n\n \n \n- New piping test: 3 psi for 10 minutes, no perceptible drop (air/inert gas only)\n \n- Leak checks with solution or gauge — never a flame\n \n- LP gas is heavier than air and pools in low areas\n \n\n \n## Venting Appliances (Categories I–IV)\n\n \n \n- Category I — negative vent pressure, non-condensing (atmospheric furnaces, most water heaters): vented with B-vent or masonry chimney\n \n- Category III — positive pressure, non-condensing: requires listed, gas-tight special vent\n \n- Category IV — positive pressure, condensing (high-efficiency): vented with listed plastic (PVC/CPVC/PP) per the manufacturer, with a condensate drain\n \n- Vent connectors slope upward at least 1/4 inch per foot toward the vent\n \n- Never connect an appliance to a vent serving a solid-fuel appliance\n \n\n \n## Combustion Air (NFPA 54 as amended)\n\n \n \n- Standard method for a confined space using indoor air: 1 square inch per 1,000 BTU/hr per opening, minimum 100 sq in each, one high and one low\n \n- Using outdoor air through vertical ducts: 1 sq in per 4,000 BTU/hr; horizontal ducts: 1 sq in per 2,000 BTU/hr\n \n- An unconfined space has at least 50 cubic feet per 1,000 BTU/hr of total input\n \n\n \n## LP Gas (NFPA 58 as amended — 248 CMR 6.00)\n\n \n \n- LP is heavier than air (vapor density ~1.5) — it settles; natural gas rises\n \n- Approx. 2,500 BTU per cubic foot (vs ~1,000 for natural gas); ~91,500 BTU per gallon\n \n- Typical appliance manifold pressure: 11 in WC for LP vs 3.5 in WC for natural gas\n \n- Container placement, clearances to openings/ignition sources, and filling limits are set by NFPA 58 as amended\n \n- Never install LP appliances or containers in basements/pits where vapor can accumulate\n \n\n \n## Massachusetts-Specific Gas Notes\n\n \n \n- Gas fitting is licensed with plumbing in MA — the journeyman exam covers both\n \n- MA amendments in 248 CMR 5.00/6.00 override the base NFPA text — answer to the amendment\n \n- 248 CMR 7.00 governs large gas utilization equipment\n \n- Gas permits and inspections follow the same Board/inspector process as plumbing\n \n\n \n## Gas Pipe Sizing (Common)\n\n \n \nPipe Size | Approx Max BTU (50 ft run, 0.5\" WC drop) | \n \n1/2\" | ~90,000 | \n \n3/4\" | ~175,000 | \n \n1\" | ~350,000 | \n \n1-1/4\" | ~700,000 | \n \n1-1/2\" | ~1,100,000 |"
  },
  {
   "id": "book:Related — Title 5 Septic (310 CMR 15.00)",
@@ -1286,5 +1293,180 @@
   "ref": "248 CMR 10.04",
   "title": "PERMITS: A common rough-in test of the DWV system before inspection is:",
   "text": "A common rough-in test of the DWV system before inspection is:\nAnswer: A water test with a minimum 10-foot head of water\nThe DWV rough-in is typically tested by filling the system with water to a minimum 10-foot head (or an approved equivalent air test) and holding without loss."
+ },
+ {
+  "id": "q:166",
+  "source": "question",
+  "ref": "248 CMR 5.00",
+  "title": "GAS: Which 248 CMR section contains the Massachusetts amendments to NFPA 54 (National Fuel Gas Code)?",
+  "text": "Which 248 CMR section contains the Massachusetts amendments to NFPA 54 (National Fuel Gas Code)?\nAnswer: 248 CMR 5.00\n248 CMR 5.00 holds the Massachusetts amendments to NFPA 54. (4.00 is the MA Fuel Gas Code, 6.00 amends NFPA 58 for LP gas, 7.00 covers large gas utilization equipment.)"
+ },
+ {
+  "id": "q:167",
+  "source": "question",
+  "ref": "248 CMR 6.00",
+  "title": "GAS: Massachusetts amendments to NFPA 58 (LP Gas Code) are found in:",
+  "text": "Massachusetts amendments to NFPA 58 (LP Gas Code) are found in:\nAnswer: 248 CMR 6.00\n248 CMR 6.00 contains the Massachusetts amendments to NFPA 58, the Liquefied Petroleum Gas Code."
+ },
+ {
+  "id": "q:168",
+  "source": "question",
+  "ref": "248 CMR 5.00",
+  "title": "GAS: When a Massachusetts amendment conflicts with the base NFPA 54 text, which governs?",
+  "text": "When a Massachusetts amendment conflicts with the base NFPA 54 text, which governs?\nAnswer: The Massachusetts amendment\nMassachusetts amendments in 248 CMR 5.00 (and 6.00 for LP) override the base NFPA text. On the exam and on the job, answer to the MA amendment."
+ },
+ {
+  "id": "q:169",
+  "source": "question",
+  "ref": "248 CMR 4.00",
+  "title": "GAS: Approximately how many BTU are in one cubic foot of natural gas?",
+  "text": "Approximately how many BTU are in one cubic foot of natural gas?\nAnswer: 1,000 BTU\nNatural gas is figured at approximately 1,000 BTU per cubic foot — divide total appliance BTU/hr by 1,000 to get the cubic-feet-per-hour demand used for pipe sizing."
+ },
+ {
+  "id": "q:170",
+  "source": "question",
+  "ref": "248 CMR 6.00",
+  "title": "GAS: Approximately how many BTU are in one cubic foot of LP (propane) vapor?",
+  "text": "Approximately how many BTU are in one cubic foot of LP (propane) vapor?\nAnswer: 2,500 BTU\nLP vapor carries roughly 2,500 BTU per cubic foot — about 2.5 times natural gas — so LP systems move far less volume for the same load."
+ },
+ {
+  "id": "q:171",
+  "source": "question",
+  "ref": "248 CMR 4.00",
+  "title": "GAS: Typical appliance manifold pressure for natural gas is:",
+  "text": "Typical appliance manifold pressure for natural gas is:\nAnswer: 3.5 inches WC\nNatural gas appliances typically operate at about 3.5 inches water column at the manifold; LP appliances run about 11 inches WC."
+ },
+ {
+  "id": "q:172",
+  "source": "question",
+  "ref": "248 CMR 6.00",
+  "title": "GAS: Typical appliance manifold pressure for LP gas is:",
+  "text": "Typical appliance manifold pressure for LP gas is:\nAnswer: 11 inches WC\nLP appliances typically operate at about 11 inches water column at the manifold — roughly three times natural gas."
+ },
+ {
+  "id": "q:173",
+  "source": "question",
+  "ref": "248 CMR 5.00",
+  "title": "GAS: An unconfined space for combustion air purposes has at least:",
+  "text": "An unconfined space for combustion air purposes has at least:\nAnswer: 50 cubic feet per 1,000 BTU/hr\nA space with at least 50 cubic feet per 1,000 BTU/hr of total appliance input is considered unconfined and generally does not need dedicated combustion-air openings."
+ },
+ {
+  "id": "q:174",
+  "source": "question",
+  "ref": "248 CMR 5.00",
+  "title": "GAS: Using the standard method with indoor air, each combustion air opening for a confined space must be sized at least:",
+  "text": "Using the standard method with indoor air, each combustion air opening for a confined space must be sized at least:\nAnswer: 1 sq in per 1,000 BTU/hr, minimum 100 sq in\nDrawing combustion air from inside the building requires two openings, each at least 1 square inch per 1,000 BTU/hr of total input and not less than 100 square inches."
+ },
+ {
+  "id": "q:175",
+  "source": "question",
+  "ref": "248 CMR 5.00",
+  "title": "GAS: Combustion air taken from outdoors through VERTICAL ducts is sized at:",
+  "text": "Combustion air taken from outdoors through VERTICAL ducts is sized at:\nAnswer: 1 sq in per 4,000 BTU/hr\nOutdoor air through vertical ducts is sized at 1 square inch per 4,000 BTU/hr; horizontal ducts require 1 square inch per 2,000 BTU/hr (horizontal moves air less efficiently)."
+ },
+ {
+  "id": "q:176",
+  "source": "question",
+  "ref": "248 CMR 5.00",
+  "title": "GAS: A high-efficiency condensing furnace is which venting category?",
+  "text": "A high-efficiency condensing furnace is which venting category?\nAnswer: Category IV\nCategory IV appliances operate with positive vent pressure and condensing flue gas — vented with listed plastic (PVC/CPVC/PP) per the manufacturer, with a condensate drain."
+ },
+ {
+  "id": "q:177",
+  "source": "question",
+  "ref": "248 CMR 5.00",
+  "title": "GAS: A standard atmospheric water heater vented into a B-vent is which category?",
+  "text": "A standard atmospheric water heater vented into a B-vent is which category?\nAnswer: Category I\nCategory I appliances vent with negative pressure and non-condensing flue gas — B-vent or a properly sized masonry chimney."
+ },
+ {
+  "id": "q:178",
+  "source": "question",
+  "ref": "248 CMR 5.00",
+  "title": "GAS: A gas vent connector must slope upward toward the vent at least:",
+  "text": "A gas vent connector must slope upward toward the vent at least:\nAnswer: 1/4 inch per foot\nVent connectors slope upward at least 1/4 inch per foot toward the vent so flue gases rise and condensate drains back to the appliance."
+ },
+ {
+  "id": "q:179",
+  "source": "question",
+  "ref": "248 CMR 5.00",
+  "title": "GAS: Connecting a gas appliance to a vent that also serves a solid-fuel appliance is:",
+  "text": "Connecting a gas appliance to a vent that also serves a solid-fuel appliance is:\nAnswer: Prohibited\nA gas appliance shall never be connected to a vent serving a solid-fuel appliance — creosote, soot, and differing draft characteristics create a serious hazard."
+ },
+ {
+  "id": "q:180",
+  "source": "question",
+  "ref": "248 CMR 6.00",
+  "title": "GAS: Why is LP gas more hazardous than natural gas in a basement?",
+  "text": "Why is LP gas more hazardous than natural gas in a basement?\nAnswer: It is heavier than air and pools at floor level\nLP vapor is about 1.5 times heavier than air, so a leak settles into low areas (basements, pits, crawl spaces) instead of rising and dissipating like natural gas."
+ },
+ {
+  "id": "q:181",
+  "source": "question",
+  "ref": "248 CMR 4.00",
+  "title": "GAS: Gas piping sizing requires all of the following EXCEPT:",
+  "text": "Gas piping sizing requires all of the following EXCEPT:\nAnswer: Number of appliances in the building next door\nSize from the connected load (converted to CFH), the longest run, the allowable pressure drop, and the specific gravity of the gas."
+ },
+ {
+  "id": "q:182",
+  "source": "question",
+  "ref": "248 CMR 4.00",
+  "title": "GAS: An appliance shutoff valve must be located:",
+  "text": "An appliance shutoff valve must be located:\nAnswer: Within 6 feet of the appliance and accessible\nAn accessible shutoff valve is required within 6 feet of each appliance, in the same room, ahead of the union and sediment trap."
+ },
+ {
+  "id": "q:183",
+  "source": "question",
+  "ref": "248 CMR 4.00",
+  "title": "GAS: The purpose of a sediment trap (drip leg) at an appliance is to:",
+  "text": "The purpose of a sediment trap (drip leg) at an appliance is to:\nAnswer: Catch moisture and debris before they reach the appliance control\nThe sediment trap collects moisture and scale carried in the piping so it cannot foul the appliance gas valve or burner orifices."
+ },
+ {
+  "id": "q:184",
+  "source": "question",
+  "ref": "248 CMR 5.00",
+  "title": "GAS: When purging a gas line into a building, the discharge must be:",
+  "text": "When purging a gas line into a building, the discharge must be:\nAnswer: To a safe point outdoors away from ignition sources\nPurged gas must be discharged to a safe location outdoors, away from ignition sources and building openings — never into an occupied space or a vent."
+ },
+ {
+  "id": "q:185",
+  "source": "question",
+  "ref": "248 CMR 4.00",
+  "title": "GAS: A gas piping system operating above 2 psi inside a building generally requires:",
+  "text": "A gas piping system operating above 2 psi inside a building generally requires:\nAnswer: A line pressure regulator with overpressure protection\nElevated-pressure systems require a line regulator with overpressure protection, and the regulator vent must terminate outdoors, protected from blockage."
+ },
+ {
+  "id": "q:186",
+  "source": "question",
+  "ref": "248 CMR 5.00",
+  "title": "GAS: CSST must be bonded because:",
+  "text": "CSST must be bonded because:\nAnswer: A lightning-induced surge can arc through the thin wall\nCSST has a thin corrugated wall; an indirect lightning strike can energize the system and arc through it. Direct bonding to the grounding electrode system is required."
+ },
+ {
+  "id": "q:187",
+  "source": "question",
+  "ref": "248 CMR 5.00",
+  "title": "GAS: Appliances installed in a garage where vehicles are parked must have ignition sources located at least:",
+  "text": "Appliances installed in a garage where vehicles are parked must have ignition sources located at least:\nAnswer: 18 inches above the floor\nIgnition sources in garages must be at least 18 inches above the floor, since gasoline vapors are heavier than air and collect low. Physical protection from vehicle impact is also required."
+ },
+ {
+  "id": "q:188",
+  "source": "question",
+  "ref": "248 CMR 7.00",
+  "title": "GAS: Which section of 248 CMR governs large gas utilization equipment?",
+  "text": "Which section of 248 CMR governs large gas utilization equipment?\nAnswer: 248 CMR 7.00\n248 CMR 7.00 covers large gas utilization equipment."
+ },
+ {
+  "id": "q:189",
+  "source": "question",
+  "ref": "248 CMR 4.00",
+  "title": "GAS: A gas appliance connector (flex) may:",
+  "text": "A gas appliance connector (flex) may:\nAnswer: Be used only for the length permitted, without passing through walls, floors, or partitions\nListed flexible connectors may not pass through walls, floors, ceilings, or partitions, may not be concealed, and may not be spliced together to gain length."
+ },
+ {
+  "id": "q:190",
+  "source": "question",
+  "ref": "248 CMR 4.00",
+  "title": "GAS: Before placing an appliance in service after gas work, the technician must:",
+  "text": "Before placing an appliance in service after gas work, the technician must:\nAnswer: Leak-check, verify manifold pressure, and confirm proper venting/combustion\nCommissioning includes a leak check, verifying operating/manifold pressure against the rating plate, and confirming proper draft, venting, and combustion air before the appliance is left in service."
  }
 ]
