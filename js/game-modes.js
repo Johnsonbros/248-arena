@@ -134,6 +134,7 @@ const GameModes = {
     this.currentIndex = 0; this.score = 0; this.correct = 0;
     this.streak = 0; this.eliminated = false; this.lives = 3;
     this.answerLog = [];
+    this._examRecorded = false;
     this.startTime = Date.now();
     switch(mode) {
       case 'practice': this.currentQuestions = this.getAdaptiveQuestions(20, user); this.timeLimit = 0; break;
@@ -165,6 +166,7 @@ const GameModes = {
     this.currentIndex = 0; this.score = 0; this.correct = 0;
     this.streak = 0; this.eliminated = false; this.lives = 3;
     this.answerLog = [];
+    this._examRecorded = false;
     this.startTime = Date.now();
     this.timeLimit = 0;
     this.currentQuestions = this.shuffle([...questions]);
@@ -241,6 +243,24 @@ const GameModes = {
       else missed.push(entry);
     }
     const accuracy = this.currentIndex > 0 ? Math.round((this.correct / this.currentIndex) * 100) : 0;
+    // Exam sims go on the permanent record — the trend across sims is the
+    // honest answer to "am I actually getting closer to passing?" It lives in
+    // user.stats so the existing progress sync carries it across devices.
+    if (user && this.currentMode === 'exam' && this.currentIndex > 0 && !this._examRecorded) {
+      this._examRecorded = true;   // one sim, one history row — even if getResults runs twice
+      if (!Array.isArray(user.stats.examHistory)) user.stats.examHistory = [];
+      user.stats.examHistory.push({
+        date: new Date().toISOString().slice(0, 10),
+        target: this.examTarget === 'master' ? 'master' : 'journeyman',
+        part: this.examPart === 2 ? 2 : 1,
+        accuracy,
+        passed: accuracy >= 70,
+        answered: this.currentIndex,
+        total: this.currentQuestions.length
+      });
+      user.stats.examHistory = user.stats.examHistory.slice(-20);
+      Auth.updateUser(user);
+    }
     const results = {
       mode: this.currentMode, score: this.score, correct: this.correct,
       total: this.currentQuestions.length, answered: this.currentIndex,
@@ -249,6 +269,9 @@ const GameModes = {
       passed: accuracy >= 70,   // the real exam's passing bar
       time: elapsed, timeFormatted: this.formatTime(elapsed),
       timedOut, eliminated: this.eliminated,
+      ...(this.currentMode === 'exam'
+        ? { examTarget: this.examTarget === 'master' ? 'master' : 'journeyman', examPart: this.examPart === 2 ? 2 : 1 }
+        : {}),
       xpEarned: Math.round(this.score / 10),
       newBadges: user ? Auth.checkBadges(user) : []
     };

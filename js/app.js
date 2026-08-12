@@ -119,8 +119,41 @@ const App = {
       if (partsEl) partsEl.textContent = `Accuracy ${r.components.accuracy}% (exam-weighted) · Retention ${r.components.retention}% · Coverage ${r.components.coverage}%`;
     }
     if (window.Plan) Plan.render(this.user);
+    this.renderSimHistory();
     this.renderCategories();
     this.renderBattlePass();
+  },
+
+  // Recent exam sims inside the readiness card: score chips plus the delta
+  // since the previous sim. The trend, not any single score, is the honest
+  // signal — one good day proves nothing, five climbing scores do.
+  renderSimHistory() {
+    const el = document.getElementById('simHistory');
+    if (!el) return;
+    const hist = this.user.stats.examHistory || [];
+    if (!hist.length) { el.innerHTML = ''; return; }
+    const recent = hist.slice(-5);
+    const prev = hist.length > 1 ? hist[hist.length - 2] : null;
+    const lastAcc = hist[hist.length - 1].accuracy;
+    const delta = prev ? lastAcc - prev.accuracy : null;
+    const trend = delta == null ? '' :
+      delta > 0 ? `<span style="color:#00ff88;">▲ +${delta} since last sim</span>` :
+      delta < 0 ? `<span style="color:#ff2d55;">▼ ${delta} since last sim</span>` :
+      `<span style="color:#9898b0;">— even with last sim</span>`;
+    el.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;margin-top:12px;border-top:1px solid rgba(255,255,255,0.08);padding-top:10px;">
+        <div style="font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:1px;color:#c8c8d8;font-size:0.78rem;">EXAM SIMS</div>
+        <div style="font-size:0.76rem;">${trend}</div>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;">
+        ${recent.map(h => `
+          <div title="${h.target === 'master' ? 'Master' : 'Journeyman'} Part ${h.part === 2 ? 'II' : 'I'} · ${h.date} · ${h.answered}/${h.total} answered"
+            style="padding:5px 10px;border-radius:8px;font-family:'Orbitron',sans-serif;font-size:0.82rem;
+            border:1px solid ${h.passed ? 'rgba(0,255,136,0.4)' : 'rgba(255,45,85,0.4)'};
+            color:${h.passed ? '#00ff88' : '#ff2d55'};background:rgba(255,255,255,0.03);">
+            ${h.accuracy}%<span style="color:#6c6c80;font-family:'Rajdhani',sans-serif;font-size:0.68rem;"> ${h.target === 'master' ? 'M' : 'J'}${h.part === 2 ? 'Ⅱ' : 'Ⅰ'}</span>
+          </div>`).join('')}
+      </div>`;
   },
 
   // === TODAY'S PLAN ===
@@ -137,6 +170,13 @@ const App = {
       kind === 'reviews' ? { only: 'due' } :
       kind === 'new'     ? { only: 'new' } :
       kind === 'weak'    ? { category } : null;
+    if (kind === 'exam') {
+      // The plan promised a specific rehearsal — Journeyman Part I — so it
+      // configures the exam itself rather than opening the picker.
+      GameModes.examTarget = 'journeyman';
+      GameModes.examPart = 1;
+      this._examConfigured = true;
+    }
     this.startGame(kind === 'exam' ? 'exam' : 'practice');
   },
 
@@ -145,6 +185,50 @@ const App = {
   drillCategory(key) {
     GameModes.focus = { category: key };
     this.startGame('practice');
+  },
+
+  // === EXAM SETUP ===
+  _examConfigured: false,
+
+  showExamSetup() {
+    if (document.getElementById('arena-examsetup')) return;
+    // Default to the exam they last rehearsed.
+    let last = { target: 'journeyman', part: 1 };
+    try { last = JSON.parse(localStorage.getItem('arena248_examChoice')) || last; } catch (e) {}
+    const fmt = window.EXAM_FORMAT || EXAM_FORMAT;
+    const card = (target, part) => {
+      const p = part === 2 ? fmt[target].part2 : fmt[target].part1;
+      const active = last.target === target && last.part === part;
+      return `
+        <button onclick="App.launchExam('${target}',${part})"
+          style="width:100%;text-align:left;padding:13px 16px;margin-bottom:9px;border-radius:11px;cursor:pointer;
+          border:1px solid ${active ? '#00d4ff' : 'rgba(255,255,255,0.12)'};
+          background:${active ? 'rgba(0,212,255,0.10)' : 'rgba(255,255,255,0.04)'};color:#fff;">
+          <div style="font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:0.5px;">
+            ${target === 'master' ? '👑 Master' : '🔧 Journeyman'} — Part ${part === 2 ? 'II' : 'I'}</div>
+          <div style="color:#9898b0;font-size:0.8rem;margin-top:2px;">${p.questions} questions · ${p.minutes} minutes · pass at 70%</div>
+        </button>`;
+    };
+    const overlay = document.createElement('div');
+    overlay.id = 'arena-examsetup';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(10,10,15,0.9);display:flex;align-items:center;justify-content:center;padding:20px;';
+    overlay.innerHTML = `
+      <div style="max-width:400px;width:100%;background:#14141c;border:1px solid rgba(0,212,255,0.3);border-radius:16px;padding:26px;">
+        <h3 style="font-family:'Orbitron',sans-serif;color:#fff;letter-spacing:1px;margin:0 0 6px;">📝 EXAM SIM</h3>
+        <p style="color:#9898b0;font-size:0.85rem;margin:0 0 16px;">Pick your exam — timing and question count mirror the real PSI structure.</p>
+        ${card('journeyman', 1)}${card('journeyman', 2)}${card('master', 1)}${card('master', 2)}
+        <button class="action-btn" style="width:100%;margin-top:4px;" onclick="document.getElementById('arena-examsetup').remove()">Cancel</button>
+      </div>`;
+    document.body.appendChild(overlay);
+  },
+
+  launchExam(target, part) {
+    document.getElementById('arena-examsetup')?.remove();
+    GameModes.examTarget = target;
+    GameModes.examPart = part;
+    try { localStorage.setItem('arena248_examChoice', JSON.stringify({ target, part })); } catch (e) {}
+    this._examConfigured = true;
+    this.startGame('exam');
   },
 
   renderCategories() {
@@ -193,6 +277,10 @@ const App = {
 
   // === GAME MODES ===
   startGame(mode) {
+    // Exam Sim asks WHICH exam first — Journeyman or Master, Part I or II —
+    // unless the caller (Today's Plan, the picker itself) already configured it.
+    if (mode === 'exam' && !this._examConfigured) { this.showExamSetup(); return; }
+    this._examConfigured = false;
     this.gameActive = true;
     this.answered = false;
     this.eliminatedOption = null;
@@ -381,7 +469,8 @@ const App = {
       ? `<div style="font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.3rem;letter-spacing:1px;padding:10px;border-radius:10px;margin-bottom:12px;${results.passed
           ? 'color:#00ff88;border:1px solid rgba(0,255,136,0.4);background:rgba(0,255,136,0.07);'
           : 'color:#ff2d55;border:1px solid rgba(255,45,85,0.4);background:rgba(255,45,85,0.07);'}">
-          ${results.passed ? '✅ PASSED' : '❌ NOT YET'} — ${results.accuracy}% (exam passing score: 70%)</div>`
+          ${results.passed ? '✅ PASSED' : '❌ NOT YET'} — ${results.accuracy}% (passing: 70%)
+          <div style="font-size:0.8rem;font-weight:600;color:#9898b0;margin-top:2px;">${results.examTarget === 'master' ? 'Master' : 'Journeyman'} · Part ${results.examPart === 2 ? 'II' : 'I'}</div></div>`
       : '';
 
     // Per-category breakdown (score report).
