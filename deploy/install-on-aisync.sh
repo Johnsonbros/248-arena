@@ -19,7 +19,7 @@
 set -euo pipefail
 
 REPO_SLUG="${REPO_SLUG:-Johnsonbros/248-arena}"
-BRANCH="${BRANCH:-claude/repo-overview-h1p7ls}"   # launch layer lives here until merged to main
+BRANCH="${BRANCH:-main}"
 APP_DIR="${APP_DIR:-/mnt/user/appdata/248-arena}"
 PORT="${PORT:-8248}"
 DOMAIN="${DOMAIN:-arena.thejohnsonbros.com}"

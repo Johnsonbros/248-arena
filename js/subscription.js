@@ -20,7 +20,7 @@
 // high-security — move admin auth server-side when real accounts land.
 
 const ACCESS_CONFIG = {
-  mode: 'code',                       // switch to 'server' after deploying deploy/access-service
+  mode: 'server',                     // LAUNCH CONFIG: verified against arena-access (fail-closed). GO-LIVE.md step 5.
   apiBase: 'https://arena-api.thejohnsonbros.com',   // arena-access service URL (server mode)
   examinerBase: 'https://arena-ai.thejohnsonbros.com', // arena-examiner AI tutor (empty = disabled)
   accessCode: 'SET_YOUR_CODE_HERE',   // used only in 'code' mode
