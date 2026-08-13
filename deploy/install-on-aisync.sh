@@ -67,22 +67,91 @@ else
   echo "   WARNING — got HTTP ${CODE}. Check: docker logs arena248"
 fi
 
+# -----------------------------------------------------------------------------
+# The backend stack: access (payments/gate), examiner (AI tutor), ops-mcp
+# (the agent cockpit). Secrets an agent can own are GENERATED here; only the
+# Stripe keys and the tunnel remain human steps.
+# -----------------------------------------------------------------------------
+gen() { openssl rand -hex 24 2>/dev/null || head -c 24 /dev/urandom | od -An -tx1 | tr -d ' \n'; }
+env_get() { grep -E "^$2=" "$1" 2>/dev/null | head -1 | cut -d= -f2-; }
+env_set() { # env_set FILE KEY VALUE — replace or append
+  if grep -qE "^$2=" "$1" 2>/dev/null; then
+    sed -i "s|^$2=.*|$2=$3|" "$1"
+  else
+    printf '%s=%s\n' "$2" "$3" >> "$1"
+  fi
+}
+
+log "Scaffolding service .envs (existing files are never overwritten)"
+for svc in access-service examiner-service mcp-server; do
+  d="$APP_DIR/deploy/$svc"
+  [ -f "$d/.env" ] || cp "$d/.env.example" "$d/.env"
+done
+
+ACC_ENV="$APP_DIR/deploy/access-service/.env"
+MCP_ENV="$APP_DIR/deploy/mcp-server/.env"
+
+# One admin key gates reports/pulse/scholarships; the MCP server needs the same
+# value to drive them. Generate once, wire both sides.
+REPORTS_KEY="$(env_get "$ACC_ENV" REPORTS_KEY)"
+if [ -z "$REPORTS_KEY" ]; then
+  REPORTS_KEY="$(gen)"
+  env_set "$ACC_ENV" REPORTS_KEY "$REPORTS_KEY"
+  echo "   generated REPORTS_KEY (access-service)"
+fi
+env_set "$MCP_ENV" ACCESS_ADMIN_KEY "$REPORTS_KEY"
+
+MCP_TOKEN="$(env_get "$MCP_ENV" MCP_AUTH_TOKEN)"
+if [ -z "$MCP_TOKEN" ] || [ "$MCP_TOKEN" = "change-me-to-a-long-random-string" ]; then
+  MCP_TOKEN="$(gen)"
+  env_set "$MCP_ENV" MCP_AUTH_TOKEN "$MCP_TOKEN"
+  echo "   generated MCP_AUTH_TOKEN (save this for the Claude connector):"
+  echo "   $MCP_TOKEN"
+fi
+
+# Shared docker network so mcp -> access and examiner -> access resolve by name.
+docker network inspect arena-net >/dev/null 2>&1 || docker network create arena-net
+
+log "Starting backend services (each skips itself if not yet configured)"
+STRIPE_SET="$(env_get "$ACC_ENV" STRIPE_KEY)"
+if [ -n "$STRIPE_SET" ]; then
+  (cd "$APP_DIR/deploy/access-service" && $DC up -d --build) && echo "   arena-access: up"
+else
+  echo "   arena-access: SKIPPED — set STRIPE_KEY + STRIPE_WEBHOOK_SECRET in deploy/access-service/.env, then:"
+  echo "     cd $APP_DIR/deploy/access-service && $DC up -d --build"
+fi
+(cd "$APP_DIR/deploy/examiner-service" && $DC up -d --build) && echo "   arena-examiner: up (talks to ai-router-controller:4000)"
+(cd "$APP_DIR/deploy/mcp-server" && $DC up -d --build) && echo "   arena-ops-mcp: up"
+
 LAN_IP="$(hostname -I 2>/dev/null | awk '{print $1}')"
 cat <<EOF
 
-$(log "Almost done — expose it publicly")
-The app is running at:  http://${LAN_IP:-<AiSync-LAN-IP>}:${PORT}
+$(log "Almost done — the two human steps")
 
-Finish by routing it through your existing Cloudflare Tunnel (cloudflared-tunnel):
-  1) Add to the tunnel's ingress (ABOVE the final http_status:404 rule):
-       - hostname: ${DOMAIN}
-         service: http://${LAN_IP:-<AiSync-LAN-IP>}:${PORT}
-  2) Add the DNS route once:
-       cloudflared tunnel route dns <your-tunnel-name> ${DOMAIN}
-  3) Reload/restart the tunnel.
+1) STRIPE (once): put the LIVE keys in deploy/access-service/.env
+   (STRIPE_KEY=sk_live_..., STRIPE_WEBHOOK_SECRET=whsec_...), then:
+     cd $APP_DIR/deploy/access-service && $DC up -d --build
+   If a test key was ever pasted in chat/anywhere, ROTATE it in the Stripe
+   dashboard first (Developers -> API keys -> roll).
 
-Then finish LAUNCH.md: paste your Stripe Payment Link into pricing.html and set
-the access-gate mode in js/subscription.js.
+2) CLOUDFLARE TUNNEL: add ingress rules (ABOVE the final http_status:404):
+     - hostname: ${DOMAIN}
+       service: http://${LAN_IP:-<AiSync-LAN-IP>}:${PORT}
+     - hostname: arena-api.thejohnsonbros.com
+       service: http://${LAN_IP:-<AiSync-LAN-IP>}:8766
+     - hostname: arena-ai.thejohnsonbros.com
+       service: http://${LAN_IP:-<AiSync-LAN-IP>}:8767
+     - hostname: mcp-arena.thejohnsonbros.com     # protect with Cloudflare Access too
+       service: http://${LAN_IP:-<AiSync-LAN-IP>}:8765
+   Then one DNS route per hostname:
+     cloudflared tunnel route dns <tunnel-name> <hostname>
+   ...and restart the tunnel.
+
+Verify:   curl -s https://arena-api.thejohnsonbros.com/healthz
+Full runbook (Stripe webhook, end-to-end money test, scholarship pilot):
+  $APP_DIR/deploy/GO-LIVE.md
 
 To update later:  git -C ${APP_DIR} pull && docker restart arena248
+Or connect the MCP (https://mcp-arena.thejohnsonbros.com/mcp + the bearer token
+above) to a Claude session and say "deploy" — the agent takes it from there.
 EOF

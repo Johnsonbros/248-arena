@@ -18,7 +18,7 @@
   "source": "codebook",
   "ref": "248 CMR 10.04",
   "title": "248 CMR 10.04 — Testing and Safety",
-  "text": "## DWV Testing\n\n \n \n- Rough-in water test: fill to a minimum 10-foot head of water and hold with no loss\n \n- An approved air test may be used as an alternative\n \n- Testing happens before concealment and before the inspector's rough approval\n \n \n## Water Piping\n\n \n \n- Water distribution is tested at working pressure (or as the inspector requires) and proved tight"
+  "text": "## DWV Testing\n\n \n \n- Rough-in water test: fill to a minimum 10-foot head of water (no section tested with less), kept in the system at least 15 minutes before inspection starts — then tight at all points\n \n- Air test alternative: a uniform 5 PSIG (or 10 inches of mercury) held 15 minutes without adding air; gauge calibrated in increments no greater than 1/10 pound\n \n- Testing happens before concealment and before the inspector's rough approval\n \n \n## Water Piping\n\n \n \n- The roughed water supply system is tested and proved tight at not less than 125 psi"
  },
  {
   "id": "book:248 CMR 10.05",
@@ -74,14 +74,14 @@
   "source": "codebook",
   "ref": "248 CMR 10.12",
   "title": "248 CMR 10.12 — Indirect Waste Piping",
-  "text": "- Air gap: terminates above the receptor's flood rim (full separation)\n \n- Air break: terminates below the rim but above the trap seal\n \n- Commercial food-handling equipment discharges indirectly (air gap or air break) to a trapped receptor\n \n- Massachusetts requires a listed air gap fitting on dishwasher drains — a high loop alone is not acceptable"
+  "text": "- Air gap: terminates above the receptor's flood rim (full separation); the gap must be at least twice the effective diameter of the drain served\n \n- Air break: terminates below the rim but above the trap seal\n \n- The indirect waste is never trapped ahead of the air gap or air-break — the receiving fixture provides the trap and vent\n \n- The receptor must be an open, accessible, properly trapped and vented sink, floor drain, or fixture\n \n- Commercial food-handling equipment discharges indirectly (air gap or air break) to a trapped receptor\n \n- Massachusetts requires a listed air gap fitting on dishwasher drains — a high loop alone is not acceptable"
  },
  {
   "id": "book:248 CMR 10.13",
   "source": "codebook",
   "ref": "248 CMR 10.13",
   "title": "248 CMR 10.13 — Piping & Treatment of Special Wastes",
-  "text": "- Corrosive chemical / laboratory waste requires approved acid-resistant piping\n \n- Special wastes are neutralized or treated before entering the sanitary drainage system"
+  "text": "- Corrosive chemical / laboratory waste requires approved acid-resistant piping\n \n- Special wastes are neutralized or treated before entering the sanitary drainage system — adjusted to a pH between 6 and 9\n \n- The neutralizing device is automatically supplied with enough neutralizing medium to render its contents non-injurious\n \n- Treated discharge connects to the building sanitary drain/sewer no closer than 10 feet from the neutralization system"
  },
  {
   "id": "book:248 CMR 10.14",
@@ -116,7 +116,7 @@
   "source": "codebook",
   "ref": "248 CMR 10.18",
   "title": "248 CMR 10.18 — Hospital Fixtures & Medical Gas",
-  "text": "- Installation by ASSE 6010 certified personnel only\n \n- Type L (or K) copper, cleaned and capped for oxygen service (ASTM B819)\n \n- Joints brazed with BCuP alloy under continuous nitrogen purge — soldering prohibited\n \n- System verification by an independent ASSE 6030 verifier before use\n \n- U.S. color code: oxygen = green"
+  "text": "- Sterilizers: individual and separate indirect wastes; air gap ≥ 2× the waste tailpiece diameter; p-trap on the discharge side, immediately below the indirect waste connection\n \n- A battery of no more than 3 sterilizer wastes may share one trap, sized to the combined fixture units\n \n- Bedpan steamer: trap with a minimum 3-inch seal between fixture and indirect waste connection\n \n- Recess rooms hiding sterilizer internals need a floor drain placed to drain the entire floor\n \n- Installation by ASSE 6010 certified personnel only\n \n- Type L (or K) copper, cleaned and capped for oxygen service (ASTM B819)\n \n- Joints brazed with BCuP alloy under continuous nitrogen purge — soldering prohibited\n \n- System verification by an independent ASSE 6030 verifier before use\n \n- U.S. color code: oxygen = green"
  },
  {
   "id": "book:248 CMR 3.00–7.00",
@@ -1538,5 +1538,117 @@
   "ref": "248 CMR 3.00",
   "title": "PERMITS: Which section of 248 CMR governs the general conduct of plumbing and gas work, including business and apprentice licenses and inspector requirements?",
   "text": "Which section of 248 CMR governs the general conduct of plumbing and gas work, including business and apprentice licenses and inspector requirements?\nAnswer: 248 CMR 3.00\nPer 248 CMR 3.03, business and apprentice licenses, renewals, and inspector requirements sit in 248 CMR 3.00 — the general provisions governing the conduct of plumbing and gas work."
+ },
+ {
+  "id": "q:201",
+  "source": "question",
+  "ref": "248 CMR 10.04",
+  "title": "PERMITS: When water-testing a drainage system in sections under 248 CMR 10.04, no section may be tested with less than:",
+  "text": "When water-testing a drainage system in sections under 248 CMR 10.04, no section may be tested with less than:\nAnswer: A 10-foot head of water\nPer 248 CMR 10.04, when the drainage system is tested in sections, each section must be subjected to at least a 10-foot head of water — the pressure the lowest joints will actually see in service."
+ },
+ {
+  "id": "q:202",
+  "source": "question",
+  "ref": "248 CMR 10.04",
+  "title": "PERMITS: Under 248 CMR 10.04, how long must water stay in the drainage system (or section under test) before the inspection starts?",
+  "text": "Under 248 CMR 10.04, how long must water stay in the drainage system (or section under test) before the inspection starts?\nAnswer: At least 15 minutes\n248 CMR 10.04 requires the water to be kept in the system, or the portion under test, for at least 15 minutes before inspection begins — and the system must then be tight at all points."
+ },
+ {
+  "id": "q:203",
+  "source": "question",
+  "ref": "248 CMR 10.04",
+  "title": "PERMITS: An air test of the drainage system under 248 CMR 10.04 requires a uniform gauge pressure of:",
+  "text": "An air test of the drainage system under 248 CMR 10.04 requires a uniform gauge pressure of:\nAnswer: 5 PSIG (or 10 inches of mercury) held 15 minutes without added air\nPer 248 CMR 10.04, the air test uses a uniform gauge pressure of 5 PSIG — or enough to balance a 10-inch column of mercury — held for at least 15 minutes with no additional air introduced. The gauge must read in increments no greater than 1/10 pound."
+ },
+ {
+  "id": "q:204",
+  "source": "question",
+  "ref": "248 CMR 10.04",
+  "title": "WATER: Per 248 CMR 10.04, a roughed water supply system must be tested and proved tight under a pressure of not less than:",
+  "text": "Per 248 CMR 10.04, a roughed water supply system must be tested and proved tight under a pressure of not less than:\nAnswer: 125 psi\n248 CMR 10.04 requires the completed rough water supply system (or section) to be tested and proved tight at not less than 125 pounds per square inch."
+ },
+ {
+  "id": "q:205",
+  "source": "question",
+  "ref": "248 CMR 10.12",
+  "title": "DWV: Under 248 CMR 10.12, the air gap between an indirect waste and the building drainage system must be at least:",
+  "text": "Under 248 CMR 10.12, the air gap between an indirect waste and the building drainage system must be at least:\nAnswer: Twice the effective diameter of the drain served\nPer 248 CMR 10.12, the air gap between the indirect waste and the building sanitary or storm drainage system must be at least twice the effective diameter of the drain served."
+ },
+ {
+  "id": "q:206",
+  "source": "question",
+  "ref": "248 CMR 10.12",
+  "title": "DWV: Which statement about trapping an indirect waste is correct under 248 CMR 10.12?",
+  "text": "Which statement about trapping an indirect waste is correct under 248 CMR 10.12?\nAnswer: The indirect waste must never be trapped ahead of the air gap or air-break\n248 CMR 10.12 requires indirect wastes to discharge through an air gap or air-break, and in no instance may the indirect waste be trapped AHEAD of that air gap or air-break — a trap there would defeat the protection the gap provides. The receiving fixture (sink, floor drain) is itself trapped and vented."
+ },
+ {
+  "id": "q:207",
+  "source": "question",
+  "ref": "248 CMR 10.12",
+  "title": "DWV: An acceptable receptor for an indirect waste under 248 CMR 10.12 is:",
+  "text": "An acceptable receptor for an indirect waste under 248 CMR 10.12 is:\nAnswer: An open, accessible, properly trapped and vented sink or floor drain\nPer 248 CMR 10.12, indirect waste piping may extend to an open, ACCESSIBLE individual waste sink, floor drain, or other fixture that is properly trapped and vented. Accessibility matters — a blocked receptor you can see gets fixed; a concealed one floods."
+ },
+ {
+  "id": "q:208",
+  "source": "question",
+  "ref": "248 CMR 10.13",
+  "title": "DWV: Under 248 CMR 10.13, a special waste system must adjust the pH of corrosive waste to what range before discharge?",
+  "text": "Under 248 CMR 10.13, a special waste system must adjust the pH of corrosive waste to what range before discharge?\nAnswer: Between 6 and 9\nPer 248 CMR 10.13, special (corrosive/acid) wastes must be neutralized or treated so the pH lands between 6 and 9 before entering the drainage system — protecting both the piping and the treatment works downstream."
+ },
+ {
+  "id": "q:209",
+  "source": "question",
+  "ref": "248 CMR 10.13",
+  "title": "DWV: Per 248 CMR 10.13, the discharge from a special waste treatment system may connect to the building sanitary drain no closer than what distance from the neutralization system?",
+  "text": "Per 248 CMR 10.13, the discharge from a special waste treatment system may connect to the building sanitary drain no closer than what distance from the neutralization system?\nAnswer: 10 feet\n248 CMR 10.13 allows the treated discharge to connect to the building sanitary drain or sewer, but in no case less than 10 feet from the neutralization system — keeping any still-aggressive waste away from the fresh connection."
+ },
+ {
+  "id": "q:210",
+  "source": "question",
+  "ref": "248 CMR 10.13",
+  "title": "DWV: How must an acid-neutralizing device be maintained with neutralizing medium under 248 CMR 10.13?",
+  "text": "How must an acid-neutralizing device be maintained with neutralizing medium under 248 CMR 10.13?\nAnswer: Automatically provided with sufficient neutralizing medium\nPer 248 CMR 10.13, the neutralizing device must be AUTOMATICALLY provided with sufficient intake of neutralizing medium to render its contents non-injurious before discharge — the protection cannot depend on someone remembering to top it up."
+ },
+ {
+  "id": "q:211",
+  "source": "question",
+  "ref": "248 CMR 10.17",
+  "title": "DWV: Under 248 CMR 10.17, storm water:",
+  "text": "Under 248 CMR 10.17, storm water:\nAnswer: Shall not be drained into sewers intended for sewage only\nPer 248 CMR 10.17, storm water shall not be drained into sewers intended for sanitary sewage only. Storm flows can overwhelm sanitary systems and treatment plants — the two systems stay separate."
+ },
+ {
+  "id": "q:212",
+  "source": "question",
+  "ref": "248 CMR 10.18",
+  "title": "MEDICAL: Under 248 CMR 10.18, how must sterilizers connect to the drainage system?",
+  "text": "Under 248 CMR 10.18, how must sterilizers connect to the drainage system?\nAnswer: Through individual and separate indirect wastes with proper air gaps\nPer 248 CMR 10.18, every sterilizer gets an INDIVIDUAL and SEPARATE indirect waste with an air gap of not less than two diameters of the waste tailpiece — sterile equipment must be isolated from the drainage system by an open, visible gap."
+ },
+ {
+  "id": "q:213",
+  "source": "question",
+  "ref": "248 CMR 10.18",
+  "title": "MEDICAL: Per 248 CMR 10.18, where is the p-trap installed for a sterilizer's indirect waste?",
+  "text": "Per 248 CMR 10.18, where is the p-trap installed for a sterilizer's indirect waste?\nAnswer: On the discharge side of, and immediately below, the indirect waste connection\n248 CMR 10.18 puts the p-trap on the discharge side of — and immediately below — the indirect waste connection serving each sterilizer. The trap protects the drainage side; the air gap above it protects the sterilizer."
+ },
+ {
+  "id": "q:214",
+  "source": "question",
+  "ref": "248 CMR 10.18",
+  "title": "MEDICAL: A bedpan steamer drain under 248 CMR 10.18 requires a trap with a minimum seal of:",
+  "text": "A bedpan steamer drain under 248 CMR 10.18 requires a trap with a minimum seal of:\nAnswer: 3 inches\nPer 248 CMR 10.18, a bedpan steamer drain needs a trap with a minimum 3-inch seal, located between the fixture and the indirect waste connection — a deeper-than-normal seal for a fixture handling infectious waste under steam pressure."
+ },
+ {
+  "id": "q:215",
+  "source": "question",
+  "ref": "248 CMR 10.18",
+  "title": "MEDICAL: How many sterilizer wastes may drain to one trap in a battery assembly under 248 CMR 10.18?",
+  "text": "How many sterilizer wastes may drain to one trap in a battery assembly under 248 CMR 10.18?\nAnswer: Not more than three, with trap and waste sized to the combined fixture units\nPer 248 CMR 10.18, a battery assembly of not more than THREE sterilizer wastes may drain to one trap, provided the trap and waste are sized for the combined fixture-unit rating."
+ },
+ {
+  "id": "q:216",
+  "source": "question",
+  "ref": "248 CMR 10.18",
+  "title": "MEDICAL: Under 248 CMR 10.18, a recess room containing the concealed portions of sterilizers must have:",
+  "text": "Under 248 CMR 10.18, a recess room containing the concealed portions of sterilizers must have:\nAnswer: At least one floor drain positioned to drain the entire floor area\nPer 248 CMR 10.18, rooms containing recessed or concealed portions of sterilizers need at least one acceptable floor drain, connected to the drainage system and placed to drain the ENTIRE floor area — hidden equipment means leaks show up as floods."
  }
 ]

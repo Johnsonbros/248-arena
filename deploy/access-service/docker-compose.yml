@@ -22,3 +22,11 @@ services:
       interval: 30s
       timeout: 5s
       retries: 3
+    networks: [arena-net]
+
+# Shared with arena-examiner and arena-ops-mcp so they reach this container as
+# http://arena-access:8766. Created by install-on-aisync.sh, or manually:
+#   docker network create arena-net
+networks:
+  arena-net:
+    external: true
