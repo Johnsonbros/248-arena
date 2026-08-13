@@ -107,10 +107,19 @@ if [ -z "$MCP_TOKEN" ] || [ "$MCP_TOKEN" = "change-me-to-a-long-random-string" ]
   env_set "$MCP_ENV" MCP_AUTH_TOKEN "$MCP_TOKEN"
   echo "   generated MCP_AUTH_TOKEN (save this for the Claude connector):"
   echo "   $MCP_TOKEN"
+  echo "   Type it into the connector config directly — a secret pasted into a"
+  echo "   chat is burned. Rotate any time with:"
+  echo "     deploy/rotate-mcp-token.sh"
 fi
 
 # Shared docker network so mcp -> access and examiner -> access resolve by name.
-docker network inspect arena-net >/dev/null 2>&1 || docker network create arena-net
+# A busy fleet can exhaust Docker's default address pools ("all predefined
+# address pools have been fully subnetted") — fall back to an explicit subnet.
+# Override with ARENA_SUBNET if 10.248.0.0/24 collides with your LAN/VPN.
+if ! docker network inspect arena-net >/dev/null 2>&1; then
+  docker network create arena-net 2>/dev/null \
+    || docker network create --subnet "${ARENA_SUBNET:-10.248.0.0/24}" arena-net
+fi
 
 log "Starting backend services (each skips itself if not yet configured)"
 STRIPE_SET="$(env_get "$ACC_ENV" STRIPE_KEY)"
