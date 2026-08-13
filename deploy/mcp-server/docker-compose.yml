@@ -23,3 +23,9 @@ services:
       interval: 30s
       timeout: 5s
       retries: 3
+    networks: [arena-net]
+
+# Shared with arena-access so the business tools reach http://arena-access:8766.
+networks:
+  arena-net:
+    external: true

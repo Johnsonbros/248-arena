@@ -14,7 +14,27 @@ export const CFG = {
   appPort: parseInt(process.env.ARENA_PORT ?? "8248", 10),
   // Optional: a RESTRICTED, read-only Stripe key enables the stripe_* tools.
   stripeKey: process.env.STRIPE_KEY ?? "",
+  // Business tools: where arena-access lives and its admin key. On the fleet's
+  // docker network the internal address avoids a round-trip through Cloudflare.
+  accessApi: process.env.ACCESS_API ?? "http://arena-access:8766",
+  accessAdminKey: process.env.ACCESS_ADMIN_KEY ?? "",
 };
+
+/** GET/POST against the arena-access service. The admin key travels in the
+ *  query/body exactly as the service expects; never logged, never echoed. */
+export async function accessApi(
+  path: string,
+  init?: { method?: string; body?: unknown }
+): Promise<{ ok: boolean; status: number; body: any }> {
+  const res = await fetch(`${CFG.accessApi}${path}`, {
+    method: init?.method ?? "GET",
+    headers: init?.body !== undefined ? { "Content-Type": "application/json" } : undefined,
+    body: init?.body !== undefined ? JSON.stringify(init.body) : undefined,
+    signal: AbortSignal.timeout(15_000),
+  });
+  const body = await res.json().catch(() => ({}));
+  return { ok: res.ok, status: res.status, body };
+}
 
 export const BRANCH_RE = /^[A-Za-z0-9._/-]{1,200}$/;
 

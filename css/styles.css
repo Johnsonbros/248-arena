@@ -479,6 +479,18 @@ body::after {
 }
 
 /* Bottom Nav */
+/* Keyboard hint under the question — only meaningful where a keyboard exists,
+   so it's hidden on coarse-pointer (touch) devices. */
+.kbd-hint {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  margin-top: 10px;
+  opacity: 0.7;
+}
+.kbd-hint strong { color: #9898b0; }
+@media (pointer: coarse) { .kbd-hint { display: none; } }
+
 .bottom-nav {
   display: flex;
   justify-content: space-around;
@@ -496,7 +508,11 @@ body::after {
   flex-direction: column;
   align-items: center;
   gap: 2px;
-  padding: 6px 12px;
+  /* Six tabs have to fit a 360px phone, so they share the width evenly and
+     shrink instead of overflowing. min-width:0 lets flex actually do that. */
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 6px 4px;
   color: var(--text-muted);
   font-size: 0.65rem;
   font-weight: 600;

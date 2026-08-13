@@ -10,7 +10,7 @@
  */
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
-import { BRANCH_RE, CFG, htmlToText, redact, run, stripeGet, usd } from "./shared.js";
+import { BRANCH_RE, CFG, accessApi, htmlToText, redact, run, stripeGet, usd } from "./shared.js";
 
 const RO = { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false };
 const RO_NET = { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true };
@@ -347,6 +347,132 @@ export function registerAll(server: McpServer): void {
         }],
         structuredContent: structured,
       };
+    }
+  );
+
+  // ------------------------------------------------------------ Business -----
+  // Wrappers over arena-access's admin API, so an autonomous agent (Hermes,
+  // OpenClaw, a Claude session) can run the day-to-day without SSH or a UI:
+  // read the fun benchmark, mint scholarship codes, triage question reports,
+  // check any account. Requires ACCESS_ADMIN_KEY (= the service's REPORTS_KEY).
+  const needKey = () =>
+    CFG.accessAdminKey
+      ? null
+      : { content: [{ type: "text" as const, text: "ACCESS_ADMIN_KEY is not configured on arena-ops-mcp — business tools are disabled." }], isError: true };
+
+  const asResult = (r: { ok: boolean; status: number; body: any }, summarize: (b: any) => string) =>
+    r.ok
+      ? { content: [{ type: "text" as const, text: summarize(r.body) }], structuredContent: r.body }
+      : { content: [{ type: "text" as const, text: `arena-access returned ${r.status}: ${r.body?.error ?? "unknown error"}` }], isError: true };
+
+  server.registerTool(
+    "arena_business_stats",
+    {
+      title: "Business health snapshot",
+      description: "One-call overview from arena-access: subscriber counts by status, scholarship seats (minted/redeemed/active/expired), engagement (progress records, leaderboard scores, pulse ratings), and open question reports.",
+      inputSchema: {},
+      annotations: RO_NET,
+    },
+    async () => {
+      const gate = needKey(); if (gate) return gate;
+      const r = await accessApi(`/api/stats?key=${encodeURIComponent(CFG.accessAdminKey)}`);
+      return asResult(r, (b) =>
+        `Subscribers: ${b.subscribers?.active ?? 0} active, ${b.subscribers?.trialing ?? 0} trialing, ${b.subscribers?.pastDue ?? 0} past-due\n` +
+        `Scholarships: ${b.scholarships?.activeSeats ?? 0} active seats (${b.scholarships?.redeemed ?? 0}/${b.scholarships?.minted ?? 0} codes redeemed)\n` +
+        `Engagement: ${b.engagement?.progressRecords ?? 0} synced players, ${b.engagement?.pulseRatings7d ?? 0} fun ratings this week\n` +
+        `Open question reports: ${b.content?.openQuestionReports ?? 0}`);
+    }
+  );
+
+  server.registerTool(
+    "arena_pulse_summary",
+    {
+      title: "Fun benchmark (Pulse)",
+      description: "30-day post-session fun ratings (😩/😐/🔥): average overall and per game mode with histograms, plus distinct raters. The benchmark for whether a mode needs design time.",
+      inputSchema: {},
+      annotations: RO_NET,
+    },
+    async () => {
+      const gate = needKey(); if (gate) return gate;
+      const r = await accessApi(`/api/pulse-summary?key=${encodeURIComponent(CFG.accessAdminKey)}`);
+      return asResult(r, (b) => {
+        const modes = Object.entries(b.byMode ?? {})
+          .map(([m, s]: [string, any]) => `  ${m}: avg ${s.avg} over ${s.ratings} ratings`).join("\n");
+        return `Avg rating (30d): ${b.avgRating ?? "no data"} across ${b.totalRatings} ratings from ${b.distinctRaters} players\n${modes || "  (no per-mode data yet)"}`;
+      });
+    }
+  );
+
+  server.registerTool(
+    "arena_question_reports",
+    {
+      title: "Question report inbox",
+      description: "Player-filed reports of wrong/unclear questions, newest first — the content-trust triage queue. Each row: question id, excerpt, reason, reporter, timestamp.",
+      inputSchema: { limit: z.number().int().min(1).max(200).optional().describe("Max rows (default 25)") },
+      annotations: RO_NET,
+    },
+    async ({ limit }) => {
+      const gate = needKey(); if (gate) return gate;
+      const r = await accessApi(`/api/reports?key=${encodeURIComponent(CFG.accessAdminKey)}`);
+      if (!r.ok) return asResult(r, () => "");
+      const rows = (r.body.reports ?? []).slice(0, limit ?? 25);
+      return {
+        content: [{ type: "text", text: rows.length ? rows.map((x: any) => `#${x.questionId} [${new Date(x.ts).toISOString().slice(0, 10)}] ${x.reason} — "${(x.question ?? "").slice(0, 80)}"`).join("\n") : "No open reports." }],
+        structuredContent: { reports: rows },
+      };
+    }
+  );
+
+  server.registerTool(
+    "arena_scholarship_list",
+    {
+      title: "Scholarship code ledger",
+      description: "Every minted scholarship code with months, note, and redemption status (who redeemed, when). Use to audit sponsored seats or find unredeemed codes to hand out.",
+      inputSchema: {},
+      annotations: RO_NET,
+    },
+    async () => {
+      const gate = needKey(); if (gate) return gate;
+      const r = await accessApi(`/api/scholarship/list?key=${encodeURIComponent(CFG.accessAdminKey)}`);
+      return asResult(r, (b) => {
+        const rows = b.scholarships ?? [];
+        const open = rows.filter((x: any) => !x.usedBy);
+        return `${rows.length} codes minted, ${rows.length - open.length} redeemed, ${open.length} available.\n` +
+          open.slice(0, 10).map((x: any) => `  ${x.code} (${x.months}mo${x.note ? `, ${x.note}` : ""})`).join("\n");
+      });
+    }
+  );
+
+  server.registerTool(
+    "arena_scholarship_mint",
+    {
+      title: "Mint scholarship codes",
+      description: "Mint single-use, time-boxed scholarship codes (SCHLR-XXXX-XXXX) that grant free access with just an email — for sponsored vo-tech students. MUTATING: creates real codes that unlock real seats; mint only what a sponsorship or the owner's ask covers.",
+      inputSchema: {
+        count: z.number().int().min(1).max(50).describe("How many codes to mint"),
+        months: z.number().int().min(1).max(12).describe("Months of access per code"),
+        note: z.string().max(120).describe("Who these are for, e.g. 'Worcester Tech Sept cohort'"),
+      },
+      annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
+    },
+    async ({ count, months, note }) => {
+      const gate = needKey(); if (gate) return gate;
+      const r = await accessApi("/api/scholarship/mint", { method: "POST", body: { key: CFG.accessAdminKey, count, months, note } });
+      return asResult(r, (b) => `Minted ${b.codes?.length ?? 0} codes × ${b.months}mo (${note}):\n` + (b.codes ?? []).join("\n"));
+    }
+  );
+
+  server.registerTool(
+    "arena_access_check",
+    {
+      title: "Check account access",
+      description: "Whether an email currently unlocks the app (subscription or scholarship seat). Read-only; uses the same public endpoint the app's gate uses.",
+      inputSchema: { email: z.string().email().describe("Account email to check") },
+      annotations: RO_NET,
+    },
+    async ({ email }) => {
+      const r = await accessApi(`/api/access?email=${encodeURIComponent(email)}`);
+      return asResult(r, (b) => `${email}: ${b.active ? "ACTIVE" : "no access"}`);
     }
   );
 }

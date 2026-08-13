@@ -2,7 +2,7 @@
 
 **Enter the Arena. Master the Code. Pass the Exam.**
 
-Built by Johnson Bros. Plumbing — brothers who passed the exam and know what it takes. This app is built specifically for the Massachusetts Journeyman Plumbing Exam (248 CMR). Nothing else.
+Built with Johnson Bros. Plumbing & Drain Cleaning — working Massachusetts plumbers. An AiSync Services product built specifically for the Massachusetts Journeyman Plumbing Exam (248 CMR). Nothing else.
 
 ## Features
 

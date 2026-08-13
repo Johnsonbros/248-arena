@@ -14,6 +14,8 @@ const Leaderboard = {
   },
 
   submitScore(user, mode, score, details = {}) {
+    // Real leaderboard: submit to the server when cloud sync is on.
+    if (window.CloudSync) CloudSync.submitScore(user, mode, score, details);
     const entries = this.getAll();
     entries.push({
       userId: user.id, name: user.name, avatar: user.avatar || '⚔️',
@@ -73,31 +75,12 @@ const Leaderboard = {
     return idx >= 0 ? idx + 1 : null;
   },
 
+  // The board is real now. seed() only cleans up fake demo entries left over
+  // from earlier versions on returning users' devices.
   seed() {
-    if (this.getAll().length > 0) return;
-    const names = [
-      'PipeKing_Mike', 'DrainSlayer99', 'CodeWarrior_D', 'FluxMaster_J', 'CopperKid_T',
-      'SolderSnake', 'BackflowBoss_S', 'WrenchWiz', 'TorchMaster', 'VentKing_K',
-      'JointMaker_M', 'PipeDream_D', 'DrainBrain_J', 'FlameGod_P', 'CodeCrusher'
-    ];
-    const titles = ['Pipe Rookie', 'Code Fighter', 'Drain Warrior', 'Apprentice', 'Pipe Wizard'];
-    const avatars = ['🔧', '⚡', '🔥', '💧', '🛡️', '⚔️', '🏆', '💀', '🐉', '👑'];
-    const entries = [];
-    names.forEach((name, i) => {
-      entries.push({
-        userId: 'demo_' + i, name, avatar: avatars[i % avatars.length],
-        phone: String(1000 + Math.floor(Math.random() * 9000)),
-        title: titles[Math.floor(Math.random() * titles.length)],
-        level: Math.floor(Math.random() * 30) + 1, mode: 'ranked',
-        score: Math.floor(Math.random() * 5000) + 500,
-        correct: Math.floor(Math.random() * 50) + 10,
-        total: Math.floor(Math.random() * 30) + 50, time: 0,
-        date: Date.now() - Math.floor(Math.random() * 604800000),
-        week: Leaderboard.getWeekNumber(),
-        month: new Date().getMonth() + '-' + new Date().getFullYear()
-      });
-    });
-    this.save(entries);
+    const entries = this.getAll();
+    const cleaned = entries.filter(e => !String(e.userId || '').startsWith('demo_'));
+    if (cleaned.length !== entries.length) this.save(cleaned);
   }
 };
 

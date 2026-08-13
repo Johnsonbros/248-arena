@@ -1,6 +1,31 @@
 // 248 Arena — Game Modes Module
 
+// Real MA plumbing exam structure (PSI, closed book, computer-based).
+// Journeyman: Part I 70q/150min, Part II 30q/120min — 70% to pass each part.
+// Master:     Part I 60q/120min, Part II 30q/120min — 70% to pass each part.
+// Sources: PSI candidate bulletin listings + MA prep providers (2025/26).
+const EXAM_FORMAT = {
+  journeyman: { part1: { questions: 70, minutes: 150 }, part2: { questions: 30, minutes: 120 } },
+  master:     { part1: { questions: 60, minutes: 120 }, part2: { questions: 30, minutes: 120 } },
+  passing: 70
+};
+
+// Category mix, mapped from PSI's published topic areas for the MA plumbing
+// exam: General Regulations/Inspections/Permits · Gas Piping, Equipment &
+// Appliances · Venting · Traps & Cleanouts · Fixtures, Equipment & Clearances ·
+// Water Heaters · Piping, Valves & Controls · Water Supply · Hangers & Supports ·
+// Drain, Waste & Vent · Separators/Interceptors/Grease Traps · Joints & Connections.
+// ⚠️ The bulletin lists topics but not weights — these fractions are our best
+// mapping onto the app's categories. Tune here as real exam experience comes in.
+const EXAM_BLUEPRINT = {
+  DWV: 0.18, VENTING: 0.13, WATER: 0.14, GAS: 0.13, FIXTURES: 0.11,
+  SIZING: 0.09, BACKFLOW: 0.07, MATERIALS: 0.07, GENERAL: 0.05,
+  PERMITS: 0.02, MEDICAL: 0.01
+};
+
 const GameModes = {
+  examTarget: 'journeyman',   // 'journeyman' | 'master'
+  examPart: 1,                // 1 | 2
   currentMode: null, currentQuestions: [], currentIndex: 0,
   score: 0, correct: 0, streak: 0, startTime: 0,
   timeLimit: 0, eliminated: false, lives: 3,
@@ -14,21 +39,55 @@ const GameModes = {
     return a;
   },
 
+  // Today's Plan aims a session at one thing: a single weak category, only the
+  // due reviews, or only unseen material. Set before start(), cleared after.
+  //   GameModes.focus = { category: 'VENTING' } | { only: 'due' } | { only: 'new' }
+  focus: null,
+
+  _focusPool() {
+    const f = this.focus;
+    if (!f) return QUESTIONS;
+    let pool = QUESTIONS;
+    if (f.category) pool = pool.filter(q => q.category === f.category);
+    // Conquest territories: match by codeRef citation prefix.
+    if (f.refs) pool = pool.filter(q => f.refs.some(p => (q.codeRef || '').startsWith(p)));
+    if (window.SRS && f.only === 'new') pool = pool.filter(q => !SRS.seen(q.id));
+    if (window.SRS && f.only === 'due') {
+      const due = new Set(SRS.dueIds());
+      pool = pool.filter(q => due.has(q.id));
+    }
+    // A focus that matches nothing must never hand back an empty session.
+    return pool.length ? pool : QUESTIONS;
+  },
+
   getAdaptiveQuestions(count, user) {
-    const questions = [...QUESTIONS];
+    const selected = [];
+    const source = this._focusPool();
+
+    // 1) Spaced repetition first: up to half the session is due reviews —
+    //    questions previously missed or scheduled to resurface today. Skipped
+    //    when the session is deliberately aimed at unseen material.
+    if (window.SRS && this.focus?.only !== 'new') {
+      const dueIds = new Set(SRS.dueIds());
+      const dueQs = this.shuffle(source.filter(q => dueIds.has(q.id)));
+      selected.push(...dueQs.slice(0, Math.floor(count / 2)));
+    }
+
+    // 2) Fill the rest weighted by weak categories, favoring unseen questions.
+    const chosen = new Set(selected.map(q => q.id));
     const stats = user?.stats?.categoryStats || {};
-    const weighted = questions.map(q => {
+    const weighted = source.filter(q => !chosen.has(q.id)).map(q => {
       const catStat = stats[q.category];
       let weight = 1;
       if (catStat) {
         const accuracy = catStat.correct / (catStat.total || 1);
         weight = accuracy < 0.5 ? 3 : accuracy < 0.7 ? 2 : 1;
       } else { weight = 2; }
+      if (window.SRS && !SRS.seen(q.id)) weight += 1;   // bias toward new material
       return { q, weight };
     });
-    const selected = [];
     const pool = [...weighted];
-    while (selected.length < Math.min(count, pool.length) && pool.length > 0) {
+    while (selected.length < Math.min(count, source.length) && pool.length > 0) {
       const totalWeight = pool.reduce((s, w) => s + w.weight, 0);
       let r = Math.random() * totalWeight;
       for (let i = 0; i < pool.length; i++) {
@@ -39,19 +98,80 @@ const GameModes = {
     return this.shuffle(selected);
   },
 
+  // Exam Sim mirrors the REAL exam's category mix (EXAM_BLUEPRINT), sampled
+  // neutrally — no adaptive weighting, because a dress rehearsal shouldn't
+  // bend toward your weaknesses the way practice does.
+  getBlueprintQuestions(count) {
+    const byCat = {};
+    QUESTIONS.forEach(q => { (byCat[q.category] = byCat[q.category] || []).push(q); });
+    const cats = Object.keys(EXAM_BLUEPRINT).filter(c => byCat[c]?.length);
+    // Allocate seats by weight, then hand out remainder to largest fractions.
+    const alloc = {};
+    let used = 0;
+    const fracs = [];
+    cats.forEach(c => {
+      const exact = count * EXAM_BLUEPRINT[c];
+      alloc[c] = Math.floor(exact);
+      used += alloc[c];
+      fracs.push({ c, frac: exact - alloc[c] });
+    });
+    fracs.sort((a, b) => b.frac - a.frac);
+    for (let i = 0; used < count && i < fracs.length; i++, used++) alloc[fracs[i].c]++;
+    const selected = [];
+    cats.forEach(c => {
+      const pool = this.shuffle(byCat[c]);
+      // If a category has fewer questions than its allocation, take what exists.
+      selected.push(...pool.slice(0, Math.min(alloc[c], pool.length)));
+    });
+    // Backfill any shortfall from the whole bank.
+    if (selected.length < count) {
+      const chosen = new Set(selected.map(q => q.id));
+      selected.push(...this.shuffle(QUESTIONS.filter(q => !chosen.has(q.id))).slice(0, count - selected.length));
+    }
+    return this.shuffle(selected);
+  },
+
   start(mode, user) {
     this.currentMode = mode;
     this.currentIndex = 0; this.score = 0; this.correct = 0;
     this.streak = 0; this.eliminated = false; this.lives = 3;
+    this.answerLog = [];
+    this._examRecorded = false;
     this.startTime = Date.now();
     switch(mode) {
       case 'practice': this.currentQuestions = this.getAdaptiveQuestions(20, user); this.timeLimit = 0; break;
       case 'ranked': this.currentQuestions = this.getAdaptiveQuestions(25, user); this.timeLimit = 0; break;
-      case 'exam': this.currentQuestions = this.getAdaptiveQuestions(100, user); this.timeLimit = 120*60*1000; break;
+      // Mirrors the real PSI exam. Default = Journeyman Part I (70q/150min);
+      // set GameModes.examTarget = 'master' and GameModes.examPart = 2 to switch.
+      case 'exam': {
+        const fmt = EXAM_FORMAT[this.examTarget === 'master' ? 'master' : 'journeyman'];
+        const part = this.examPart === 2 ? fmt.part2 : fmt.part1;
+        this.currentQuestions = this.getBlueprintQuestions(part.questions);
+        this.timeLimit = part.minutes * 60 * 1000;
+        break;
+      }
       case 'royale': this.currentQuestions = this.getAdaptiveQuestions(30, user); this.timeLimit = 0; this.lives = 3; break;
       case 'speed': this.currentQuestions = this.getAdaptiveQuestions(25, user); this.timeLimit = 5*60*1000; break;
       case 'imposter': this.currentQuestions = this.generateImposterQuestions(15); this.timeLimit = 0; break;
+      // Worksheet: randomized calculation problems (fixture units, sizing, slope,
+      // trap arms, gas demand) — generated fresh every session.
+      case 'drills': this.currentQuestions = window.Drills ? Drills.generate(15) : this.getAdaptiveQuestions(15, user); this.timeLimit = 0; break;
     }
+    return this.getCurrentQuestion();
+  },
+
+  // Replay an explicit set of questions (e.g. the ones just missed). Runs as
+  // untimed practice: same scoring and SRS behavior, no clock, no lives.
+  startWith(questions) {
+    if (!questions || !questions.length) return null;
+    this.currentMode = 'practice';
+    this.currentIndex = 0; this.score = 0; this.correct = 0;
+    this.streak = 0; this.eliminated = false; this.lives = 3;
+    this.answerLog = [];
+    this._examRecorded = false;
+    this.startTime = Date.now();
+    this.timeLimit = 0;
+    this.currentQuestions = this.shuffle([...questions]);
     return this.getCurrentQuestion();
   },
 
@@ -69,6 +189,14 @@ const GameModes = {
   answer(choiceIndex, user) {
     const q = this.currentQuestions[this.currentIndex];
     const isCorrect = choiceIndex === q.correct;
+    // Feed the spaced-repetition scheduler on every answer, in every mode.
+    // Skip imposter (mutated options) and drills (generated one-offs — scheduling
+    // an id that will never be generated again would just bloat the queue).
+    if (window.SRS && !q.isImposter && !q.isDrill) SRS.record(q.id, isCorrect);
+    // Conquest ledger: lifetime per-question accuracy, feeds territory ranks.
+    if (window.Conquest && !q.isImposter && !q.isDrill) Conquest.record(q.id, isCorrect);
+    // Session log powers the end-of-session score report.
+    this.answerLog.push({ q, choiceIndex, isCorrect });
     const isLoot = Math.random() < 0.1;
     let pointsEarned = 0;
     if (isCorrect) {
@@ -108,12 +236,46 @@ const GameModes = {
 
   getResults(user, timedOut = false) {
     const elapsed = Date.now() - this.startTime;
+    // Per-category breakdown + missed questions for the score report.
+    const byCategory = {};
+    const missed = [];
+    for (const entry of (this.answerLog || [])) {
+      const cat = entry.q.category;
+      if (!byCategory[cat]) byCategory[cat] = { correct: 0, total: 0 };
+      byCategory[cat].total++;
+      if (entry.isCorrect) byCategory[cat].correct++;
+      else missed.push(entry);
+    }
+    const accuracy = this.currentIndex > 0 ? Math.round((this.correct / this.currentIndex) * 100) : 0;
+    // Exam sims go on the permanent record — the trend across sims is the
+    // honest answer to "am I actually getting closer to passing?" It lives in
+    // user.stats so the existing progress sync carries it across devices.
+    if (user && this.currentMode === 'exam' && this.currentIndex > 0 && !this._examRecorded) {
+      this._examRecorded = true;   // one sim, one history row — even if getResults runs twice
+      if (!Array.isArray(user.stats.examHistory)) user.stats.examHistory = [];
+      user.stats.examHistory.push({
+        date: new Date().toISOString().slice(0, 10),
+        target: this.examTarget === 'master' ? 'master' : 'journeyman',
+        part: this.examPart === 2 ? 2 : 1,
+        accuracy,
+        passed: accuracy >= 70,
+        answered: this.currentIndex,
+        total: this.currentQuestions.length
+      });
+      user.stats.examHistory = user.stats.examHistory.slice(-20);
+      Auth.updateUser(user);
+    }
     const results = {
       mode: this.currentMode, score: this.score, correct: this.correct,
       total: this.currentQuestions.length, answered: this.currentIndex,
-      accuracy: this.currentIndex > 0 ? Math.round((this.correct / this.currentIndex) * 100) : 0,
+      accuracy,
+      byCategory, missed,
+      passed: accuracy >= 70,   // the real exam's passing bar
       time: elapsed, timeFormatted: this.formatTime(elapsed),
       timedOut, eliminated: this.eliminated,
+      ...(this.currentMode === 'exam'
+        ? { examTarget: this.examTarget === 'master' ? 'master' : 'journeyman', examPart: this.examPart === 2 ? 2 : 1 }
+        : {}),
       xpEarned: Math.round(this.score / 10),
       newBadges: user ? Auth.checkBadges(user) : []
     };
@@ -122,6 +284,8 @@ const GameModes = {
         correct: this.correct, total: this.currentIndex, time: elapsed
       });
     }
+    // Sync progress (stats + SRS schedule) to the cloud after every session.
+    if (user && window.CloudSync) CloudSync.push(user);
     return results;
   },
 
@@ -171,7 +335,16 @@ const GameModes = {
     const reports = JSON.parse(localStorage.getItem('arena248_reports') || '[]');
     reports.push({ questionId, reason, date: Date.now() });
     localStorage.setItem('arena248_reports', JSON.stringify(reports));
+    // Send it where it matters: the owner's report inbox (server mode).
+    if (window.CloudSync) {
+      const q = (window.QUESTIONS || []).find(x => x.id === questionId);
+      CloudSync.reportQuestion(questionId, reason, q ? q.question : '');
+    }
   }
 };
 
 window.GameModes = GameModes;
+// `const` at script top level does NOT land on window, so anything reading
+// these through `window.` (Readiness, Plan) needs them published explicitly.
+window.EXAM_BLUEPRINT = EXAM_BLUEPRINT;
+window.EXAM_FORMAT = EXAM_FORMAT;

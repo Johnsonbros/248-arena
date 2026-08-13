@@ -20,8 +20,9 @@
 // high-security — move admin auth server-side when real accounts land.
 
 const ACCESS_CONFIG = {
-  mode: 'code',                       // switch to 'server' after deploying deploy/access-service
+  mode: 'server',                     // LAUNCH CONFIG: verified against arena-access (fail-closed). GO-LIVE.md step 5.
   apiBase: 'https://arena-api.thejohnsonbros.com',   // arena-access service URL (server mode)
+  examinerBase: 'https://arena-ai.thejohnsonbros.com', // arena-examiner AI tutor (empty = disabled)
   accessCode: 'SET_YOUR_CODE_HERE',   // used only in 'code' mode
   pricingUrl: 'pricing.html',
   billingPortalUrl: 'https://billing.stripe.com/p/login/14A00cbKX2s430HbVO0sU00',
@@ -103,6 +104,41 @@ const Subscription = {
     return false;
   },
 
+  // Magic-link sign-in. Returns 'sent' (email on its way), 'fallback' (server
+  // has no mailer — use plain email unlock), or false (bad input).
+  async requestLogin(email) {
+    const e = (email || '').trim().toLowerCase();
+    if (!e.includes('@')) return false;
+    try {
+      const res = await fetch(`${ACCESS_CONFIG.apiBase}/api/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: e })
+      });
+      if (res.status === 501) return 'fallback';
+      const body = await res.json();
+      return body && body.sent ? 'sent' : 'fallback';
+    } catch (err) { return 'fallback'; }
+  },
+
+  // Consume ?login=<token> from a magic-link email.
+  async _checkUrlLogin() {
+    try {
+      const token = new URLSearchParams(window.location.search).get('login');
+      if (!token) return;
+      const res = await fetch(`${ACCESS_CONFIG.apiBase}/api/login/verify?token=${encodeURIComponent(token)}`);
+      const body = await res.json();
+      if (body && body.ok && body.email) {
+        this._setGrant(body.email, true);
+        this._ensureUser();
+      }
+      // Clean the token out of the URL either way (it's single-use).
+      const url = new URL(window.location.href);
+      url.searchParams.delete('login');
+      history.replaceState(null, '', url.toString());
+    } catch (e) {}
+  },
+
   // welcome.html calls this with Stripe's {CHECKOUT_SESSION_ID} — verifies the
   // real session with Stripe before granting anything.
   async grantBySession(sessionId) {
@@ -119,6 +155,10 @@ const Subscription = {
       const res = await fetch(`${ACCESS_CONFIG.apiBase}/api/access?email=${encodeURIComponent(email)}`);
       const body = await res.json();
       if (body && body.active) { this._setGrant(email, true); return; }
+      // Only an authoritative answer revokes. A 5xx with a JSON error body has
+      // no `active` field — treating that as "canceled" would lock a paying
+      // user out over a server hiccup. Keep the grant; recheck next time.
+      if (!res.ok) return;
       // Revoked (canceled subscription): drop the grant and re-gate.
       localStorage.removeItem(this.GRANT_KEY);
       if (!this.isAdmin()) location.reload();
@@ -126,13 +166,41 @@ const Subscription = {
   },
 
   // --- unlock from the paywall input (admin phone, access code, or email) ----
+  // Returns true (unlocked), false (rejected), or 'sent' (magic link emailed).
   async grantByInput(input) {
     if (this.grantAdmin(input)) return true;
     const v = (input || '').trim();
-    if (ACCESS_CONFIG.mode === 'server' && v.includes('@')) return this.grantByEmail(v);
+    // Scholarship code (sponsored student seat): redeem with just an email.
+    if (ACCESS_CONFIG.mode === 'server' && /^SCHLR-/i.test(v)) {
+      const email = (prompt('Scholarship code! Enter your email to attach your free seat to:') || '').trim().toLowerCase();
+      if (!email.includes('@')) return false;
+      return this.redeemScholarship(v, email);
+    }
+    if (ACCESS_CONFIG.mode === 'server' && v.includes('@')) {
+      // Prefer verified sign-in when the server has a mailer; otherwise plain unlock.
+      const login = await this.requestLogin(v);
+      if (login === 'sent') return 'sent';
+      return this.grantByEmail(v);
+    }
     const ok = v === ACCESS_CONFIG.accessCode && ACCESS_CONFIG.accessCode !== 'SET_YOUR_CODE_HERE';
     if (ok) localStorage.setItem(this.KEY, 'granted');
     return ok;
+  },
+
+  // Redeem a sponsored-seat code. On success the email unlocks like any
+  // subscriber: same grant, same sync, same 24h recheck against the server.
+  async redeemScholarship(code, email) {
+    try {
+      const res = await fetch(`${ACCESS_CONFIG.apiBase}/api/scholarship/redeem`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: code.trim().toUpperCase(), email })
+      });
+      const body = await res.json();
+      if (res.ok && body.ok) { this._setGrant(email, true); this._ensureUser(); return true; }
+      if (body && body.error) alert(body.error);
+    } catch (err) {}
+    return false;
   },
 
   // Back-compat alias (older pages call grantByCode).
@@ -179,10 +247,10 @@ const Subscription = {
           padding:14px;border-radius:10px;margin-bottom:14px;">START FREE TRIAL →</a>
         <div style="border-top:1px solid rgba(255,255,255,0.08);margin:18px 0;padding-top:18px;">
           <p style="color:#9898b0;font-size:0.85rem;margin-bottom:10px;">${serverMode
-            ? 'Already subscribed? Enter the email you subscribed with:'
+            ? 'Already subscribed? Enter the email you subscribed with — or a SCHLR- scholarship code:'
             : 'Already subscribed? Enter your access code:'}</p>
-          <input id="arena-access-code" type="${serverMode ? 'email' : 'text'}"
-            placeholder="${serverMode ? 'you@example.com' : 'Access code'}"
+          <input id="arena-access-code" type="text" ${serverMode ? 'inputmode="email" autocomplete="email"' : ''}
+            placeholder="${serverMode ? 'you@example.com or SCHLR-XXXX-XXXX' : 'Access code'}"
             style="width:100%;padding:11px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);
             background:rgba(255,255,255,0.05);color:#fff;text-align:center;margin-bottom:10px;">
           <button id="arena-access-btn"
@@ -204,7 +272,11 @@ const Subscription = {
       btn.textContent = 'CHECKING…';
       const ok = await this.grantByInput(input.value);
       btn.textContent = 'UNLOCK';
-      if (ok) {
+      if (ok === 'sent') {
+        err.style.display = 'block';
+        err.style.color = '#00ff88';
+        err.textContent = '📬 Check your email — we sent you a one-tap sign-in link (it expires in 15 minutes).';
+      } else if (ok) {
         overlay.remove();
         document.body.style.overflow = '';
         if (!document.getElementById('userName') || location.pathname.endsWith('app.html')) location.reload();
@@ -228,9 +300,14 @@ if (Subscription.isAdmin()) Subscription._ensureUser();
 // this script for its helpers without being paywalled themselves.
 const ARENA_SHOULD_ENFORCE = /app\.html$/.test(location.pathname) || window.ARENA_ENFORCE === true;
 if (ARENA_SHOULD_ENFORCE) {
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => Subscription.enforce());
-  } else {
+  const go = async () => {
+    // A magic-link token must be consumed BEFORE the gate decides.
+    if (new URLSearchParams(location.search).get('login')) await Subscription._checkUrlLogin();
     Subscription.enforce();
+  };
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', go);
+  } else {
+    go();
   }
 }

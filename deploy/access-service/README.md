@@ -68,6 +68,14 @@ cross-device access; canceled ones lose it automatically.
 - **Revocations can't be silently lost:** transient Stripe failures during webhook handling
   return non-2xx, so Stripe retries the event.
 
+## Email touchpoints
+- **Welcome email** sends automatically on a first successful subscription (needs
+  `RESEND_API_KEY`) — getting-started steps, sign-in explainer, cancel info.
+- **Magic-link sign-in** uses the same key.
+- **Trial-ending reminder:** use Stripe's built-in one — Dashboard → Settings →
+  Subscriptions and emails → enable "Send a reminder email before a trial ends."
+  No code needed.
+
 ## Honest limitations (v1)
 - **Email = key.** Anyone who knows an active subscriber's email can unlock. That's a big
   step up from a shared code, but the next hardening is a magic-link email check.

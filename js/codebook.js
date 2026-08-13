@@ -6,10 +6,14 @@ const CodeBook = {
     if (input) {
       input.addEventListener('input', () => this.search(input.value));
     }
-    // Check URL hash for direct code ref link
+    // Check URL hash for direct code ref link (e.g. "#248 CMR 10.15 Table 1"
+    // from a question citation). Normalize to the bare section number so it
+    // matches the section title regardless of table/suffix text.
     if (window.location.hash) {
-      const ref = decodeURIComponent(window.location.hash.slice(1));
-      if (ref && input) {
+      const raw = decodeURIComponent(window.location.hash.slice(1));
+      const m = raw.match(/(\d+)\.(\d+)/);
+      const ref = m ? `248 CMR ${m[1]}.${m[2]}` : raw;
+      if (ref && input && !document.getElementById(window.location.hash.slice(1))) {
         input.value = ref;
         setTimeout(() => this.search(ref), 300);
       }
@@ -20,6 +24,17 @@ const CodeBook = {
         header.parentElement.classList.toggle('expanded');
       });
     });
+  },
+
+  // Quick-nav helper: expand a section by element id and scroll to it.
+  jump(id) {
+    const el = document.getElementById(id);
+    if (el) {
+      el.classList.remove('hidden');
+      el.classList.add('expanded');
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    return false;
   },
 
   search(query) {
