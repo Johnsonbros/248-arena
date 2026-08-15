@@ -30,62 +30,134 @@
 
   <div class="legal-wrap">
     <h1>Privacy Policy</h1>
-    <p class="legal-meta">Last updated: July 2026</p>
-
-    <div class="legal-note">
-      ⚠️ Template for review. Update this to reflect exactly what you collect once
-      accounts and analytics are wired up, and have it reviewed before launch.
-    </div>
+    <p class="legal-meta">Last updated: August 2026</p>
 
     <p>This Privacy Policy explains how 248 Arena, operated by AiSync Services
     ("we," "us," "our"), handles information when you use our study application.</p>
 
     <h2>1. Information we collect</h2>
     <ul>
-      <li><strong>Account info</strong> you provide, such as your name/arena tag and,
-      if you sign in, your email or phone number.</li>
+      <li><strong>Account info</strong> you provide: your arena tag and avatar, and the
+      email address you subscribe or redeem a scholarship code with.</li>
       <li><strong>Payment info</strong> — handled entirely by Stripe. We do not store
       your full card number; we receive only limited billing details and subscription
       status from Stripe.</li>
-      <li><strong>Usage data</strong> such as questions answered, scores, and progress,
-      stored to power your stats and leaderboards. In the current version much of this
-      is stored locally in your browser.</li>
+      <li><strong>Study progress</strong>: questions answered, scores, category accuracy,
+      your spaced-repetition review schedule, exam-simulation history, and Code Conquest
+      ranks. Stored in your browser, and — if you are signed in — synced to our server so
+      a new phone or a cleared cache doesn't erase months of work.</li>
+      <li><strong>License Locker entries</strong>: the status of your licensing paperwork,
+      and the work/education hours you log (date, hour count, employer or school name,
+      and your own short notes). See section 4 for what the Locker deliberately does
+      <em>not</em> hold.</li>
+      <li><strong>Session ratings</strong>: when you tap 😩/😐/🔥 after a session, we
+      record that rating with the game mode and your accuracy for that session, so we can
+      tell which parts of the app are actually working.</li>
       <li><strong>Basic technical data</strong> such as device/browser type, used to
       keep the service working and secure.</li>
     </ul>
 
-    <h2>2. How we use it</h2>
-    <p>To provide and improve the service, track your study progress, process your
-    subscription, provide support, and comply with legal obligations.</p>
+    <h2>2. The Examiner — AI tutoring, chat and voice</h2>
+    <p>The Examiner is our AI study tutor. Two things about it deserve to be stated
+    plainly rather than buried:</p>
+    <ul>
+      <li><strong>Text.</strong> What you type to the Examiner is sent to a language model
+      to generate an answer, along with study material from the app. Don't put personal
+      or confidential information into it — it's a study tool, not a private notebook.</li>
+      <li><strong>Voice.</strong> If you tap the microphone button, your browser records
+      audio and sends that recording to our speech-to-text service so it can be
+      transcribed. <strong>Recording only happens while you have deliberately started a
+      voice turn</strong> — the app never listens in the background, and your browser will
+      ask your permission before the microphone is used at all. Audio is transcribed and
+      discarded; we do not build a library of voice recordings.</li>
+    </ul>
+    <p>The Examiner runs on hardware we operate ourselves, so ordinary tutoring
+    conversations are not handed to an outside AI company. For a small number of harder
+    questions we may route the request to a third-party model provider to get a better
+    answer; in that case the text of that request is processed by that provider under
+    their terms.</p>
 
-    <h2>3. Payment processing</h2>
+    <h2>3. How we use it</h2>
+    <p>To provide and improve the service, track your study progress, adapt what we show
+    you next, process your subscription, provide support, and comply with legal
+    obligations. We use session ratings and aggregate usage to decide what to build and
+    fix. We do not use your information to build advertising profiles.</p>
+
+    <h2>4. What the License Locker deliberately does NOT store</h2>
+    <p>Getting licensed means handling documents that carry sensitive personal
+    information — a CORI acknowledgement form carries your Social Security number, a
+    photo ID carries a licence number. <strong>We do not want that information and we do
+    not take it.</strong></p>
+    <ul>
+      <li>The Locker stores the <em>status</em> of each document, never the document
+      itself. There is no upload feature.</li>
+      <li>It actively refuses to save notes that look like a Social Security number,
+      driver's licence number, or card/account number.</li>
+      <li>We do not ask you for your date of birth, home address, or any government
+      identification number.</li>
+    </ul>
+    <p>This is a deliberate design decision. Under Massachusetts 201 CMR 17.02, holding a
+    resident's name together with a Social Security number, licence number, or financial
+    account number is holding "personal information" under state data-security law. Keeping
+    that data out of our systems is safer for you than any promise we could make about
+    guarding it.</p>
+
+    <h2>5. Payment processing</h2>
     <p>Payments and subscriptions are processed by Stripe, Inc. Your card details are
     submitted directly to Stripe and are governed by
-    <a href="https://stripe.com/privacy" target="_blank" rel="noopener">Stripe's Privacy Policy</a>.</p>
+    <a href="https://stripe.com/privacy" target="_blank" rel="noopener">Stripe's Privacy Policy</a>.
+    We receive your subscription status and billing email from Stripe so we know whether
+    to unlock the app.</p>
 
-    <h2>4. Sharing</h2>
-    <p>We do not sell your personal information. We share it only with service providers
-    that help us run 248 Arena (such as Stripe and hosting/analytics providers), or when
-    required by law.</p>
+    <h2>6. Scholarship seats</h2>
+    <p>Sponsored students redeem a scholarship code to get free access. <strong>We ask a
+    scholarship student for exactly one thing: an email address.</strong> No card, no
+    billing relationship, no name required, nothing else. Sponsors who fund seats are told
+    how many seats were used — never who used them.</p>
 
-    <h2>5. Data retention and your choices</h2>
-    <p>We keep account and subscription data for as long as your account is active or as
-    needed for legal/accounting purposes. You may request access to or deletion of your
-    personal information by emailing us. You can clear locally stored progress by clearing
-    your browser storage.</p>
+    <h2>7. What other people can see</h2>
+    <p>If you post a score to the leaderboard, other users see your arena tag, avatar,
+    level, title and score. <strong>Your email address is never shown on the leaderboard
+    or exposed through our API.</strong> Everything else — your progress, your Locker, your
+    ratings, your Examiner conversations — is yours and is not shown to other users.</p>
 
-    <h2>6. Security</h2>
-    <p>We use reasonable safeguards to protect information, but no method of transmission
-    or storage is completely secure.</p>
+    <h2>8. Sharing</h2>
+    <p>We do not sell your personal information, and we do not share it with advertisers.
+    We share it only with the service providers that make 248 Arena work (Stripe for
+    payments, our email provider for sign-in and welcome messages, our hosting and
+    analytics), or when required by law.</p>
 
-    <h2>7. Children</h2>
-    <p>248 Arena is intended for adults preparing for a professional exam and is not
-    directed at children under 13.</p>
+    <h2>9. Data retention and your choices</h2>
+    <p>We keep account and subscription data while your account is active, and afterwards
+    only as long as needed for legal and accounting purposes. You may request a copy of
+    your information, or ask us to delete it, by emailing us — we'll action deletion
+    requests within 30 days. You can clear locally stored progress at any time by clearing
+    your browser storage; note that this also clears your logged hours on that device, so
+    export your hours CSV from the Locker first if you want to keep them.</p>
 
-    <h2>8. Changes</h2>
-    <p>We may update this policy; changes are posted here with a new date.</p>
+    <h2>10. Security</h2>
+    <p>Traffic to and from the app is encrypted in transit. We run our own infrastructure
+    and keep sensitive credentials off the systems that don't need them. As set out in
+    section 4, our strongest protection is simply not collecting the most sensitive
+    categories of information in the first place. That said, no method of transmission or
+    storage is completely secure.</p>
 
-    <h2>9. Contact</h2>
+    <h2>11. Age requirement and students under 18</h2>
+    <p>248 Arena is intended for people training for a professional trade licence. It is
+    <strong>not directed at children under 13</strong> and we do not knowingly collect
+    information from them.</p>
+    <p>We know that apprentices and vocational-school students are often 16 or 17. If you
+    are under 18, please have a parent or guardian review this policy and agree to the
+    Terms before you use 248 Arena — and if a school or program is providing your seat, an
+    instructor should be involved. We do not send marketing to users we know to be minors.
+    A parent, guardian, or school may ask us to delete a minor's information at any time by
+    emailing us, and we will do so.</p>
+
+    <h2>12. Changes</h2>
+    <p>We may update this policy; changes are posted here with a new date. If a change
+    materially affects how we handle your information, we'll tell subscribers by email.</p>
+
+    <h2>13. Contact</h2>
     <p>Privacy questions? Email <a href="mailto:krazedrecords@gmail.com">krazedrecords@gmail.com</a>.</p>
   </div>
 
