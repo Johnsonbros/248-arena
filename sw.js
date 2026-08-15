@@ -17,7 +17,7 @@
 // VERSION is the cache-buster: bump it in any commit that changes shipped
 // assets, and the old cache is deleted on the next activate.
 
-const VERSION = 'arena-v2'; // v2: conquest + pulse
+const VERSION = 'arena-v3'; // v3: origin-derived API config
 const CACHE = `248arena-${VERSION}`;
 
 // The shell: everything needed to study with zero connectivity.
@@ -40,6 +40,7 @@ const PRECACHE = [
   'js/conquest.js',
   'js/pulse.js',
   'js/app.js',
+  'js/config.js',
   'js/subscription.js',
   'js/codebook.js',
   'manifest.json',

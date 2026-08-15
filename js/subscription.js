@@ -21,8 +21,12 @@
 
 const ACCESS_CONFIG = {
   mode: 'server',                     // LAUNCH CONFIG: verified against arena-access (fail-closed). GO-LIVE.md step 5.
-  apiBase: 'https://arena-api.thejohnsonbros.com',   // arena-access service URL (server mode)
-  examinerBase: 'https://arena-ai.thejohnsonbros.com', // arena-examiner AI tutor (empty = disabled)
+  // API hosts come from js/config.js, which derives them from whatever domain
+  // the page is served on. Moving domains is a DNS change, not a code change.
+  // Fall back to the legacy hosts if config.js somehow didn't load, so an
+  // ordering mistake degrades to "still works" instead of locking everyone out.
+  apiBase: (window.ARENA_ENV && ARENA_ENV.resolvedApiBase) ?? 'https://arena-api.thejohnsonbros.com',
+  examinerBase: (window.ARENA_ENV && ARENA_ENV.resolvedExaminerBase) ?? 'https://arena-ai.thejohnsonbros.com',
   accessCode: 'SET_YOUR_CODE_HERE',   // used only in 'code' mode
   pricingUrl: 'pricing.html',
   billingPortalUrl: 'https://billing.stripe.com/p/login/14A00cbKX2s430HbVO0sU00',
