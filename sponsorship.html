@@ -4,6 +4,28 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>248 Arena — Request a Student Sponsorship</title>
+  <meta name="description" content="Enrolled in a plumbing program or apprenticeship and can't swing the subscription? Request a sponsored seat — we only ever ask for your email address.">
+  <link rel="canonical" href="https://248arena.com/sponsorship.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="248 Arena">
+  <meta property="og:title" content="Request a Sponsorship — 248 Arena">
+  <meta property="og:description" content="Enrolled in a plumbing program or apprenticeship and can't swing the subscription? Request a sponsored seat — we only ever ask for your email address.">
+  <meta property="og:url" content="https://248arena.com/sponsorship.html">
+  <meta property="og:image" content="https://248arena.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="248 Arena — pass the Massachusetts Journeyman Plumbing Exam">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Request a Sponsorship — 248 Arena">
+  <meta name="twitter:description" content="Enrolled in a plumbing program or apprenticeship and can't swing the subscription? Request a sponsored seat — we only ever ask for your email address.">
+  <meta name="twitter:image" content="https://248arena.com/og-image.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"></noscript>
+  <meta name="theme-color" content="#0a0a0f">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
   <style>
@@ -22,6 +44,7 @@
     .req-note { color: #6c6c80; font-size: 0.8rem; text-align: center; margin-top: 16px; }
     .req-ok { display: none; background: rgba(0,255,136,0.08); border: 1px solid rgba(0,255,136,0.3); border-radius: 12px; padding: 20px; text-align: center; color: #c8c8d8; margin-top: 16px; }
   </style>
+  <script src="js/analytics.js"></script>
 </head>
 <body>
 <div class="sponsors-layout">
@@ -78,7 +101,7 @@
 
       <div class="req-ok" id="reqOk">
         ✅ Your email app should have opened with your request ready to send. If it didn't, email us
-        directly at <a href="mailto:krazedrecords@gmail.com" style="color:#00d4ff;">krazedrecords@gmail.com</a>.
+        directly at <a href="mailto:support@248arena.com" style="color:#00d4ff;">support@248arena.com</a>.
       </div>
 
       <p class="req-note">We review requests personally and set you up with access if you qualify. Sponsorships are limited by how many sponsors have given — thank you for your patience.</p>
@@ -86,7 +109,7 @@
   </div>
 
   <footer class="landing-footer">
-    <p>© 2026 248 Arena · An AiSync Services company</p>
+    <p>© 2026 248 Arena · An AiSync Services company · Not affiliated with the Commonwealth of Massachusetts</p>
     <p style="margin-top:6px;font-size:0.8rem;">
       <a href="sponsors.html" style="color:#9898b0;">Sponsors</a> ·
       <a href="pricing.html" style="color:#9898b0;">Pricing</a> ·
@@ -111,7 +134,7 @@
       `Exam timeframe: ${encodeURIComponent(v('exam'))}%0D%0A` +
       `Notes: ${encodeURIComponent(v('note'))}%0D%0A`;
     window.location.href =
-      `mailto:krazedrecords@gmail.com?subject=${encodeURIComponent('248 Arena — Student Sponsorship Request: ' + name)}&body=${body}`;
+      `mailto:support@248arena.com?subject=${encodeURIComponent('248 Arena — Student Sponsorship Request: ' + name)}&body=${body}`;
     document.getElementById('reqOk').style.display = 'block';
   });
 </script>

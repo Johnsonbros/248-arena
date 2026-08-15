@@ -1,0 +1,11 @@
+# 248 Arena — https://248arena.com
+User-agent: *
+Allow: /
+
+# Private / thin pages: no value in the index.
+Disallow: /admin.html
+Disallow: /welcome.html
+Disallow: /sponsor-receipt.html
+Disallow: /sponsor-thankyou.html
+
+Sitemap: https://248arena.com/sitemap.xml

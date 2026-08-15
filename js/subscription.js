@@ -201,7 +201,14 @@ const Subscription = {
         body: JSON.stringify({ code: code.trim().toUpperCase(), email })
       });
       const body = await res.json();
-      if (res.ok && body.ok) { this._setGrant(email, true); this._ensureUser(); return true; }
+      if (res.ok && body.ok) {
+        this._setGrant(email, true);
+        this._ensureUser();
+        // Counted separately from paid signups — sponsored seats are a different
+        // funnel and shouldn't inflate conversion numbers.
+        if (window.track) track('scholarship-redeemed', { months: body.months ?? null });
+        return true;
+      }
       if (body && body.error) alert(body.error);
     } catch (err) {}
     return false;

@@ -4,6 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>248 Arena — Play</title>
+  <meta name="description" content="The 248 Arena training app.">
+  <link rel="canonical" href="https://248arena.com/app.html">
+  <meta name="robots" content="noindex, nofollow">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="248 Arena">
+  <meta property="og:title" content="Play — 248 Arena">
+  <meta property="og:description" content="The 248 Arena training app.">
+  <meta property="og:url" content="https://248arena.com/app.html">
+  <meta property="og:image" content="https://248arena.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="248 Arena — pass the Massachusetts Journeyman Plumbing Exam">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Play — 248 Arena">
+  <meta name="twitter:description" content="The 248 Arena training app.">
+  <meta name="twitter:image" content="https://248arena.com/og-image.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"></noscript>
   <link rel="stylesheet" href="css/styles.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚔️</text></svg>">
   <link rel="manifest" href="manifest.json">
@@ -12,6 +32,7 @@
   <!-- Access gate: enforces the paywall (see js/subscription.js + LAUNCH.md) -->
   <script src="js/config.js"></script>
   <script src="js/subscription.js"></script>
+  <script src="js/analytics.js"></script>
 </head>
 <body>
 
@@ -146,6 +167,13 @@
       <div class="battle-pass">
         <div class="bp-track" id="battlePassTrack"></div>
       </div>
+
+      <!-- Required disclaimer — this is the page people actually live in. -->
+      <p style="color:#6c6c80;font-size:0.72rem;text-align:center;line-height:1.5;margin:26px 8px 4px;">
+        248 Arena is an independent study aid — not affiliated with, endorsed by, or sponsored by
+        the Commonwealth of Massachusetts, the Board of State Examiners of Plumbers and Gas Fitters,
+        or PSI. Always confirm requirements at mass.gov.
+      </p>
     </div>
 
     <!-- Game Screen -->
