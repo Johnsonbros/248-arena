@@ -2,7 +2,7 @@
 #
 #   1) cp .env.example .env   && edit .env (Stripe restricted key + webhook secret)
 #   2) docker compose up -d --build
-#   3) expose https://arena-api.thejohnsonbros.com via cloudflared -> http://<host>:8766
+#   3) expose https://arena-api.248arena.com via cloudflared -> http://<host>:8766
 #   4) add the webhook endpoint in Stripe (see README)
 #
 # Unlike the ops MCP, this container needs NO docker socket — it only talks to

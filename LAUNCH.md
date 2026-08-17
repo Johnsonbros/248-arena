@@ -31,7 +31,7 @@ Your job below is ~4 setup tasks. Nothing here requires more coding.
    table in Stripe (no code change needed).
 5. **⚠️ REQUIRED — set the completion redirect.** In the Pricing Table settings, set the
    **"Confirmation page → redirect customers to your website"** to
-   `https://arena.thejohnsonbros.com/welcome.html`.
+   `https://248arena.com/welcome.html`.
    - **Why this is not optional:** the access gate runs in `code` mode, and `welcome.html`
      is the *only* page that grants access (`arena248_access`). If the table keeps Stripe's
      default confirmation page, a customer can pay and then be **locked out of `app.html`**.
@@ -60,7 +60,7 @@ the code-mode caveats below.
 ### Option A — Cloudflare Access (edge lock, manual per-email)
 You already run `cloudflared-tunnel`. Put the app behind Cloudflare Access:
 1. Cloudflare Zero Trust → **Access → Applications → Add** a self-hosted app for
-   `arena.thejohnsonbros.com` (or just the `/app.html` path).
+   `248arena.com` (or just the `/app.html` path).
 2. Policy: allow the **emails you've granted** (add each paying customer's email), or an
    email-OTP policy for a small cohort.
 3. Set `mode: 'cloudflare'` in `subscription.js` (the script then trusts the edge — no in-app block).
@@ -84,7 +84,7 @@ You already run `cloudflared-tunnel`. Put the app behind Cloudflare Access:
 The app is static files — serve them behind Caddy + the existing Cloudflare Tunnel.
 1. Add a container (or reuse an `nginx:alpine`, like your `tjb-game` pattern) serving this repo's
    files, or point Caddy at the files directly.
-2. Add a route in **Caddy** for `arena.thejohnsonbros.com` → the static files.
+2. Add a route in **Caddy** for `248arena.com` → the static files.
 3. Add the hostname to `cloudflared-tunnel`'s config so it's reachable publicly over HTTPS.
 4. If using Cloudflare Access (Option A), attach the Access policy to that hostname.
 5. Wire it into your Gitea CI if you want auto-deploys on push.
@@ -115,7 +115,7 @@ to cancel. Server mode only.
 **Mint codes** (one per $20 sponsorship is the honest ratio — 3 months each):
 
 ```bash
-curl -X POST https://arena-api.thejohnsonbros.com/api/scholarship/mint \
+curl -X POST https://arena-api.248arena.com/api/scholarship/mint \
   -H 'Content-Type: application/json' \
   -d '{"key":"YOUR_REPORTS_KEY","count":10,"months":3,"note":"Worcester Tech cohort Sept 2026"}'
 # → {"ok":true,"codes":["SCHLR-XXXX-XXXX", ...]}
@@ -124,7 +124,7 @@ curl -X POST https://arena-api.thejohnsonbros.com/api/scholarship/mint \
 **See who redeemed what:**
 
 ```bash
-curl 'https://arena-api.thejohnsonbros.com/api/scholarship/list?key=YOUR_REPORTS_KEY'
+curl 'https://arena-api.248arena.com/api/scholarship/list?key=YOUR_REPORTS_KEY'
 ```
 
 **How a student uses one:** open the Arena → the gate asks for email or code → they type the
@@ -160,7 +160,7 @@ After every few sessions the app asks players one tap: 😩 / 😐 / 🔥. Ratin
 `/data/pulse.json` with the session's mode and accuracy. Your improvement loop:
 
 ```bash
-curl 'https://arena-api.thejohnsonbros.com/api/pulse-summary?key=YOUR_REPORTS_KEY'
+curl 'https://arena-api.248arena.com/api/pulse-summary?key=YOUR_REPORTS_KEY'
 # → avg rating overall + per mode, 😩/😐/🔥 histogram, distinct raters (30-day window)
 ```
 

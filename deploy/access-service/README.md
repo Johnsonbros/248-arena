@@ -32,13 +32,13 @@ curl -s localhost:8766/healthz
 ```
 Use a **restricted** Stripe key with READ on Checkout Sessions, Customers, Subscriptions.
 
-**2. Expose it** — add `arena-api.thejohnsonbros.com → http://<AiSync-LAN-IP>:8766` to the
+**2. Expose it** — add `arena-api.248arena.com → http://<AiSync-LAN-IP>:8766` to the
 Cloudflare Tunnel + DNS route. (The webhook must be publicly reachable; do **not** put
 Cloudflare Access in front of `/webhook` — Stripe can't log in. Access on `/api/*` is
 optional but usually unnecessary since it only answers booleans.)
 
 **3. Create the webhook in Stripe** — Dashboard → Developers → Webhooks → Add endpoint:
-- URL: `https://arena-api.thejohnsonbros.com/webhook`
+- URL: `https://arena-api.248arena.com/webhook`
 - Events: `checkout.session.completed`, `customer.subscription.updated`,
   `customer.subscription.deleted`
 - Copy the signing secret (`whsec_…`) into `.env` → restart the container.
@@ -46,7 +46,7 @@ optional but usually unnecessary since it only answers booleans.)
 **4. Point checkout redirects at the session exchange** — in the Pricing Table (and any
 Payment Link) set the confirmation redirect to:
 ```
-https://arena.thejohnsonbros.com/welcome.html?session_id={CHECKOUT_SESSION_ID}
+https://248arena.com/welcome.html?session_id={CHECKOUT_SESSION_ID}
 ```
 Stripe substitutes the real session id at redirect time.
 

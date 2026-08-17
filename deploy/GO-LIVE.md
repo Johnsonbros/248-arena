@@ -59,7 +59,7 @@ curl -s localhost:8766/healthz    # {"ok":true,...}
 ```
 
 Webhook (same visit): Stripe Dashboard → Developers → Webhooks → Add endpoint
-`https://arena-api.thejohnsonbros.com/webhook`, events:
+`https://arena-api.248arena.com/webhook`, events:
 `checkout.session.completed`, `customer.subscription.updated`,
 `customer.subscription.deleted`, `invoice.payment_failed`.
 Copy the signing secret into `.env` as `STRIPE_WEBHOOK_SECRET=whsec_...`,
@@ -72,14 +72,29 @@ DNS route per hostname and restart the tunnel:
 
 | hostname | service |
 |---|---|
-| `arena.thejohnsonbros.com` | `http://<LAN-IP>:8248` |
-| `arena-api.thejohnsonbros.com` | `http://<LAN-IP>:8766` |
-| `arena-ai.thejohnsonbros.com` | `http://<LAN-IP>:8767` |
-| `mcp-arena.thejohnsonbros.com` | `http://<LAN-IP>:8765` |
+| `248arena.com` | `http://<LAN-IP>:8248` |
+| `arena-api.248arena.com` | `http://<LAN-IP>:8766` |
+| `arena-ai.248arena.com` | `http://<LAN-IP>:8767` |
+| `mcp-arena.248arena.com` | `http://<LAN-IP>:8765` |
 
 **mcp-arena additionally gets a Cloudflare Access policy** (Zero Trust →
 Access → Applications: allow only your email). It fronts the Docker socket;
 bearer token alone is not enough belt for that many suspenders.
+
+## 4b · 🧑 Email — receiving only (5 min, do it with the DNS)
+
+Twelve pages link to `support@248arena.com`. A paying customer emailing that
+address and getting a bounce is worse than publishing no support address at all,
+so do the receiving half now:
+
+Cloudflare Dashboard → 248arena.com → **Email** → Email Routing → Enable →
+custom address `support@248arena.com` → destination = an inbox you already read →
+click the verification link Cloudflare sends. MX and SPF records are added for you.
+
+**Sending** (welcome mail + magic-link sign-in) is deliberately deferred — see
+`docs/EMAIL.md`. Nothing about buying a subscription depends on it. The one thing
+to know: until Resend is configured, cross-device unlock is "type a subscriber's
+email" rather than "prove you own it." Survivable at launch, worth closing after.
 
 ## 5 · Flip the gate to server mode (2 min)
 
@@ -91,7 +106,7 @@ via `arena_deploy` once the connector is added).
 
 Live mode, real card, on your phone (not the dev machine):
 
-1. `arena.thejohnsonbros.com` → START FREE TRIAL → complete checkout.
+1. `248arena.com` → START FREE TRIAL → complete checkout.
 2. Welcome page grants access → app loads → answer a question.
 3. Open the app in a private window → gate blocks → unlock with the same
    email → magic link / unlock works.
@@ -102,7 +117,7 @@ Live mode, real card, on your phone (not the dev machine):
 ## 7 · Scholarship pilot (10 min)
 
 ```bash
-curl -X POST https://arena-api.thejohnsonbros.com/api/scholarship/mint \
+curl -X POST https://arena-api.248arena.com/api/scholarship/mint \
   -H 'Content-Type: application/json' \
   -d '{"key":"<REPORTS_KEY>","count":5,"months":3,"note":"pilot cohort #1"}'
 ```
@@ -114,7 +129,7 @@ reports start flowing: your improvement benchmark is live with real students.
 ## 8 · Hand the keys to the agents (5 min)
 
 Add the connector in Claude settings (or Hermes/OpenClaw config):
-- URL: `https://mcp-arena.thejohnsonbros.com/mcp`
+- URL: `https://mcp-arena.248arena.com/mcp`
 - Header: `Authorization: Bearer <MCP_AUTH_TOKEN from step 2>`
 
 From then on, the ops loop in `docs/API.md` runs without SSH:

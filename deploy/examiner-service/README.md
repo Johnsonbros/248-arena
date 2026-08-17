@@ -36,7 +36,7 @@ node build-corpus.mjs     # regenerate after content changes (also safe to skip;
 docker compose up -d --build
 curl -s localhost:8767/healthz
 ```
-Then expose `arena-ai.thejohnsonbros.com → http://<AiSync-LAN-IP>:8767` via the Cloudflare
+Then expose `arena-ai.248arena.com → http://<AiSync-LAN-IP>:8767` via the Cloudflare
 Tunnel. The app's chat (`ACCESS_CONFIG.examinerBase`) is already pointed at that hostname.
 
 **Gateway note:** `LLM_URL` defaults to `http://ai-router-controller:4000/v1/chat/completions`

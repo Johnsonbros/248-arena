@@ -101,8 +101,8 @@ The AiSync fleet already runs Nextcloud. Rather than build custom PII storage, g
 ### Architecture
 
 ```
-248 Arena (arena.thejohnsonbros.com)
-  └─ Locker screen ── deep link ──► Nextcloud (files.thejohnsonbros.com)
+248 Arena (248arena.com)
+  └─ Locker screen ── deep link ──► Nextcloud (files.248arena.com)
                                       └─ /Plumbing License/
                                            ├─ 01 Apprentice License/
                                            ├─ 02 Education/

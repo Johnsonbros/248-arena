@@ -9,9 +9,9 @@ Two services, one MCP cockpit:
 
 | Component | Base | Auth |
 |---|---|---|
-| `arena-access` | `https://arena-api.thejohnsonbros.com` | none (public), email-scoped, or `REPORTS_KEY` (admin) |
-| `arena-examiner` | `https://arena-ai.thejohnsonbros.com` | subscriber email, fail-closed via arena-access |
-| `arena-ops-mcp` | `https://mcp-arena.thejohnsonbros.com/mcp` | `Authorization: Bearer <MCP_AUTH_TOKEN>` + Cloudflare Access |
+| `arena-access` | `https://arena-api.248arena.com` | none (public), email-scoped, or `REPORTS_KEY` (admin) |
+| `arena-examiner` | `https://arena-ai.248arena.com` | subscriber email, fail-closed via arena-access |
+| `arena-ops-mcp` | `https://mcp-arena.248arena.com/mcp` | `Authorization: Bearer <MCP_AUTH_TOKEN>` + Cloudflare Access |
 
 Admin endpoints take the key as `?key=` (GET) or `"key"` in the JSON body (POST).
 All bodies are JSON. All timestamps ISO-8601 unless noted.

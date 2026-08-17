@@ -1,7 +1,7 @@
 # Deploy 248 Arena on the AiSync (Unraid) server
 
 The app is static files. You serve them with a tiny nginx container and expose
-`arena.thejohnsonbros.com` through your **existing** Cloudflare Tunnel. ~10 minutes.
+`248arena.com` through your **existing** Cloudflare Tunnel. ~10 minutes.
 
 > I can't deploy this for you — my session only has the GitHub repo, no access to
 > your server. These are the exact commands to run on the AiSync box yourself.
@@ -40,7 +40,7 @@ Edit your `cloudflared-tunnel` config and add the hostname from
 `http://<AiSync-LAN-IP>:8248`. Add the DNS route once, reload the tunnel. Done.
 
 ### Option B — through your existing Caddy
-Use [`Caddyfile.snippet`](Caddyfile.snippet) to reverse-proxy `arena.thejohnsonbros.com` to the
+Use [`Caddyfile.snippet`](Caddyfile.snippet) to reverse-proxy `248arena.com` to the
 container, then route that hostname via the tunnel as you do for your other sites.
 
 ---
@@ -49,7 +49,7 @@ container, then route that hostname via the tunnel as you do for your other site
 
 Before sharing the link publicly, finish [`../LAUNCH.md`](../LAUNCH.md):
 - Stripe checkout is already wired (live Pricing Table in `pricing.html`). In Stripe, set the
-  table's **completion redirect** to `https://arena.thejohnsonbros.com/welcome.html` — required,
+  table's **completion redirect** to `https://248arena.com/welcome.html` — required,
   or paying customers get locked out by the gate.
 - The **access gate** (`js/subscription.js`) is in `code` mode; Cloudflare Access is the real lock.
 - Review the legal pages.

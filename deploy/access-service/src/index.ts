@@ -33,12 +33,12 @@ const CFG = {
   port: parseInt(process.env.PORT ?? "8766", 10),
   stripeKey: process.env.STRIPE_KEY ?? "",
   webhookSecret: process.env.STRIPE_WEBHOOK_SECRET ?? "",
-  siteOrigin: process.env.SITE_ORIGIN ?? "https://arena.thejohnsonbros.com",
+  siteOrigin: process.env.SITE_ORIGIN ?? "https://248arena.com",
   dataFile: process.env.DATA_FILE ?? "/data/access.json",
   // Magic-link sign-in (optional; /api/login returns 501 until configured)
   resendKey: process.env.RESEND_API_KEY ?? "",
-  mailFrom: process.env.MAIL_FROM ?? "248 Arena <arena@thejohnsonbros.com>",
-  appUrl: process.env.APP_URL ?? "https://arena.thejohnsonbros.com",
+  mailFrom: process.env.MAIL_FROM ?? "248 Arena <noreply@248arena.com>",
+  appUrl: process.env.APP_URL ?? "https://248arena.com",
   // Key that lets YOU read question reports (GET /api/reports?key=...)
   reportsKey: process.env.REPORTS_KEY ?? "",
 };

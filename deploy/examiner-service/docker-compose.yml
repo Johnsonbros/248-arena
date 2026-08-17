@@ -3,7 +3,7 @@
 #   1) cp .env.example .env   && point LLM_URL/LLM_MODEL at your gateway
 #   2) node build-corpus.mjs  (refresh corpus.json after content changes)
 #   3) docker compose up -d --build
-#   4) expose https://arena-ai.thejohnsonbros.com via cloudflared -> http://<host>:8767
+#   4) expose https://arena-ai.248arena.com via cloudflared -> http://<host>:8767
 #
 # Needs to reach the LLM gateway (ai-router-controller / ai-litellm-gateway) and
 # arena-access. If those run on other compose networks, attach this container to

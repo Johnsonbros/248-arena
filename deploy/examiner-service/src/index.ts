@@ -26,7 +26,7 @@ import { ModelRouter } from "./router.js";
 
 const CFG = {
   port: parseInt(process.env.PORT ?? "8767", 10),
-  siteOrigin: process.env.SITE_ORIGIN ?? "https://arena.thejohnsonbros.com",
+  siteOrigin: process.env.SITE_ORIGIN ?? "https://248arena.com",
   llmUrl: process.env.LLM_URL ?? "http://ai-router-controller:4000/v1/chat/completions",
   llmModel: process.env.LLM_MODEL ?? "ollama/llama3.1",
   llmKey: process.env.LLM_KEY ?? "",

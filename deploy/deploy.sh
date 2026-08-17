@@ -34,4 +34,4 @@ docker compose up -d
 
 echo
 echo "==> Done. Local test:  curl -I http://localhost:8248/index.html"
-echo "    Now expose arena.thejohnsonbros.com via Cloudflare Tunnel — see deploy/README.md"
+echo "    Now expose 248arena.com via Cloudflare Tunnel — see deploy/README.md"

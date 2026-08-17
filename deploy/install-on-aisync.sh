@@ -22,7 +22,7 @@ REPO_SLUG="${REPO_SLUG:-Johnsonbros/248-arena}"
 BRANCH="${BRANCH:-main}"
 APP_DIR="${APP_DIR:-/mnt/user/appdata/248-arena}"
 PORT="${PORT:-8248}"
-DOMAIN="${DOMAIN:-arena.thejohnsonbros.com}"
+DOMAIN="${DOMAIN:-248arena.com}"
 GITHUB_TOKEN="${GITHUB_TOKEN:-}"
 
 if [ -n "$GITHUB_TOKEN" ]; then
@@ -146,21 +146,21 @@ $(log "Almost done — the two human steps")
 2) CLOUDFLARE TUNNEL: add ingress rules (ABOVE the final http_status:404):
      - hostname: ${DOMAIN}
        service: http://${LAN_IP:-<AiSync-LAN-IP>}:${PORT}
-     - hostname: arena-api.thejohnsonbros.com
+     - hostname: arena-api.248arena.com
        service: http://${LAN_IP:-<AiSync-LAN-IP>}:8766
-     - hostname: arena-ai.thejohnsonbros.com
+     - hostname: arena-ai.248arena.com
        service: http://${LAN_IP:-<AiSync-LAN-IP>}:8767
-     - hostname: mcp-arena.thejohnsonbros.com     # protect with Cloudflare Access too
+     - hostname: mcp-arena.248arena.com     # protect with Cloudflare Access too
        service: http://${LAN_IP:-<AiSync-LAN-IP>}:8765
    Then one DNS route per hostname:
      cloudflared tunnel route dns <tunnel-name> <hostname>
    ...and restart the tunnel.
 
-Verify:   curl -s https://arena-api.thejohnsonbros.com/healthz
+Verify:   curl -s https://arena-api.248arena.com/healthz
 Full runbook (Stripe webhook, end-to-end money test, scholarship pilot):
   $APP_DIR/deploy/GO-LIVE.md
 
 To update later:  git -C ${APP_DIR} pull && docker restart arena248
-Or connect the MCP (https://mcp-arena.thejohnsonbros.com/mcp + the bearer token
+Or connect the MCP (https://mcp-arena.248arena.com/mcp + the bearer token
 above) to a Claude session and say "deploy" — the agent takes it from there.
 EOF
